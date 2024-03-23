@@ -28,7 +28,7 @@ export class LibrosController {
     try {
       return await this.librosService.obtenerLibroPorId(+id);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
       throw new NotFoundException('Libro no encontrado');
     }
   }
@@ -38,7 +38,7 @@ export class LibrosController {
     try {
       return await this.librosService.crearLibro(libro);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -58,7 +58,7 @@ export class LibrosController {
     try {
       return await this.librosService.actualizarLibro(+id, libro);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -75,7 +75,7 @@ export class LibrosController {
     try {
       return await this.librosService.eliminarLibro(+id);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
       throw new NotFoundException('Libro no encontrado');
     }
   }

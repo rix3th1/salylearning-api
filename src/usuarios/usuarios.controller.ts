@@ -28,7 +28,7 @@ export class UsuariosController {
     try {
       return await this.usuariosService.obtenerUsuarioPorId(+id);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
       throw new NotFoundException('Usuario no encontrado');
     }
   }
@@ -38,7 +38,7 @@ export class UsuariosController {
     try {
       return await this.usuariosService.crearUsuario(usuario);
     } catch (error) {
-      console.log({ error });
+      console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -60,7 +60,7 @@ export class UsuariosController {
     try {
       return await this.usuariosService.actualizarUsuario(+id, usuario);
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -78,6 +78,7 @@ export class UsuariosController {
     try {
       return await this.usuariosService.eliminarUsuario(+id);
     } catch (error) {
+      console.error(error.message);
       throw new NotFoundException('Usuario no encontrado');
     }
   }
