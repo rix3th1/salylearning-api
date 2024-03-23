@@ -66,7 +66,7 @@ export class LibrosController {
         }
       }
 
-      throw new InternalServerErrorException('Error al crear el libro');
+      throw new NotFoundException('Libro no encontrado');
     }
   }
 

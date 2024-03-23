@@ -69,6 +69,7 @@ export class UsuariosController {
           );
         }
       }
+
       throw new NotFoundException('Usuario no encontrado');
     }
   }
