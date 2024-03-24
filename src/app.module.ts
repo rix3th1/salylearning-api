@@ -4,6 +4,7 @@ import { AvatarModule } from './avatar/avatar.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
 import { LibrosModule } from './libros/libros.module';
+import { MisLibrosModule } from './mis-libros/mis-libros.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     AvatarModule,
     AvatarUsuarioModule,
     GradoUsuarioModule,
+    MisLibrosModule,
   ],
   controllers: [],
   providers: [],
