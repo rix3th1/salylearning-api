@@ -33,7 +33,7 @@ model AvatarUsuario {
 model GradoUsuario {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
   id_grado   Int     @db.UnsignedInt
-  id_usuario Int     @db.UnsignedInt
+  id_usuario Int     @unique @db.UnsignedInt
   usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_1")
   grados     Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_2")
 
