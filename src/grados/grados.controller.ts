@@ -10,9 +10,9 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { GradosService } from './grados.service';
-import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
 import { Prisma } from '@prisma/client';
+import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
+import { GradosService } from './grados.service';
 
 @Controller('grados')
 export class GradosController {

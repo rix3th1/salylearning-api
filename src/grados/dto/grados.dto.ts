@@ -1,12 +1,9 @@
 import { Grado } from '@prisma/client';
 import {
-  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
-  Max,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator';
 

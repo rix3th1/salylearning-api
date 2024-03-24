@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { GradosController } from './grados.controller';
 import { GradosService } from './grados.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   controllers: [GradosController],
