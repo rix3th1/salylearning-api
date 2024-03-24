@@ -20,7 +20,7 @@ model Avatar {
 model AvatarUsuario {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
   id_avatar  Int     @db.UnsignedInt
-  id_usuario Int     @db.UnsignedInt
+  id_usuario Int     @unique @db.UnsignedInt
   usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_1")
   avatar     Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_2")
 

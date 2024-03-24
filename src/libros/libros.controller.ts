@@ -43,6 +43,8 @@ export class LibrosController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException('El nombre del libro ya existe');
+        } else if (error.code === 'P2003') {
+          throw new BadRequestException('El id de grado del libro no existe');
         }
       }
 
@@ -63,6 +65,8 @@ export class LibrosController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException('El nombre del libro ya existe');
+        } else if (error.code === 'P2003') {
+          throw new BadRequestException('El id de grado del libro no existe');
         }
       }
 
