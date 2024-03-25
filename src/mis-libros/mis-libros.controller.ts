@@ -34,9 +34,9 @@ export class MisLibrosController {
   }
 
   @Post()
-  async crearMiLibro(@Body() crearMiLibroDto: CrearMiLibroDto) {
+  async crearMiLibro(@Body() miLibro: CrearMiLibroDto) {
     try {
-      return await this.misLibrosService.crearMiLibro(crearMiLibroDto);
+      return await this.misLibrosService.crearMiLibro(miLibro);
     } catch (error) {
       console.error(error.message);
 
@@ -57,13 +57,10 @@ export class MisLibrosController {
   @Patch(':id')
   async actualizarMiLibro(
     @Param('id') id: string,
-    @Body() actualizarMiLibroDto: ActualizarMiLibroDto,
+    @Body() miLibro: ActualizarMiLibroDto,
   ) {
     try {
-      return await this.misLibrosService.actualizarMiLibro(
-        +id,
-        actualizarMiLibroDto,
-      );
+      return await this.misLibrosService.actualizarMiLibro(+id, miLibro);
     } catch (error) {
       console.error(error.message);
 
