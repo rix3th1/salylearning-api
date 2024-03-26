@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Avatar } from '@prisma/client';
 import {
   IsNotEmpty,
@@ -8,6 +9,7 @@ import {
 } from 'class-validator';
 
 export class CrearAvatarDto implements Partial<Avatar> {
+  @ApiProperty()
   @IsNotEmpty({ message: 'El nombre del avatar es requerido' })
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
@@ -20,6 +22,7 @@ export class CrearAvatarDto implements Partial<Avatar> {
 }
 
 export class ActualizarAvatarDto implements Partial<Avatar> {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {

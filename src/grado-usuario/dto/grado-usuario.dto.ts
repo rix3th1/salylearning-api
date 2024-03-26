@@ -1,7 +1,9 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { GradoUsuario } from '@prisma/client';
 import { IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 
 export class CrearGradoUsuarioDto implements Partial<GradoUsuario> {
+  @ApiProperty()
   @IsNotEmpty({ message: 'El id de grado es requerido' })
   @IsInt({ message: 'El id de grado debe ser un número entero' })
   @Min(1, { message: 'El id de grado debe ser mayor o igual a 1' })
@@ -10,6 +12,7 @@ export class CrearGradoUsuarioDto implements Partial<GradoUsuario> {
   })
   id_grado: number;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El id de usuario es requerido' })
   @IsInt({ message: 'El id de usuario debe ser un número entero' })
   @Min(1, { message: 'El id de usuario debe ser mayor o igual a 1' })
@@ -20,6 +23,7 @@ export class CrearGradoUsuarioDto implements Partial<GradoUsuario> {
 }
 
 export class ActualizarGradoUsuarioDto implements Partial<GradoUsuario> {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt({ message: 'El id de grado debe ser un número entero' })
   @Min(1, { message: 'El id de grado debe ser mayor o igual a 1' })
@@ -28,6 +32,7 @@ export class ActualizarGradoUsuarioDto implements Partial<GradoUsuario> {
   })
   id_grado?: number;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt({ message: 'El id de usuario debe ser un número entero' })
   @Min(1, { message: 'El id de usuario debe ser mayor o igual a 1' })

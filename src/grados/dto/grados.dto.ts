@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Grado } from '@prisma/client';
 import {
   IsNotEmpty,
@@ -8,6 +9,7 @@ import {
 } from 'class-validator';
 
 export class CrearGradoDto implements Partial<Grado> {
+  @ApiProperty()
   @IsNotEmpty({ message: 'El nombre del grado es requerido' })
   @IsString({ message: 'El nombre del grado debe ser una cadena de texto' })
   @MinLength(3, {
@@ -20,6 +22,7 @@ export class CrearGradoDto implements Partial<Grado> {
 }
 
 export class ActualizarGradoDto implements Partial<Grado> {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El nombre del grado debe ser una cadena de texto' })
   @MinLength(3, {

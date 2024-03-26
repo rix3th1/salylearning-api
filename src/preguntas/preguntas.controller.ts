@@ -10,9 +10,9 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PreguntasService } from './preguntas.service';
-import { ActualizarPreguntaDto, CrearPreguntaDto } from './dto/preguntas.dto';
 import { Prisma } from '@prisma/client';
+import { ActualizarPreguntaDto, CrearPreguntaDto } from './dto/preguntas.dto';
+import { PreguntasService } from './preguntas.service';
 
 @Controller('preguntas')
 export class PreguntasController {

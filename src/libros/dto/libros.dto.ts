@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Libro } from '@prisma/client';
 import {
   IsInt,
@@ -11,6 +12,7 @@ import {
 } from 'class-validator';
 
 export class CrearLibroDto implements Partial<Libro> {
+  @ApiProperty()
   @IsNotEmpty({ message: 'El nombre del libro es requerido' })
   @IsString({ message: 'El nombre del libro debe ser una cadena de texto' })
   @MinLength(3, {
@@ -21,12 +23,14 @@ export class CrearLibroDto implements Partial<Libro> {
   })
   nom_libro: string;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El número de páginas es requerido' })
   @IsInt({ message: 'El número de páginas debe ser un número entero' })
   @Min(1, { message: 'El número de páginas debe ser mayor o igual a 1' })
   @Max(255, { message: 'El número de páginas debe ser menor o igual a 255' })
   num_pag: number;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'La cantidad de veces leído es requerido' })
   @IsInt({ message: 'La cantidad de veces leído debe ser un número entero' })
   @Min(0, { message: 'La cantidad de veces leído debe ser mayor o igual a 0' })
@@ -35,6 +39,7 @@ export class CrearLibroDto implements Partial<Libro> {
   })
   cant_leido: number;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El id de grado es requerido' })
   @IsInt({ message: 'El id de grado debe ser un número entero' })
   @Min(1, { message: 'El id de grado debe ser mayor o igual a 1' })
@@ -45,6 +50,7 @@ export class CrearLibroDto implements Partial<Libro> {
 }
 
 export class ActualizarLibroDto implements Partial<Libro> {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El nombre del libro debe ser una cadena de texto' })
   @MinLength(3, {
@@ -55,12 +61,14 @@ export class ActualizarLibroDto implements Partial<Libro> {
   })
   nom_libro?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt({ message: 'El número de páginas debe ser un número entero' })
   @Min(1, { message: 'El número de páginas debe ser mayor o igual a 1' })
   @Max(255, { message: 'El número de páginas debe ser menor o igual a 255' })
   num_pag?: number;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt({ message: 'La cantidad de veces leído debe ser un número entero' })
   @Min(0, { message: 'La cantidad de veces leído debe ser mayor o igual a 0' })
@@ -69,6 +77,7 @@ export class ActualizarLibroDto implements Partial<Libro> {
   })
   cant_leido?: number;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt({ message: 'El id de grado debe ser un número entero' })
   @Min(1, { message: 'El id de grado debe ser mayor o igual a 1' })

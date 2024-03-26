@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Usuario } from '@prisma/client';
 import {
   IsEmail,
@@ -10,6 +11,7 @@ import {
 } from 'class-validator';
 
 export class CrearUsuarioDto implements Partial<Usuario> {
+  @ApiProperty()
   @IsNotEmpty({ message: 'El nombre de usuario es requerido' })
   @IsString({ message: 'El nombre de usuario debe ser una cadena de texto' })
   @MinLength(4, {
@@ -20,6 +22,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   })
   username: string;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El primer nombre es requerido' })
   @IsString({ message: 'El primer nombre debe ser una cadena de texto' })
   @MinLength(3, {
@@ -30,6 +33,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   })
   p_nombre: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El segundo nombre debe ser una cadena de texto' })
   @MinLength(3, {
@@ -40,6 +44,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   })
   s_nombre?: string;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El primer apellido es requerido' })
   @IsString({ message: 'El primer apellido debe ser una cadena de texto' })
   @MinLength(3, {
@@ -50,6 +55,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   })
   p_apellido: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El segundo apellido debe ser una cadena de texto' })
   @MinLength(3, {
@@ -60,6 +66,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   })
   s_apellido?: string;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'El email es requerido' })
   @IsString({ message: 'El email debe ser una cadena de texto' })
   @MinLength(5, { message: 'El email debe tener al menos 5 caracteres' })
@@ -67,6 +74,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
   @IsEmail(undefined, { message: 'El email no es válido' })
   email: string;
 
+  @ApiProperty()
   @IsNotEmpty({ message: 'La contraseña es requerida' })
   @IsString({ message: 'La contraseña debe ser una cadena de texto' })
   @IsStrongPassword(
@@ -86,6 +94,7 @@ export class CrearUsuarioDto implements Partial<Usuario> {
 }
 
 export class ActualizarUsuarioDto implements Partial<Usuario> {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El nombre de usuario debe ser una cadena de texto' })
   @MinLength(4, {
@@ -96,6 +105,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   })
   username?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El primer nombre debe ser una cadena de texto' })
   @MinLength(3, {
@@ -106,6 +116,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   })
   p_nombre?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsOptional()
   @IsString({ message: 'El segundo nombre debe ser una cadena de texto' })
@@ -117,6 +128,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   })
   s_nombre?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El primer apellido debe ser una cadena de texto' })
   @MinLength(3, {
@@ -127,6 +139,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   })
   p_apellido?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsOptional()
   @IsString({ message: 'El segundo apellido debe ser una cadena de texto' })
@@ -138,6 +151,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   })
   s_apellido?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'El email debe ser una cadena de texto' })
   @MinLength(5, { message: 'El email debe tener al menos 5 caracteres' })
@@ -145,6 +159,7 @@ export class ActualizarUsuarioDto implements Partial<Usuario> {
   @IsEmail(undefined, { message: 'El email no es válido' })
   email?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: 'La contraseña debe ser una cadena de texto' })
   @IsStrongPassword(
