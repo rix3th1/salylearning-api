@@ -1,7 +1,7 @@
 import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
 import { GradoUsuarioSinId } from '../entities/grado-usuario.entity';
 
-export abstract class GradoUsuarioBaseDto extends GradoUsuarioSinId {
+export class GradoUsuarioBaseDto extends GradoUsuarioSinId {
   @IsNotEmpty({ message: 'El id de grado es requerido' })
   @IsInt({ message: 'El id de grado debe ser un número entero' })
   @Min(1, { message: 'El id de grado debe ser mayor o igual a 1' })

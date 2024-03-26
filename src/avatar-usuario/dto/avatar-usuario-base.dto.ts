@@ -1,7 +1,7 @@
 import { IsInt, Max, Min } from 'class-validator';
 import { AvatarUsuarioSinId } from '../entities/avatar-usuario.entity';
 
-export abstract class AvatarUsuarioBaseDto extends AvatarUsuarioSinId {
+export class AvatarUsuarioBaseDto extends AvatarUsuarioSinId {
   @IsInt({ message: 'El id de avatar debe ser un número entero' })
   @Min(1, { message: 'El id de avatar debe ser mayor o igual a 1' })
   @Max(4294967295, {

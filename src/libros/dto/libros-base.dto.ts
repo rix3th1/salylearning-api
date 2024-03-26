@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { LibroSinId } from '../entities/libro.entity';
 
-export abstract class LibroBaseDto extends LibroSinId {
+export class LibroBaseDto extends LibroSinId {
   @IsNotEmpty({ message: 'El nombre del libro es requerido' })
   @IsString({ message: 'El nombre del libro debe ser una cadena de texto' })
   @MinLength(3, {

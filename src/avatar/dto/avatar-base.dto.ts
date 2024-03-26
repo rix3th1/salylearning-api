@@ -1,7 +1,7 @@
 import { IsString, MaxLength, MinLength } from 'class-validator';
 import { AvatarSinId } from '../entities/Avatar.entity';
 
-export abstract class AvatarBaseDto extends AvatarSinId {
+export class AvatarBaseDto extends AvatarSinId {
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
     message: 'El nombre del avatar debe tener al menos 3 caracteres',

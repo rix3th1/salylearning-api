@@ -1,7 +1,7 @@
 import { IsBoolean, IsInt, IsNotEmpty, Max, Min } from 'class-validator';
 import { MiLibroSinId } from '../entities/mi-libro.entity';
 
-export abstract class MiLibroBaseDto extends MiLibroSinId {
+export class MiLibroBaseDto extends MiLibroSinId {
   @IsNotEmpty({ message: 'El id de libro es requerido' })
   @IsInt({ message: 'El id de libro debe ser un número entero' })
   @Min(1, { message: 'El id de libro debe ser mayor o igual a 1' })
