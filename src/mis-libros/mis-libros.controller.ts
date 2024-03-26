@@ -10,9 +10,10 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarMiLibroDto, CrearMiLibroDto } from './dto/mis-libros.dto';
+import { MiLibro } from './entities/mi-libro.entity';
 import { MisLibrosService } from './mis-libros.service';
 
 @ApiTags('mis-libros')
@@ -21,11 +22,29 @@ export class MisLibrosController {
   constructor(private readonly misLibrosService: MisLibrosService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Obtener todos los libros',
+    description: 'Obtiene todos los libros del usuario',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libros encontrados',
+    type: [MiLibro],
+  })
   async obtenerMisLibros() {
     return await this.misLibrosService.obtenerMisLibros();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Obtener un libro por su ID',
+    description: 'Obtiene un libro por su ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro encontrado',
+    type: MiLibro,
+  })
   async obtenerMiLibro(@Param('id') id: string) {
     try {
       return await this.misLibrosService.obtenerMiLibro(+id);
@@ -36,6 +55,15 @@ export class MisLibrosController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Crear un libro',
+    description: 'Crea un libro',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Libro creado',
+    type: MiLibro,
+  })
   async crearMiLibro(@Body() miLibro: CrearMiLibroDto) {
     try {
       return await this.misLibrosService.crearMiLibro(miLibro);
@@ -57,6 +85,15 @@ export class MisLibrosController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Actualizar un libro',
+    description: 'Actualiza un libro',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro actualizado',
+    type: MiLibro,
+  })
   async actualizarMiLibro(
     @Param('id') id: string,
     @Body() miLibro: ActualizarMiLibroDto,
@@ -81,6 +118,15 @@ export class MisLibrosController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Eliminar un libro',
+    description: 'Elimina un libro',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro eliminado',
+    type: MiLibro,
+  })
   async eliminarMiLibro(@Param('id') id: string) {
     try {
       return await this.misLibrosService.eliminarMiLibro(+id);

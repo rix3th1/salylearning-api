@@ -10,9 +10,10 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
+import { Libro } from './entities/libro.entity';
 import { LibrosService } from './libros.service';
 
 @ApiTags('libros')
@@ -21,11 +22,29 @@ export class LibrosController {
   constructor(private readonly librosService: LibrosService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Obtener todos los libros',
+    description: 'Obtener todos los libros',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de libros',
+    type: [Libro],
+  })
   async obtenerLibros() {
     return await this.librosService.obtenerLibros();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Obtener un libro por su ID',
+    description: 'Obtener un libro por su ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro encontrado',
+    type: Libro,
+  })
   async obtenerLibroPorId(@Param('id') id: string) {
     try {
       return await this.librosService.obtenerLibroPorId(+id);
@@ -36,6 +55,15 @@ export class LibrosController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Crear un libro',
+    description: 'Crear un libro',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Libro creado',
+    type: Libro,
+  })
   async crearLibro(@Body() libro: CrearLibroDto) {
     try {
       return await this.librosService.crearLibro(libro);
@@ -55,6 +83,15 @@ export class LibrosController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Actualizar un libro',
+    description: 'Actualizar un libro',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro actualizado',
+    type: Libro,
+  })
   async actualizarLibro(
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
@@ -77,6 +114,15 @@ export class LibrosController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Eliminar un libro',
+    description: 'Eliminar un libro',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Libro eliminado',
+    type: Libro,
+  })
   async eliminarLibro(@Param('id') id: string) {
     try {
       return await this.librosService.eliminarLibro(+id);

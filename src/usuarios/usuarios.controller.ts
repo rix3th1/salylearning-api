@@ -10,9 +10,10 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
+import { Usuario } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
 
 @ApiTags('usuarios')
@@ -21,11 +22,29 @@ export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Obtener todos los usuarios',
+    description: 'Obtiene todos los usuarios de la base de datos',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de usuarios',
+    type: [Usuario],
+  })
   async obtenerUsuarios() {
     return await this.usuariosService.obtenerUsuarios();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Obtener un usuario por su ID',
+    description: 'Obtiene un usuario de la base de datos por su ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario encontrado',
+    type: Usuario,
+  })
   async obtenerUsuarioPorId(@Param('id') id: string) {
     try {
       return await this.usuariosService.obtenerUsuarioPorId(+id);
@@ -36,6 +55,15 @@ export class UsuariosController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Crear un usuario',
+    description: 'Crea un usuario en la base de datos',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Usuario creado',
+    type: Usuario,
+  })
   async crearUsuario(@Body() usuario: CrearUsuarioDto) {
     try {
       return await this.usuariosService.crearUsuario(usuario);
@@ -55,6 +83,15 @@ export class UsuariosController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Actualizar un usuario',
+    description: 'Actualiza un usuario en la base de datos',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario actualizado',
+    type: Usuario,
+  })
   async actualizarUsuario(
     @Param('id') id: string,
     @Body() usuario: ActualizarUsuarioDto,
@@ -77,6 +114,15 @@ export class UsuariosController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Eliminar un usuario',
+    description: 'Elimina un usuario de la base de datos',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuario eliminado',
+    type: Usuario,
+  })
   async eliminarUsuario(@Param('id') id: string) {
     try {
       return await this.usuariosService.eliminarUsuario(+id);

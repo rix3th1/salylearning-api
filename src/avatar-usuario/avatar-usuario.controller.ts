@@ -10,13 +10,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { AvatarUsuarioService } from './avatar-usuario.service';
 import {
   ActualizarAvatarUsuarioDto,
   CrearAvatarUsuarioDto,
 } from './dto/avatar-usuario.dto';
+import { AvatarUsuario } from './entities/avatar-usuario.entity';
 
 @ApiTags('avatar-usuario')
 @Controller('avatar-usuario')
@@ -24,11 +25,29 @@ export class AvatarUsuarioController {
   constructor(private readonly avatarUsuarioService: AvatarUsuarioService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Obtener todos los avatares de usuarios',
+    description: 'Obtiene todos los avatares de usuarios existentes.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Avatares de usuarios encontrados',
+    type: [AvatarUsuario],
+  })
   async obtenerAvataresUsuario() {
     return await this.avatarUsuarioService.obtenerAvataresUsuario();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Obtener un avatar de usuario por su ID',
+    description: 'Obtiene un avatar de usuario por su ID.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Avatar de usuario encontrado',
+    type: AvatarUsuario,
+  })
   async obtenerAvatarUsuario(@Param('id') id: string) {
     try {
       return await this.avatarUsuarioService.obtenerAvatarUsuario(+id);
@@ -41,6 +60,15 @@ export class AvatarUsuarioController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Crear un avatar de usuario',
+    description: 'Crea un avatar de usuario.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Avatar de usuario creado',
+    type: AvatarUsuario,
+  })
   async crearAvatarUsuario(@Body() avatarUsuario: CrearAvatarUsuarioDto) {
     try {
       return await this.avatarUsuarioService.crearAvatarUsuario(avatarUsuario);
@@ -66,6 +94,15 @@ export class AvatarUsuarioController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Actualizar un avatar de usuario',
+    description: 'Actualiza un avatar de usuario.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Avatar de usuario actualizado',
+    type: AvatarUsuario,
+  })
   async actualizarAvatarUsuario(
     @Param('id') id: string,
     @Body() avatarUsuario: ActualizarAvatarUsuarioDto,
@@ -97,6 +134,15 @@ export class AvatarUsuarioController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Eliminar un avatar de usuario',
+    description: 'Eliminar un avatar de usuario.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Avatar de usuario eliminado',
+    type: AvatarUsuario,
+  })
   async eliminarAvatarUsuario(@Param('id') id: string) {
     try {
       return await this.avatarUsuarioService.eliminarAvatarUsuario(+id);

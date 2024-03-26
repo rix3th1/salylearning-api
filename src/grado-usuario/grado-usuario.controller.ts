@@ -10,12 +10,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import {
   ActualizarGradoUsuarioDto,
   CrearGradoUsuarioDto,
 } from './dto/grado-usuario.dto';
+import { GradoUsuario } from './entities/grado-usuario.entity';
 import { GradoUsuarioService } from './grado-usuario.service';
 
 @ApiTags('grado-usuario')
@@ -24,11 +25,29 @@ export class GradoUsuarioController {
   constructor(private readonly gradoUsuarioService: GradoUsuarioService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Obtener todos los grados de usuarios',
+    description: 'Obtiene todos los grados de usuarios existentes.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Grados de usuarios encontrados',
+    type: [GradoUsuario],
+  })
   async obtenerGradosUsuario() {
     return await this.gradoUsuarioService.obtenerGradosUsuario();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Obtener un grado de usuario por su ID',
+    description: 'Obtiene un grado de usuario por su ID.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Grado de usuario encontrado',
+    type: GradoUsuario,
+  })
   async obtenerGradoUsuario(@Param('id') id: string) {
     try {
       return await this.gradoUsuarioService.obtenerGradoUsuario(+id);
@@ -41,6 +60,15 @@ export class GradoUsuarioController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Crear un grado de usuario',
+    description: 'Crea un grado de usuario.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Grado de usuario creado',
+    type: GradoUsuario,
+  })
   async crearGradoUsuario(@Body() gradoUsuario: CrearGradoUsuarioDto) {
     try {
       return await this.gradoUsuarioService.crearGradoUsuario(gradoUsuario);
@@ -66,6 +94,15 @@ export class GradoUsuarioController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Actualizar un grado de usuario',
+    description: 'Actualiza un grado de usuario.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Grado de usuario actualizado',
+    type: GradoUsuario,
+  })
   async actualizarGradoUsuario(
     @Param('id') id: string,
     @Body() gradoUsuario: ActualizarGradoUsuarioDto,
@@ -97,6 +134,15 @@ export class GradoUsuarioController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Eliminar un grado de usuario',
+    description: 'Elimina un grado de usuario.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Grado de usuario eliminado',
+    type: GradoUsuario,
+  })
   async eliminarGradoUsuario(@Param('id') id: string) {
     try {
       return await this.gradoUsuarioService.eliminarGradoUsuario(+id);
