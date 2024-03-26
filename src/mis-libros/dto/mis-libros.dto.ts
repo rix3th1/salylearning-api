@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { MiLibroBaseDto } from './mis-libros-base.dto';
+import { MiLibroBaseDto } from './mi-libro-base.dto';
 
 export class CrearMiLibroDto extends MiLibroBaseDto {
   id_libro: number;

@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { PreguntaBaseDto } from './preguntas-base.dto';
+import { PreguntaBaseDto } from './pregunta-base.dto';
 
 export class CrearPreguntaDto extends PreguntaBaseDto {
   num_pregunta: number;

@@ -1,5 +1,3 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Usuario } from '@prisma/client';
 import {
   IsEmail,
   IsNotEmpty,
@@ -9,15 +7,9 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Usuario } from '../entities/usuario.entity';
 
-export class UsuarioBaseDto implements Partial<Usuario> {
-  @ApiProperty({
-    title: 'Nombre de usuario',
-    description: 'Nombre de usuario para el registro',
-    example: 'johndoe',
-    minLength: 4,
-    maxLength: 50,
-  })
+export abstract class UsuarioBaseDto extends Usuario {
   @IsNotEmpty({ message: 'El nombre de usuario es requerido' })
   @IsString({ message: 'El nombre de usuario debe ser una cadena de texto' })
   @MinLength(4, {
@@ -28,13 +20,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   })
   username?: string;
 
-  @ApiProperty({
-    title: 'Primer nombre',
-    description: 'Primer nombre del usuario',
-    example: 'John',
-    minLength: 3,
-    maxLength: 30,
-  })
   @IsNotEmpty({ message: 'El primer nombre es requerido' })
   @IsString({ message: 'El primer nombre debe ser una cadena de texto' })
   @MinLength(3, {
@@ -45,13 +30,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   })
   p_nombre?: string;
 
-  @ApiPropertyOptional({
-    title: 'Segundo nombre',
-    description: 'Segundo nombre del usuario (Opcional)',
-    example: 'James',
-    minLength: 3,
-    maxLength: 30,
-  })
   @IsOptional()
   @IsString({ message: 'El segundo nombre debe ser una cadena de texto' })
   @MinLength(3, {
@@ -62,13 +40,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   })
   s_nombre?: string;
 
-  @ApiProperty({
-    title: 'Primer apellido',
-    description: 'Primer apellido del usuario',
-    example: 'Doe',
-    minLength: 3,
-    maxLength: 30,
-  })
   @IsNotEmpty({ message: 'El primer apellido es requerido' })
   @IsString({ message: 'El primer apellido debe ser una cadena de texto' })
   @MinLength(3, {
@@ -79,13 +50,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   })
   p_apellido?: string;
 
-  @ApiPropertyOptional({
-    title: 'Segundo apellido',
-    description: 'Segundo apellido del usuario (Opcional)',
-    example: 'Smith',
-    minLength: 3,
-    maxLength: 30,
-  })
   @IsOptional()
   @IsString({ message: 'El segundo apellido debe ser una cadena de texto' })
   @MinLength(3, {
@@ -96,13 +60,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   })
   s_apellido?: string;
 
-  @ApiProperty({
-    title: 'Email',
-    description: 'Email del usuario',
-    example: 'johndoe@example.com',
-    minLength: 5,
-    maxLength: 100,
-  })
   @IsNotEmpty({ message: 'El email es requerido' })
   @IsString({ message: 'El email debe ser una cadena de texto' })
   @MinLength(5, { message: 'El email debe tener al menos 5 caracteres' })
@@ -110,13 +67,6 @@ export class UsuarioBaseDto implements Partial<Usuario> {
   @IsEmail(undefined, { message: 'El email no es válido' })
   email?: string;
 
-  @ApiProperty({
-    title: 'Contraseña',
-    description: 'Contraseña del usuario',
-    example: 'Password123!',
-    minLength: 8,
-    maxLength: 50,
-  })
   @IsNotEmpty({ message: 'La contraseña es requerida' })
   @IsString({ message: 'La contraseña debe ser una cadena de texto' })
   @IsStrongPassword(

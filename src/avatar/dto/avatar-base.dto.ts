@@ -1,15 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Avatar } from '@prisma/client';
 import { IsString, MaxLength, MinLength } from 'class-validator';
+import { Avatar } from '../entities/Avatar.entity';
 
-export abstract class AvatarBaseDto implements Partial<Avatar> {
-  @ApiProperty({
-    title: 'Nombre del avatar',
-    description: 'Nombre del avatar',
-    example: 'Avatar 1',
-    minLength: 3,
-    maxLength: 30,
-  })
+export abstract class AvatarBaseDto extends Avatar {
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
     message: 'El nombre del avatar debe tener al menos 3 caracteres',

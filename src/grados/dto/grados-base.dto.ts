@@ -1,15 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Grado } from '@prisma/client';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { Grado } from '../entities/grado.entity';
 
-export class GradoBaseDto implements Partial<Grado> {
-  @ApiProperty({
-    title: 'Nombre del grado',
-    description: 'El nombre del grado',
-    example: 'Primaria',
-    minLength: 3,
-    maxLength: 30,
-  })
+export abstract class GradoBaseDto extends Grado {
   @IsNotEmpty({ message: 'El nombre del grado es requerido' })
   @IsString({ message: 'El nombre del grado debe ser una cadena de texto' })
   @MinLength(3, {
