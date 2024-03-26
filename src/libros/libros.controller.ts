@@ -10,10 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { LibrosService } from './libros.service';
 
+@ApiTags('libros')
 @Controller('libros')
 export class LibrosController {
   constructor(private readonly librosService: LibrosService) {}

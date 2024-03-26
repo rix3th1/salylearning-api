@@ -10,10 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
 import { UsuariosService } from './usuarios.service';
 
+@ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}

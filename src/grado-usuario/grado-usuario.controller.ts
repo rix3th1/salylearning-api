@@ -1,4 +1,3 @@
-import { GradoUsuarioService } from './grado-usuario.service';
 import {
   BadRequestException,
   Body,
@@ -11,12 +10,15 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import {
   ActualizarGradoUsuarioDto,
   CrearGradoUsuarioDto,
 } from './dto/grado-usuario.dto';
-import { Prisma } from '@prisma/client';
+import { GradoUsuarioService } from './grado-usuario.service';
 
+@ApiTags('grado-usuario')
 @Controller('grado-usuario')
 export class GradoUsuarioController {
   constructor(private readonly gradoUsuarioService: GradoUsuarioService) {}

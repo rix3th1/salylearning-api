@@ -10,10 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
 import { GradosService } from './grados.service';
 
+@ApiTags('grados')
 @Controller('grados')
 export class GradosController {
   constructor(private readonly gradosService: GradosService) {}

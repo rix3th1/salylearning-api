@@ -10,10 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { AvatarService } from './avatar.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
 
+@ApiTags('avatar')
 @Controller('avatar')
 export class AvatarController {
   constructor(private readonly avatarService: AvatarService) {}
