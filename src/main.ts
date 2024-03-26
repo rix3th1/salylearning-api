@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { options } from 'utils/swagger';
+import { swaggerCustomOpts, swaggerDocOpts } from 'utils/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,7 +11,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Salylearning API')
-    .setDescription('Salylearning API description')
+    .setDescription(
+      'Esta es la documentacion de la api para el software salylearning. La siguiente es una descripcion detallada de los metodos y urls en los que debe consultar la api en el frontend de salylearning.',
+    )
     .setVersion('1.0')
     .addTag('avatar')
     .addTag('avatar-usuario')
@@ -23,8 +25,8 @@ async function bootstrap() {
     .addTag('usuarios')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('docs', app, document);
+  const document = SwaggerModule.createDocument(app, config, swaggerDocOpts);
+  SwaggerModule.setup('documentacion', app, document, swaggerCustomOpts);
 
   await app.listen(3000);
 
