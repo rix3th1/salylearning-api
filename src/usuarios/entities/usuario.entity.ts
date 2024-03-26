@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Usuario as TUsuario } from '@prisma/client';
 
-export abstract class Usuario implements Partial<TUsuario> {
+export abstract class UsuarioSinId implements Partial<TUsuario> {
   @ApiProperty({
     title: 'Nombre de usuario',
     description: 'Nombre de usuario para el registro',
@@ -64,4 +64,18 @@ export abstract class Usuario implements Partial<TUsuario> {
     maxLength: 50,
   })
   password?: string;
+}
+
+export abstract class Usuario
+  extends UsuarioSinId
+  implements Partial<TUsuario>
+{
+  @ApiProperty({
+    title: 'Id usuario',
+    description: 'Id del usuario',
+    example: 1,
+    minLength: 1,
+    maxLength: 4294967295,
+  })
+  id: number;
 }

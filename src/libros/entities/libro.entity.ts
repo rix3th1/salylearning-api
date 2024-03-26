@@ -39,7 +39,7 @@ export abstract class LibroSinId implements Partial<TLibro> {
   id_grado?: number;
 }
 
-export abstract class Libro extends LibroSinId {
+export abstract class Libro extends LibroSinId implements Partial<TLibro> {
   @ApiProperty({
     title: 'Id del libro',
     description: 'El id del libro',

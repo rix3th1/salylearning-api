@@ -7,9 +7,9 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Usuario } from '../entities/usuario.entity';
+import { UsuarioSinId } from '../entities/usuario.entity';
 
-export abstract class UsuarioBaseDto extends Usuario {
+export abstract class UsuarioBaseDto extends UsuarioSinId {
   @IsNotEmpty({ message: 'El nombre de usuario es requerido' })
   @IsString({ message: 'El nombre de usuario debe ser una cadena de texto' })
   @MinLength(4, {

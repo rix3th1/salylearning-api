@@ -7,9 +7,9 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { Pregunta } from '../entities/pregunta.entity';
+import { PreguntaSinId } from '../entities/pregunta.entity';
 
-export abstract class PreguntaBaseDto extends Pregunta {
+export abstract class PreguntaBaseDto extends PreguntaSinId {
   @IsNotEmpty({ message: 'El número de pregunta es requerido' })
   @IsInt({ message: 'El número de pregunta debe ser un número entero' })
   @Min(1, { message: 'El número de pregunta debe ser mayor o igual a 1' })

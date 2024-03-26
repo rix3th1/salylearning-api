@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MisLibros } from '@prisma/client';
+import { MisLibros as TMiLibro } from '@prisma/client';
 
-export abstract class MiLibro implements Partial<MisLibros> {
+export abstract class MiLibroSinId implements Partial<TMiLibro> {
   @ApiProperty({
     title: 'Id de libro',
     description:
@@ -28,4 +28,18 @@ export abstract class MiLibro implements Partial<MisLibros> {
     example: false,
   })
   terminado?: boolean;
+}
+
+export abstract class MiLibro
+  extends MiLibroSinId
+  implements Partial<TMiLibro>
+{
+  @ApiProperty({
+    title: 'Id de MiLibro',
+    description: 'El id de MiLibro',
+    example: 1,
+    minLength: 1,
+    maxLength: 4294967295,
+  })
+  id: number;
 }
