@@ -1,18 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Grado as TGrado } from '@prisma/client';
 
-export class GradoSinId implements Partial<TGrado> {
-  @ApiProperty({
-    title: 'Nombre del grado',
-    description: 'El nombre del grado',
-    example: 'Primaria',
-    minLength: 3,
-    maxLength: 30,
-  })
-  nom_grado?: string;
-}
-
-export class Grado extends GradoSinId implements Partial<TGrado> {
+export class Grado implements TGrado {
   @ApiProperty({
     title: 'Id del grado',
     description: 'El id del grado',
@@ -21,4 +10,13 @@ export class Grado extends GradoSinId implements Partial<TGrado> {
     maxLength: 4294967295,
   })
   id: number;
+
+  @ApiProperty({
+    title: 'Nombre del grado',
+    description: 'El nombre del grado',
+    example: 'Primaria',
+    minLength: 3,
+    maxLength: 30,
+  })
+  nom_grado: string;
 }

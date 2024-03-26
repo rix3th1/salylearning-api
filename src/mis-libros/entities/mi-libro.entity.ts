@@ -1,7 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MisLibros as TMiLibro } from '@prisma/client';
 
-export class MiLibroSinId implements Partial<TMiLibro> {
+export class MiLibro implements TMiLibro {
+  @ApiProperty({
+    title: 'Id de MiLibro',
+    description: 'El id de MiLibro',
+    example: 1,
+    minLength: 1,
+    maxLength: 4294967295,
+  })
+  id: number;
+
   @ApiProperty({
     title: 'Id de libro',
     description:
@@ -10,7 +19,7 @@ export class MiLibroSinId implements Partial<TMiLibro> {
     minimum: 1,
     maximum: 4294967295, // 2^32 - 1 = 4.294.967.295
   })
-  id_libro?: number;
+  id_libro: number;
 
   @ApiProperty({
     title: 'Id de usuario',
@@ -20,23 +29,12 @@ export class MiLibroSinId implements Partial<TMiLibro> {
     minimum: 1,
     maximum: 4294967295, // 2^32 - 1 = 4.294.967.295
   })
-  id_usuario?: number;
+  id_usuario: number;
 
   @ApiProperty({
     title: 'Terminado',
     description: 'El estado del libro en la lista de libros',
     example: false,
   })
-  terminado?: boolean;
-}
-
-export class MiLibro extends MiLibroSinId implements Partial<TMiLibro> {
-  @ApiProperty({
-    title: 'Id de MiLibro',
-    description: 'El id de MiLibro',
-    example: 1,
-    minLength: 1,
-    maxLength: 4294967295,
-  })
-  id: number;
+  terminado: boolean;
 }

@@ -1,18 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Avatar as TAvatar } from '@prisma/client';
 
-export class AvatarSinId implements Partial<TAvatar> {
-  @ApiProperty({
-    title: 'Nombre del avatar',
-    description: 'Nombre del avatar',
-    example: 'Avatar 1',
-    minLength: 3,
-    maxLength: 30,
-  })
-  nom_avatar?: string;
-}
-
-export class Avatar extends AvatarSinId implements Partial<TAvatar> {
+export class Avatar implements TAvatar {
   @ApiProperty({
     title: 'Id del avatar',
     description: 'Id del avatar',
@@ -21,4 +10,13 @@ export class Avatar extends AvatarSinId implements Partial<TAvatar> {
     maxLength: 4294967295,
   })
   id: number;
+
+  @ApiProperty({
+    title: 'Nombre del avatar',
+    description: 'Nombre del avatar',
+    example: 'Avatar 1',
+    minLength: 3,
+    maxLength: 30,
+  })
+  nom_avatar: string;
 }
