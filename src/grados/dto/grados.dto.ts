@@ -9,7 +9,13 @@ import {
 } from 'class-validator';
 
 export class CrearGradoDto implements Partial<Grado> {
-  @ApiProperty()
+  @ApiProperty({
+    title: 'Nombre del grado',
+    description: 'Nombre del grado a crear',
+    example: 'Primaria',
+    minLength: 3,
+    maxLength: 30,
+  })
   @IsNotEmpty({ message: 'El nombre del grado es requerido' })
   @IsString({ message: 'El nombre del grado debe ser una cadena de texto' })
   @MinLength(3, {
@@ -22,7 +28,13 @@ export class CrearGradoDto implements Partial<Grado> {
 }
 
 export class ActualizarGradoDto implements Partial<Grado> {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    title: 'Nombre del grado',
+    description: 'Nombre del grado a actualizar',
+    example: 'Secundaria',
+    minLength: 3,
+    maxLength: 30,
+  })
   @IsOptional()
   @IsString({ message: 'El nombre del grado debe ser una cadena de texto' })
   @MinLength(3, {

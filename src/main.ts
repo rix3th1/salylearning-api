@@ -11,9 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Salylearning API')
-    .setDescription(
-      'The Salylearning API for students to learn books in the salylearning software',
-    )
+    .setDescription('Salylearning API description')
     .setVersion('1.0')
     .addTag('avatar')
     .addTag('avatar-usuario')
@@ -24,6 +22,7 @@ async function bootstrap() {
     .addTag('preguntas')
     .addTag('usuarios')
     .build();
+
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('docs', app, document);
 

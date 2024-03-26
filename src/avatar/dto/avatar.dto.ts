@@ -9,7 +9,13 @@ import {
 } from 'class-validator';
 
 export class CrearAvatarDto implements Partial<Avatar> {
-  @ApiProperty()
+  @ApiProperty({
+    title: 'Nombre del avatar',
+    description: 'Nombre del avatar',
+    example: 'Avatar 1',
+    minLength: 3,
+    maxLength: 30,
+  })
   @IsNotEmpty({ message: 'El nombre del avatar es requerido' })
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
@@ -22,7 +28,13 @@ export class CrearAvatarDto implements Partial<Avatar> {
 }
 
 export class ActualizarAvatarDto implements Partial<Avatar> {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    title: 'Nombre del avatar',
+    description: 'Nombre del avatar',
+    example: 'Avatar 1',
+    minLength: 3,
+    maxLength: 30,
+  })
   @IsOptional()
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
