@@ -105,7 +105,7 @@ model Usuario {
   s_nombre       String?         @db.VarChar(30)
   p_apellido     String          @db.VarChar(30)
   s_apellido     String?         @db.VarChar(30)
-  edad           Int             @db.UnsignedInt
+  edad           Int?            @db.UnsignedInt
   email          String          @unique @db.VarChar(100)
   password       String          @db.VarChar(255)
   avatar_usuario AvatarUsuario[]
