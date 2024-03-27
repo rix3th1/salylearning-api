@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Avatar {
   id             Int             @id @default(autoincrement()) @db.UnsignedInt
   nom_avatar     String          @unique @db.VarChar(30)
@@ -16,7 +15,6 @@ model Avatar {
   @@map("avatar")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model AvatarUsuario {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
   id_avatar  Int     @db.UnsignedInt
@@ -29,7 +27,6 @@ model AvatarUsuario {
   @@map("avatar_usuario")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model GradoUsuario {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
   id_grado   Int     @db.UnsignedInt
@@ -42,7 +39,6 @@ model GradoUsuario {
   @@map("grado_usuario")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Grado {
   id            Int            @id @default(autoincrement()) @db.UnsignedInt
   nom_grado     String         @unique @db.VarChar(30)
@@ -52,7 +48,6 @@ model Grado {
   @@map("grados")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Libro {
   id         Int         @id @default(autoincrement()) @db.UnsignedInt
   nom_libro  String      @unique @db.VarChar(100)
@@ -67,7 +62,6 @@ model Libro {
   @@map("libros")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model MisLibros {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
   id_usuario Int     @db.UnsignedInt
@@ -81,7 +75,6 @@ model MisLibros {
   @@map("mis_libros")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Pregunta {
   id           Int    @id @default(autoincrement()) @db.UnsignedInt
   num_pregunta Int    @db.UnsignedTinyInt
@@ -97,7 +90,6 @@ model Pregunta {
   @@map("preguntas")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Usuario {
   id             Int             @id @default(autoincrement()) @db.UnsignedInt
   username       String          @unique @db.VarChar(50)
