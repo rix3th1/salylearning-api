@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Libro } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 
 @Injectable()

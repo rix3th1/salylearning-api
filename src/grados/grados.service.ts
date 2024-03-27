@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Grado } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
 
 @Injectable()
