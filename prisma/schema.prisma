@@ -107,7 +107,7 @@ model Usuario {
   s_apellido     String?         @db.VarChar(30)
   edad           Int             @db.UnsignedInt
   email          String          @unique @db.VarChar(100)
-  password       String          @db.VarChar(12)
+  password       String          @db.VarChar(255)
   avatar_usuario AvatarUsuario[]
   grado_usuario  GradoUsuario[]
   mis_libros     MisLibros[]

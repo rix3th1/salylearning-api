@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import * as argon2 from 'argon2';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
-import { Usuario } from './entities/usuario.entity';
+import Usuario from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
 
 @ApiTags('usuarios')
@@ -47,7 +48,9 @@ export class UsuariosController {
   })
   async obtenerUsuarioPorId(@Param('id') id: string) {
     try {
-      return await this.usuariosService.obtenerUsuarioPorId(+id);
+      const { password, ...result } =
+        await this.usuariosService.obtenerUsuarioPorId(+id);
+      return result;
     } catch (error) {
       console.error(error.message);
       throw new NotFoundException('Usuario no encontrado');
@@ -66,7 +69,12 @@ export class UsuariosController {
   })
   async crearUsuario(@Body() usuario: CrearUsuarioDto) {
     try {
-      return await this.usuariosService.crearUsuario(usuario);
+      const hash = await argon2.hash(usuario.password);
+      usuario.password = hash;
+
+      const { password, ...result } =
+        await this.usuariosService.crearUsuario(usuario);
+      return result;
     } catch (error) {
       console.error(error.message);
 
@@ -97,7 +105,14 @@ export class UsuariosController {
     @Body() usuario: ActualizarUsuarioDto,
   ) {
     try {
-      return await this.usuariosService.actualizarUsuario(+id, usuario);
+      if (usuario.password) {
+        const hash = await argon2.hash(usuario.password);
+        usuario.password = hash;
+      }
+
+      const { password, ...result } =
+        await this.usuariosService.actualizarUsuario(+id, usuario);
+      return result;
     } catch (error) {
       console.error(error.message);
 
@@ -125,7 +140,9 @@ export class UsuariosController {
   })
   async eliminarUsuario(@Param('id') id: string) {
     try {
-      return await this.usuariosService.eliminarUsuario(+id);
+      const { password, ...result } =
+        await this.usuariosService.eliminarUsuario(+id);
+      return result;
     } catch (error) {
       console.error(error.message);
       throw new NotFoundException('Usuario no encontrado');

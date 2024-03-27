@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Usuario as TUsuario } from '@prisma/client';
 
 export class Usuario implements Partial<TUsuario> {
@@ -83,3 +83,5 @@ export class Usuario implements Partial<TUsuario> {
   })
   password: string;
 }
+
+export default OmitType(Usuario, ['password'] as const);

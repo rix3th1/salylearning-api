@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AuthModule } from './auth/auth.module';
 import { AvatarUsuarioModule } from './avatar-usuario/avatar-usuario.module';
 import { AvatarModule } from './avatar/avatar.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
@@ -18,8 +20,9 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     GradoUsuarioModule,
     MisLibrosModule,
     PreguntasModule,
+    AuthModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
