@@ -4,7 +4,7 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private usuariosService: UsuariosService) {}
+  constructor(private readonly usuariosService: UsuariosService) {}
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usuariosService.obtenerUsuarioPorUsername(username);
