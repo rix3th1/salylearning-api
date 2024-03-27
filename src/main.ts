@@ -1,8 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { swaggerCustomOpts, swaggerDocOpts } from 'utils/swagger';
 import { AppModule } from './app.module';
+import { swaggerCustomOpts, swaggerDocOpts } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });

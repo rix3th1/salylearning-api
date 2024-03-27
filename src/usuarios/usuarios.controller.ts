@@ -13,7 +13,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
-import { Public } from 'decorators/public.decorator';
+import { Public } from '../public.decorator';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
 import Usuario from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';

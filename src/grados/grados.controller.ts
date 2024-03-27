@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { Public } from 'decorators/public.decorator';
+import { Public } from '../public.decorator';
 import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
 import { Grado } from './entities/grado.entity';
 import { GradosService } from './grados.service';
