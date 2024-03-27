@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AvatarUsuarioModule } from './avatar-usuario/avatar-usuario.module';
 import { AvatarModule } from './avatar/avatar.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
@@ -23,6 +25,11 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
