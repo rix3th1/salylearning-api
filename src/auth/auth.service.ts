@@ -6,13 +6,12 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 export class AuthService {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  async validarUsuario(username: string, pass: string): Promise<any> {
-    const usuario =
-      await this.usuariosService.obtenerUsuarioPorUsername(username);
-    const passwordCoincide = await argon2.verify(usuario.password, pass);
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.usuariosService.obtenerUsuarioPorUsername(username);
+    const isMatch = await argon2.verify(user.password, pass);
 
-    if (usuario && passwordCoincide) {
-      const { password, ...result } = usuario;
+    if (user && isMatch) {
+      const { password, ...result } = user;
       return result;
     }
     return null;
