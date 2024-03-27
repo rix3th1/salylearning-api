@@ -2,7 +2,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { swaggerCustomOpts, swaggerDocOpts } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -11,9 +10,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Salylearning API')
-    .setDescription(
-      'Esta es la documentacion de la api para el software salylearning. La siguiente es una descripcion detallada de los metodos y urls en los que debe consultar la api en el frontend de salylearning.',
-    )
+    .setDescription('The Salylearning API description')
     .setVersion('1.0')
     .addTag('avatar')
     .addTag('avatar-usuario')
@@ -25,8 +22,19 @@ async function bootstrap() {
     .addTag('usuarios')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config, swaggerDocOpts);
-  SwaggerModule.setup('docs', app, document, swaggerCustomOpts);
+  const document = SwaggerModule.createDocument(app, config, {
+    operationIdFactory: (_controllerKey: string, methodKey: string) =>
+      methodKey,
+  });
+  SwaggerModule.setup('docs', app, document, {
+    customSiteTitle: 'Salylearning API Documentación',
+    customJs: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui-bundle.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui-standalone-preset.min.js',
+    ],
+    customCssUrl:
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui.min.css',
+  });
 
   await app.listen(3000);
 
