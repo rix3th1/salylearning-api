@@ -57,6 +57,15 @@ export class Usuario implements Partial<TUsuario> {
   s_apellido?: string;
 
   @ApiProperty({
+    title: 'Edad',
+    description: 'Edad del usuario',
+    example: 30,
+    minLength: 1,
+    maxLength: 100,
+  })
+  edad: number;
+
+  @ApiProperty({
     title: 'Email',
     description: 'Email del usuario',
     example: 'johndoe@example.com',

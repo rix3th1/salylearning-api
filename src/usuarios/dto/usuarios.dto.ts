@@ -1,11 +1,14 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsStrongPassword,
+  Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 import { Usuario } from '../entities/usuario.entity';
@@ -61,6 +64,12 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   })
   s_apellido?: string;
 
+  @IsNotEmpty({ message: 'La edad es requerida' })
+  @IsInt({ message: 'La edad debe ser un número entero' })
+  @Min(0, { message: 'La edad debe ser mayor o igual a 0' })
+  @Max(20, { message: 'La edad debe ser menor o igual a 20' })
+  edad: number;
+
   @IsNotEmpty({ message: 'El email es requerido' })
   @IsString({ message: 'El email debe ser una cadena de texto' })
   @MinLength(5, { message: 'El email debe tener al menos 5 caracteres' })
@@ -98,6 +107,10 @@ export class ActualizarUsuarioDto extends PartialType(CrearUsuarioDto) {
   @ApiPropertyOptional()
   @IsOptional()
   p_apellido?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  edad?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
