@@ -12,6 +12,7 @@ async function bootstrap() {
     .setTitle('Salylearning API')
     .setDescription('The Salylearning API description')
     .setVersion('1.0')
+    .addTag('inicio')
     .addTag('login')
     .addTag('perfil')
     .addTag('avatar')

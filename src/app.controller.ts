@@ -1,12 +1,40 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { Public } from './public.decorator';
 
 @Controller()
 export class AppController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly appService: AppService,
+  ) {}
+
+  @Get()
+  @Public()
+  @ApiTags('inicio')
+  @ApiOperation({
+    summary: 'Inicio',
+    description: 'Inicio de la aplicacion',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Inicio de la aplicacion',
+    schema: {
+      title: 'Inicio de la aplicacion',
+      description: 'Inicio de la aplicacion',
+      example: {
+        message: 'Bienvenido a la API de Salylearning',
+        version: '1.0.0',
+        docs: 'https://salylearning.vercel.app/docs',
+      },
+    },
+  })
+  getHello() {
+    return this.appService.getHello();
+  }
 
   @Public()
   @ApiTags('login')
