@@ -1,6 +1,7 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    PROJECT_URL?: string;
+    DEV_PROJECT_URL?: string;
+    PROD_PROJECT_URL?: string;
     JWTSECRET?: string;
     JWTEXPIRESIN?: string;
   }
