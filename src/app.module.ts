@@ -12,6 +12,8 @@ import { LibrosModule } from './libros/libros.module';
 import { MisLibrosModule } from './mis-libros/mis-libros.module';
 import { PreguntasModule } from './preguntas/preguntas.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
+import { ComentarioModule } from './comentario/comentario.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     MisLibrosModule,
     PreguntasModule,
     AuthModule,
+    RecuperarClaveModule,
+    ComentarioModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
