@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -32,8 +33,7 @@ export class LibrosController {
     summary: 'Obtener todos los libros',
     description: 'Obtener todos los libros',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Lista de libros',
     type: [Libro],
   })
@@ -46,8 +46,7 @@ export class LibrosController {
     summary: 'Obtener un libro por su ID',
     description: 'Obtener un libro por su ID',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Libro encontrado',
     type: Libro,
   })
@@ -65,8 +64,7 @@ export class LibrosController {
     summary: 'Crear un libro',
     description: 'Crear un libro',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Libro creado',
     type: Libro,
   })
@@ -93,8 +91,7 @@ export class LibrosController {
     summary: 'Actualizar un libro',
     description: 'Actualizar un libro',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Libro actualizado',
     type: Libro,
   })
@@ -124,8 +121,7 @@ export class LibrosController {
     summary: 'Eliminar un libro',
     description: 'Eliminar un libro',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Libro eliminado',
     type: Libro,
   })

@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -34,8 +35,7 @@ export class GradosController {
     summary: 'Obtener todos los grados',
     description: 'Devuelve una lista de todos los grados',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Lista de grados',
     type: [Grado],
   })
@@ -49,8 +49,7 @@ export class GradosController {
     summary: 'Obtener un grado por su ID',
     description: 'Devuelve el grado con el ID especificado',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado encontrado',
     type: Grado,
   })
@@ -69,8 +68,7 @@ export class GradosController {
     summary: 'Crear un grado',
     description: 'Crea un grado.',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Grado creado',
     type: Grado,
   })
@@ -98,8 +96,7 @@ export class GradosController {
     summary: 'Actualizar un grado',
     description: 'Actualiza un grado.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado actualizado',
     type: Grado,
   })
@@ -130,8 +127,7 @@ export class GradosController {
     summary: 'Eliminar un grado',
     description: 'Elimina un grado.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado eliminado',
     type: Grado,
   })

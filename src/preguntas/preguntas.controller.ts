@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -32,8 +33,7 @@ export class PreguntasController {
     summary: 'Obtener todas las preguntas',
     description: 'Obtiene todas las preguntas de la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Lista de preguntas',
     type: [Pregunta],
   })
@@ -46,8 +46,7 @@ export class PreguntasController {
     summary: 'Obtener una pregunta por su ID',
     description: 'Obtiene una pregunta de la base de datos por su ID',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Pregunta encontrada',
     type: Pregunta,
   })
@@ -65,8 +64,7 @@ export class PreguntasController {
     summary: 'Crear una pregunta',
     description: 'Crea una pregunta en la base de datos',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Pregunta creada',
     type: Pregunta,
   })
@@ -93,8 +91,7 @@ export class PreguntasController {
     summary: 'Actualizar una pregunta',
     description: 'Actualiza una pregunta en la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Pregunta actualizada',
     type: Pregunta,
   })
@@ -124,8 +121,7 @@ export class PreguntasController {
     summary: 'Eliminar una pregunta',
     description: 'Elimina una pregunta de la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Pregunta eliminada',
     type: Pregunta,
   })

@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -35,8 +36,7 @@ export class GradoUsuarioController {
     summary: 'Obtener todos los grados de usuarios',
     description: 'Obtiene todos los grados de usuarios existentes.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grados de usuarios encontrados',
     type: [GradoUsuario],
   })
@@ -49,8 +49,7 @@ export class GradoUsuarioController {
     summary: 'Obtener un grado de usuario por su ID',
     description: 'Obtiene un grado de usuario por su ID.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado de usuario encontrado',
     type: GradoUsuario,
   })
@@ -70,8 +69,7 @@ export class GradoUsuarioController {
     summary: 'Crear un grado de usuario',
     description: 'Crea un grado de usuario.',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Grado de usuario creado',
     type: GradoUsuario,
   })
@@ -104,8 +102,7 @@ export class GradoUsuarioController {
     summary: 'Actualizar un grado de usuario',
     description: 'Actualiza un grado de usuario.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado de usuario actualizado',
     type: GradoUsuario,
   })
@@ -144,8 +141,7 @@ export class GradoUsuarioController {
     summary: 'Eliminar un grado de usuario',
     description: 'Elimina un grado de usuario.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Grado de usuario eliminado',
     type: GradoUsuario,
   })

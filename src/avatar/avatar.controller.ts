@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -32,8 +32,7 @@ export class AvatarController {
     summary: 'Obtener todos los avatares',
     description: 'Obtiene todos los avatares existentes.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Lista de avatares',
     type: [Avatar],
   })
@@ -46,8 +45,7 @@ export class AvatarController {
     summary: 'Obtener un avatar por ID',
     description: 'Obtiene un avatar por su ID.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar encontrado',
     type: Avatar,
   })
@@ -65,7 +63,7 @@ export class AvatarController {
     summary: 'Crear un nuevo avatar',
     description: 'Crea un nuevo avatar.',
   })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 201,
     description: 'Avatar creado',
     type: Avatar,
@@ -93,8 +91,7 @@ export class AvatarController {
     summary: 'Actualizar un avatar',
     description: 'Actualiza un avatar existente.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar actualizado',
     type: Avatar,
   })
@@ -124,8 +121,7 @@ export class AvatarController {
     summary: 'Eliminar un avatar',
     description: 'Elimina un avatar existente.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar eliminado',
     type: Avatar,
   })

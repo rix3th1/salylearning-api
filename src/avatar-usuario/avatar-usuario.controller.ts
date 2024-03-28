@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -35,8 +36,7 @@ export class AvatarUsuarioController {
     summary: 'Obtener todos los avatares de usuarios',
     description: 'Obtiene todos los avatares de usuarios existentes.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatares de usuarios encontrados',
     type: [AvatarUsuario],
   })
@@ -49,8 +49,7 @@ export class AvatarUsuarioController {
     summary: 'Obtener un avatar de usuario por su ID',
     description: 'Obtiene un avatar de usuario por su ID.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar de usuario encontrado',
     type: AvatarUsuario,
   })
@@ -70,8 +69,7 @@ export class AvatarUsuarioController {
     summary: 'Crear un avatar de usuario',
     description: 'Crea un avatar de usuario.',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Avatar de usuario creado',
     type: AvatarUsuario,
   })
@@ -104,8 +102,7 @@ export class AvatarUsuarioController {
     summary: 'Actualizar un avatar de usuario',
     description: 'Actualiza un avatar de usuario.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar de usuario actualizado',
     type: AvatarUsuario,
   })
@@ -144,8 +141,7 @@ export class AvatarUsuarioController {
     summary: 'Eliminar un avatar de usuario',
     description: 'Eliminar un avatar de usuario.',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Avatar de usuario eliminado',
     type: AvatarUsuario,
   })

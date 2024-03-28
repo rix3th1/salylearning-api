@@ -1,8 +1,9 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsMobilePhone,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Length,
   MaxLength,
@@ -40,4 +41,22 @@ export class CrearContactoDto extends OmitType(Contacto, ['id'] as const) {
   @MinLength(10, { message: 'El mensaje debe tener al menos 10 caracteres' })
   @MaxLength(500, { message: 'El mensaje debe tener menos de 500 caracteres' })
   mensaje: string;
+}
+
+export class ActualizarContactoDto extends PartialType(CrearContactoDto) {
+  @ApiPropertyOptional()
+  @IsOptional()
+  nombre_completo?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  email?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  telefono?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  mensaje?: string;
 }

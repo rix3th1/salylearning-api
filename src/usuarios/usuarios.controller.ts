@@ -12,8 +12,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
@@ -34,8 +35,7 @@ export class UsuariosController {
     summary: 'Obtener todos los usuarios',
     description: 'Obtiene todos los usuarios de la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Lista de usuarios',
     type: [Usuario],
   })
@@ -49,8 +49,7 @@ export class UsuariosController {
     summary: 'Obtener un usuario por su ID',
     description: 'Obtiene un usuario de la base de datos por su ID',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Usuario encontrado',
     type: Usuario,
   })
@@ -72,8 +71,7 @@ export class UsuariosController {
     summary: 'Crear un usuario',
     description: 'Crea un usuario en la base de datos',
   })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Usuario creado',
     type: Usuario,
   })
@@ -106,8 +104,7 @@ export class UsuariosController {
     summary: 'Actualizar un usuario',
     description: 'Actualiza un usuario en la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Usuario actualizado',
     type: Usuario,
   })
@@ -145,8 +142,7 @@ export class UsuariosController {
     summary: 'Eliminar un usuario',
     description: 'Elimina un usuario de la base de datos',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Usuario eliminado',
     type: Usuario,
   })
