@@ -11,16 +11,20 @@ model Avatar {
   id             Int             @id @default(autoincrement()) @db.UnsignedInt
   nom_avatar     String          @unique @db.VarChar(30)
   avatar_usuario AvatarUsuario[]
+  creado_en      DateTime        @default(now())
+  actualizado_en DateTime        @updatedAt
 
   @@map("avatar")
 }
 
 model AvatarUsuario {
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_avatar  Int     @db.UnsignedInt
-  id_usuario Int     @unique @db.UnsignedInt
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_1")
-  avatar     Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_2")
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  id_avatar      Int      @db.UnsignedInt
+  id_usuario     Int      @unique @db.UnsignedInt
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_1")
+  avatar         Avatar   @relation(fields: [id_avatar], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_2")
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@index([id_avatar], map: "id_avatar")
   @@index([id_usuario], map: "id_usuario")
@@ -28,11 +32,13 @@ model AvatarUsuario {
 }
 
 model GradoUsuario {
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_grado   Int     @db.UnsignedInt
-  id_usuario Int     @unique @db.UnsignedInt
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_1")
-  grados     Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_2")
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  id_grado       Int      @db.UnsignedInt
+  id_usuario     Int      @unique @db.UnsignedInt
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_1")
+  grados         Grado    @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_2")
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@index([id_grado], map: "id_grado")
   @@index([id_usuario], map: "id_usuario")
@@ -40,35 +46,41 @@ model GradoUsuario {
 }
 
 model Grado {
-  id            Int            @id @default(autoincrement()) @db.UnsignedInt
-  nom_grado     String         @unique @db.VarChar(30)
-  grado_usuario GradoUsuario[]
-  libros        Libro[]
+  id             Int            @id @default(autoincrement()) @db.UnsignedInt
+  nom_grado      String         @unique @db.VarChar(30)
+  grado_usuario  GradoUsuario[]
+  libros         Libro[]
+  creado_en      DateTime       @default(now())
+  actualizado_en DateTime       @updatedAt
 
   @@map("grados")
 }
 
 model Libro {
-  id         Int         @id @default(autoincrement()) @db.UnsignedInt
-  nom_libro  String      @unique @db.VarChar(100)
-  num_pag    Int         @db.UnsignedTinyInt
-  cant_leido Int         @db.UnsignedInt
-  id_grado   Int         @db.UnsignedInt
-  grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "libros_ibfk_1")
-  mis_libros MisLibros[]
-  preguntas  Pregunta[]
+  id             Int         @id @default(autoincrement()) @db.UnsignedInt
+  nom_libro      String      @unique @db.VarChar(100)
+  num_pag        Int         @db.UnsignedTinyInt
+  cant_leido     Int         @db.UnsignedInt
+  id_grado       Int         @db.UnsignedInt
+  grados         Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "libros_ibfk_1")
+  mis_libros     MisLibros[]
+  preguntas      Pregunta[]
+  creado_en      DateTime    @default(now())
+  actualizado_en DateTime    @updatedAt
 
   @@index([id_grado], map: "id_grado")
   @@map("libros")
 }
 
 model MisLibros {
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_usuario Int     @db.UnsignedInt
-  id_libro   Int     @db.UnsignedInt
-  terminado  Boolean
-  libros     Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_1")
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_2")
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  id_usuario     Int      @db.UnsignedInt
+  id_libro       Int      @db.UnsignedInt
+  terminado      Boolean
+  libros         Libro    @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_1")
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_2")
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@index([id_libro], map: "id_libro")
   @@index([id_usuario], map: "id_usuario")
@@ -76,15 +88,17 @@ model MisLibros {
 }
 
 model Pregunta {
-  id           Int    @id @default(autoincrement()) @db.UnsignedInt
-  num_pregunta Int    @db.UnsignedTinyInt
-  pregunta     String @unique @db.VarChar(200)
-  resA         String @db.VarChar(100)
-  resB         String @db.VarChar(100)
-  resC         String @db.VarChar(100)
-  resD         String @db.VarChar(100)
-  id_libro     Int    @db.UnsignedInt
-  libros       Libro  @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "preguntas_ibfk_1")
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  num_pregunta   Int      @db.UnsignedTinyInt
+  pregunta       String   @unique @db.VarChar(200)
+  resA           String   @db.VarChar(100)
+  resB           String   @db.VarChar(100)
+  resC           String   @db.VarChar(100)
+  resD           String   @db.VarChar(100)
+  id_libro       Int      @db.UnsignedInt
+  libros         Libro    @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "preguntas_ibfk_1")
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@index([id_libro], map: "id_libro")
   @@map("preguntas")
@@ -103,16 +117,20 @@ model Usuario {
   avatar_usuario AvatarUsuario[]
   grado_usuario  GradoUsuario[]
   mis_libros     MisLibros[]
+  creado_en      DateTime        @default(now())
+  actualizado_en DateTime        @updatedAt
 
   @@map("usuario")
 }
 
 model Comentario {
-  id              Int    @id @default(autoincrement()) @db.UnsignedInt
-  nombre_completo String @db.VarChar(60)
-  email           String @db.VarChar(100)
-  telefono        String @db.VarChar(10)
-  mensaje         String @db.LongText
+  id              Int      @id @default(autoincrement()) @db.UnsignedInt
+  nombre_completo String   @db.VarChar(60)
+  email           String   @db.VarChar(100)
+  telefono        String   @db.VarChar(10)
+  mensaje         String   @db.LongText
+  creado_en       DateTime @default(now())
+  actualizado_en  DateTime @updatedAt
 
   @@map("comentarios")
 }
