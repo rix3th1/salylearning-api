@@ -12,6 +12,8 @@ async function bootstrap() {
     .setTitle('Salylearning API')
     .setDescription('The Salylearning API description')
     .setVersion('1.0')
+    .addTag('login')
+    .addTag('perfil')
     .addTag('avatar')
     .addTag('avatar-usuario')
     .addTag('grado-usuario')
@@ -39,5 +41,6 @@ async function bootstrap() {
   await app.listen(3000);
 
   console.log(`Salylearning API is running on: ${await app.getUrl()}`);
+  console.log(`Docs is running on: ${await app.getUrl()}/docs`);
 }
 bootstrap();
