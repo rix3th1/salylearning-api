@@ -36,6 +36,7 @@ async function bootstrap() {
     .addTag('preguntas')
     .addTag('usuarios')
     .addTag('contactos')
+    .addTag('soporte')
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {

@@ -116,3 +116,13 @@ model Contactos {
 
   @@map("contactos")
 }
+
+model Soporte {
+  id              Int    @id @default(autoincrement()) @db.UnsignedInt
+  nombre_completo String @db.VarChar(60)
+  email           String @db.VarChar(100)
+  asunto          String @db.MediumText
+  mensaje         String @db.LongText
+
+  @@map("soporte-contacto")
+}

@@ -32,7 +32,6 @@ export class CrearContactoDto extends OmitType(Contacto, ['id'] as const) {
   @IsNotEmpty({ message: 'El teléfono es requerido' })
   @IsString({ message: 'El teléfono debe ser una cadena de texto' })
   @Length(10, 10, { message: 'El teléfono debe tener 10 dígitos' })
-  //Numero de telefono de 10 digitos de colombia
   @IsMobilePhone('es-CO', undefined, { message: 'El teléfono no es válido' })
   telefono: string;
 

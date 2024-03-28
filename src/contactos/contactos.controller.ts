@@ -97,7 +97,7 @@ export class ContactosController {
       return await this.contactosService.actualizarContacto(+id, contacto);
     } catch (error) {
       console.error(error.message);
-      throw new InternalServerErrorException('Error al actualizar el contacto');
+      throw new NotFoundException('Contacto no encontrado');
     }
   }
 

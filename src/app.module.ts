@@ -13,6 +13,7 @@ import { LibrosModule } from './libros/libros.module';
 import { MisLibrosModule } from './mis-libros/mis-libros.module';
 import { PreguntasModule } from './preguntas/preguntas.module';
 import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
+import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
@@ -28,6 +29,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     AuthModule,
     RecuperarClaveModule,
     ContactosModule,
+    SoporteModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
