@@ -10,8 +10,20 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Salylearning API')
-    .setDescription('The Salylearning API description')
+    .setDescription('Descripción de la API Salylearning')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        name: 'Authorization',
+        description: 'Ingrese el token JWT',
+        bearerFormat: 'Bearer',
+        scheme: 'Bearer',
+        type: 'http',
+        in: 'Header',
+      },
+      'access-token',
+    )
+    .addTag('publico')
     .addTag('inicio')
     .addTag('login')
     .addTag('perfil')

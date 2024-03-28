@@ -10,7 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { AvatarUsuarioService } from './avatar-usuario.service';
 import {
@@ -19,6 +24,7 @@ import {
 } from './dto/avatar-usuario.dto';
 import { AvatarUsuario } from './entities/avatar-usuario.entity';
 
+@ApiBearerAuth('access-token')
 @ApiTags('avatar-usuario')
 @Controller('avatar-usuario')
 export class AvatarUsuarioController {

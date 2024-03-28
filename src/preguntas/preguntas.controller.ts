@@ -10,12 +10,18 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { ActualizarPreguntaDto, CrearPreguntaDto } from './dto/preguntas.dto';
 import { Pregunta } from './entities/pregunta.entity';
 import { PreguntasService } from './preguntas.service';
 
+@ApiBearerAuth('access-token')
 @ApiTags('preguntas')
 @Controller('preguntas')
 export class PreguntasController {

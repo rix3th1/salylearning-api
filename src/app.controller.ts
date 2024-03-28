@@ -1,5 +1,10 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
@@ -12,9 +17,9 @@ export class AppController {
     private readonly appService: AppService,
   ) {}
 
-  @Get()
   @Public()
-  @ApiTags('inicio')
+  @Get()
+  @ApiTags('inicio', 'publico')
   @ApiOperation({
     summary: 'Inicio',
     description: 'Inicio de la aplicacion',
@@ -37,7 +42,7 @@ export class AppController {
   }
 
   @Public()
-  @ApiTags('login')
+  @ApiTags('login', 'publico')
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   @ApiOperation({
@@ -60,6 +65,7 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
+  @ApiBearerAuth('access-token')
   @Get('perfil')
   @ApiTags('perfil')
   @ApiOperation({

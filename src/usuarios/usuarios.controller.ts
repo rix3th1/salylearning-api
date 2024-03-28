@@ -10,7 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { Public } from '../public.decorator';
@@ -23,6 +28,7 @@ import { UsuariosService } from './usuarios.service';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
+  @ApiBearerAuth('access-token')
   @Get()
   @ApiOperation({
     summary: 'Obtener todos los usuarios',
@@ -37,6 +43,7 @@ export class UsuariosController {
     return await this.usuariosService.obtenerUsuarios();
   }
 
+  @ApiBearerAuth('access-token')
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un usuario por su ID',
@@ -60,6 +67,7 @@ export class UsuariosController {
 
   @Post()
   @Public()
+  @ApiTags('publico')
   @ApiOperation({
     summary: 'Crear un usuario',
     description: 'Crea un usuario en la base de datos',
@@ -92,6 +100,7 @@ export class UsuariosController {
     }
   }
 
+  @ApiBearerAuth('access-token')
   @Patch(':id')
   @ApiOperation({
     summary: 'Actualizar un usuario',
@@ -130,6 +139,7 @@ export class UsuariosController {
     }
   }
 
+  @ApiBearerAuth('access-token')
   @Delete(':id')
   @ApiOperation({
     summary: 'Eliminar un usuario',

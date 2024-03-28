@@ -67,7 +67,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   @IsNotEmpty({ message: 'La edad es requerida' })
   @IsInt({ message: 'La edad debe ser un número entero' })
   @Min(0, { message: 'La edad debe ser mayor o igual a 0' })
-  @Max(20, { message: 'La edad debe ser menor o igual a 20' })
+  @Max(100, { message: 'La edad debe ser menor o igual a 100' })
   edad: number;
 
   @IsNotEmpty({ message: 'El email es requerido' })

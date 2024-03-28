@@ -10,7 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import {
   ActualizarGradoUsuarioDto,
@@ -19,6 +24,7 @@ import {
 import { GradoUsuario } from './entities/grado-usuario.entity';
 import { GradoUsuarioService } from './grado-usuario.service';
 
+@ApiBearerAuth('access-token')
 @ApiTags('grado-usuario')
 @Controller('grado-usuario')
 export class GradoUsuarioController {

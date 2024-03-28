@@ -10,7 +10,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { Public } from '../public.decorator';
 import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
@@ -24,6 +29,7 @@ export class GradosController {
 
   @Get()
   @Public()
+  @ApiTags('publico')
   @ApiOperation({
     summary: 'Obtener todos los grados',
     description: 'Devuelve una lista de todos los grados',
@@ -37,6 +43,7 @@ export class GradosController {
     return await this.gradosService.obtenerGrados();
   }
 
+  @ApiBearerAuth('access-token')
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un grado por su ID',
@@ -56,6 +63,7 @@ export class GradosController {
     }
   }
 
+  @ApiBearerAuth('access-token')
   @Post()
   @ApiOperation({
     summary: 'Crear un grado',
@@ -84,6 +92,7 @@ export class GradosController {
     }
   }
 
+  @ApiBearerAuth('access-token')
   @Patch(':id')
   @ApiOperation({
     summary: 'Actualizar un grado',
@@ -115,6 +124,7 @@ export class GradosController {
     }
   }
 
+  @ApiBearerAuth('access-token')
   @Delete(':id')
   @ApiOperation({
     summary: 'Eliminar un grado',
