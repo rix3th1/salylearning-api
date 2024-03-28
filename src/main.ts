@@ -43,6 +43,8 @@ async function bootstrap() {
   });
   SwaggerModule.setup('docs', app, document, {
     customSiteTitle: 'Salylearning API Documentación',
+    customfavIcon:
+      'https://static1.smartbear.co/swagger/media/assets/swagger_fav.png',
     customJs: [
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui-bundle.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui-standalone-preset.min.js',

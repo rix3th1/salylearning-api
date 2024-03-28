@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
+import { UserLoginDto } from './auth/dto/auth.dto';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { Public } from './public.decorator';
 
@@ -24,8 +26,7 @@ export class AppController {
     summary: 'Inicio',
     description: 'Inicio de la aplicacion',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Inicio de la aplicacion',
     schema: {
       title: 'Inicio de la aplicacion',
@@ -49,8 +50,7 @@ export class AppController {
     summary: 'Login',
     description: 'Login de usuario',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Login exitoso',
     schema: {
       title: 'Token de acceso',
@@ -60,6 +60,10 @@ export class AppController {
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwia',
       },
     },
+  })
+  @ApiBody({
+    description: 'Login de usuario',
+    type: UserLoginDto,
   })
   async login(@Request() req) {
     return this.authService.login(req.user);
@@ -72,8 +76,7 @@ export class AppController {
     summary: 'Perfil de usuario',
     description: 'Obtiene el perfil de usuario',
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Perfil de usuario',
     schema: {
       title: 'Perfil de usuario',

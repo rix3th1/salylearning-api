@@ -1,5 +1,5 @@
 import { Controller, Get, Post } from '@nestjs/common';
-import { Public } from 'src/public.decorator';
+import { Public } from '../public.decorator';
 import { RecuperarClaveService } from './recuperar-clave.service';
 
 @Controller('recuperar-clave')
