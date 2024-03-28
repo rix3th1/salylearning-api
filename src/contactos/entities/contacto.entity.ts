@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Comentario as TComentario } from '@prisma/client';
+import { Contactos as TContacto } from '@prisma/client';
 
-export class Comentario implements TComentario {
+export class Contacto implements TContacto {
   @ApiProperty({
-    title: 'Id del comentario',
-    description: 'Id del comentario',
+    title: 'Id',
+    description: 'Id del contacto',
     example: 1,
     minimum: 1,
     maximum: 4294967295,
@@ -40,8 +40,8 @@ export class Comentario implements TComentario {
 
   @ApiProperty({
     title: 'Mensaje',
-    description: 'Mensaje del comentario',
-    example: 'Este es un comentario de ejemplo',
+    description: 'Mensaje de contacto',
+    example: 'Hola, quiero contactarte',
     minLength: 10,
     maxLength: 500,
   })

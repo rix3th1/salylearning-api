@@ -107,12 +107,12 @@ model Usuario {
   @@map("usuario")
 }
 
-model Comentario {
+model Contactos {
   id              Int    @id @default(autoincrement()) @db.UnsignedInt
   nombre_completo String @db.VarChar(60)
   email           String @db.VarChar(100)
   telefono        String @db.VarChar(10)
   mensaje         String @db.LongText
 
-  @@map("comentarios")
+  @@map("contactos")
 }

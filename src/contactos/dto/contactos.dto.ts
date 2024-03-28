@@ -1,16 +1,16 @@
 import { OmitType } from '@nestjs/swagger';
-import { Comentario } from '../entities/comentario.entity';
 import {
-  IsString,
-  MinLength,
-  MaxLength,
   IsEmail,
   IsMobilePhone,
   IsNotEmpty,
+  IsString,
   Length,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
+import { Contacto } from '../entities/contacto.entity';
 
-export class CrearComentarioDto extends OmitType(Comentario, ['id'] as const) {
+export class CrearContactoDto extends OmitType(Contacto, ['id'] as const) {
   @IsNotEmpty({ message: 'El nombre completo es requerido' })
   @IsString({ message: 'El nombre completo debe ser una cadena de texto' })
   @MinLength(6, {
