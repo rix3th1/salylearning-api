@@ -91,18 +91,20 @@ model Pregunta {
 }
 
 model Usuario {
-  id             Int             @id @default(autoincrement()) @db.UnsignedInt
-  username       String          @unique @db.VarChar(50)
-  p_nombre       String          @db.VarChar(30)
-  s_nombre       String?         @db.VarChar(30)
-  p_apellido     String          @db.VarChar(30)
-  s_apellido     String?         @db.VarChar(30)
-  edad           Int?            @db.UnsignedInt
-  email          String          @unique @db.VarChar(100)
-  password       String          @db.VarChar(255)
-  avatar_usuario AvatarUsuario[]
-  grado_usuario  GradoUsuario[]
-  mis_libros     MisLibros[]
+  id               Int             @id @default(autoincrement()) @db.UnsignedInt
+  username         String          @unique @db.VarChar(50)
+  p_nombre         String          @db.VarChar(30)
+  s_nombre         String?         @db.VarChar(30)
+  p_apellido       String          @db.VarChar(30)
+  s_apellido       String?         @db.VarChar(30)
+  edad             Int?            @db.UnsignedInt
+  fecha_nacimiento DateTime?       @db.Date()
+  ciudad           String?         @db.VarChar(50)
+  email            String          @unique @db.VarChar(100)
+  password         String          @db.VarChar(255)
+  avatar_usuario   AvatarUsuario[]
+  grado_usuario    GradoUsuario[]
+  mis_libros       MisLibros[]
 
   @@map("usuario")
 }

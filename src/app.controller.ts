@@ -2,6 +2,7 @@ import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -50,7 +51,7 @@ export class AppController {
     summary: 'Login',
     description: 'Login de usuario',
   })
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     description: 'Login exitoso',
     schema: {
       title: 'Token de acceso',

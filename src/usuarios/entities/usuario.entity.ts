@@ -65,6 +65,22 @@ export class Usuario implements Partial<TUsuario> {
   })
   edad: number;
 
+  @ApiPropertyOptional({
+    title: 'Fecha de nacimiento',
+    description: 'Fecha de nacimiento del usuario (Opcional)',
+    example: '2018-12-10',
+  })
+  fecha_nacimiento?: Date;
+
+  @ApiPropertyOptional({
+    title: 'Ciudad',
+    description: 'Ciudad del usuario (Opcional)',
+    example: 'Espinal',
+    minLength: 3,
+    maxLength: 50,
+  })
+  ciudad?: string;
+
   @ApiProperty({
     title: 'Email',
     description: 'Email del usuario',

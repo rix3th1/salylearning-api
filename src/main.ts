@@ -57,7 +57,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-  console.log(`Salylearning API is running on: ${await app.getUrl()}`);
-  console.log(`Docs is running on: ${await app.getUrl()}/docs`);
+  console.info(`Salylearning API is running on: ${await app.getUrl()}`);
+  console.info(`Docs is running on: ${await app.getUrl()}/docs`);
 }
 bootstrap();

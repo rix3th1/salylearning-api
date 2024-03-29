@@ -1,5 +1,7 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import {
+  IsDate,
+  IsDateString,
   IsEmail,
   IsInt,
   IsNotEmpty,
@@ -69,6 +71,19 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   @Min(0, { message: 'La edad debe ser mayor o igual a 0' })
   @Max(100, { message: 'La edad debe ser menor o igual a 100' })
   edad: number;
+
+  @IsOptional()
+  @IsString({ message: 'La fecha de nacimiento debe ser una cadena de texto' })
+  @IsDateString(undefined, {
+    message: 'La fecha de nacimiento debe tener el formato YYYY-MM-DD',
+  })
+  fecha_nacimiento?: Date;
+
+  @IsOptional()
+  @IsString({ message: 'La ciudad debe ser una cadena de texto' })
+  @MinLength(3, { message: 'La ciudad debe tener al menos 3 caracteres' })
+  @MaxLength(50, { message: 'La ciudad debe tener menos de 50 caracteres' })
+  ciudad?: string;
 
   @IsNotEmpty({ message: 'El email es requerido' })
   @IsString({ message: 'El email debe ser una cadena de texto' })

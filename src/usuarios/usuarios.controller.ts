@@ -79,6 +79,8 @@ export class UsuariosController {
     try {
       const hash = await argon2.hash(usuario.password);
       usuario.password = hash;
+      const fecha_nacimiento = new Date(usuario.fecha_nacimiento);
+      usuario.fecha_nacimiento = fecha_nacimiento;
 
       const { password, ...result } =
         await this.usuariosService.crearUsuario(usuario);
@@ -116,6 +118,11 @@ export class UsuariosController {
       if (usuario.password) {
         const hash = await argon2.hash(usuario.password);
         usuario.password = hash;
+      }
+
+      if (usuario.fecha_nacimiento) {
+        const fecha_nacimiento = new Date(usuario.fecha_nacimiento);
+        usuario.fecha_nacimiento = fecha_nacimiento;
       }
 
       const { password, ...result } =

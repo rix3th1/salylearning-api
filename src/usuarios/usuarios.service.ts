@@ -17,6 +17,8 @@ export class UsuariosService {
         p_apellido: true,
         s_apellido: true,
         edad: true,
+        fecha_nacimiento: true,
+        ciudad: true,
         email: true,
       },
     });
