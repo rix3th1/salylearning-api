@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
-import { Usuario as TUsuario } from '@prisma/client';
+import { $Enums, Usuario as TUsuario } from '@prisma/client';
 
 export class Usuario implements Partial<TUsuario> {
   @ApiProperty({
@@ -98,6 +98,19 @@ export class Usuario implements Partial<TUsuario> {
     maxLength: 50,
   })
   password: string;
+
+  @ApiPropertyOptional({
+    title: 'Rol',
+    description: "Rol del usuario (Opcional, por defecto 'Estudiante')",
+    example: 'Estudiante',
+    enum: $Enums.Rol,
+    default: $Enums.Rol.Estudiante,
+    minLength: 3,
+    maxLength: 30,
+  })
+  rol?: $Enums.Rol;
 }
 
-export default OmitType(Usuario, ['password'] as const);
+export class UsuarioRespuesta extends OmitType(Usuario, [
+  'password',
+] as const) {}

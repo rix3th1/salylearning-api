@@ -7,41 +7,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Rol {
+  Docente
+  Estudiante
+}
+
 model Avatar {
-  id             Int             @id @default(autoincrement()) @db.UnsignedInt
-  nom_avatar     String          @unique @db.VarChar(30)
+  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  nom_avatar String @unique @db.VarChar(30)
+
   avatar_usuario AvatarUsuario[]
 
   @@map("avatar")
 }
 
 model AvatarUsuario {
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_avatar  Int     @db.UnsignedInt
-  id_usuario Int     @unique @db.UnsignedInt
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_1")
-  avatar     Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict, map: "avatar_usuario_ibfk_2")
+  id         Int @id @default(autoincrement()) @db.UnsignedInt
+  id_avatar  Int @db.UnsignedInt
+  id_usuario Int @unique @db.UnsignedInt
 
-  @@index([id_avatar], map: "id_avatar")
-  @@index([id_usuario], map: "id_usuario")
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+  avatar  Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict)
+
   @@map("avatar_usuario")
 }
 
 model GradoUsuario {
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_grado   Int     @db.UnsignedInt
-  id_usuario Int     @unique @db.UnsignedInt
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_1")
-  grados     Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "grado_usuario_ibfk_2")
+  id         Int @id @default(autoincrement()) @db.UnsignedInt
+  id_grado   Int @db.UnsignedInt
+  id_usuario Int @unique @db.UnsignedInt
 
-  @@index([id_grado], map: "id_grado")
-  @@index([id_usuario], map: "id_usuario")
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+  grados  Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
+
   @@map("grado_usuario")
 }
 
 model Grado {
-  id            Int            @id @default(autoincrement()) @db.UnsignedInt
-  nom_grado     String         @unique @db.VarChar(30)
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  nom_grado String @unique @db.VarChar(30)
+
   grado_usuario GradoUsuario[]
   libros        Libro[]
 
@@ -49,16 +54,16 @@ model Grado {
 }
 
 model Libro {
-  id         Int         @id @default(autoincrement()) @db.UnsignedInt
-  nom_libro  String      @unique @db.VarChar(100)
-  num_pag    Int         @db.UnsignedTinyInt
-  cant_leido Int         @db.UnsignedInt
-  id_grado   Int         @db.UnsignedInt
-  grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict, map: "libros_ibfk_1")
-  mis_libros MisLibros[]
-  preguntas  Pregunta[]
+  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  nom_libro  String @unique @db.VarChar(100)
+  num_pag    Int    @db.UnsignedTinyInt
+  cant_leido Int    @db.UnsignedInt
+  id_grado   Int    @db.UnsignedInt
 
-  @@index([id_grado], map: "id_grado")
+  grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
+  mis_libros MisLibros[]
+  preguntas  Preguntas[]
+
   @@map("libros")
 }
 
@@ -67,15 +72,14 @@ model MisLibros {
   id_usuario Int     @db.UnsignedInt
   id_libro   Int     @db.UnsignedInt
   terminado  Boolean
-  libros     Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_1")
-  usuario    Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, map: "mis_libros_ibfk_2")
 
-  @@index([id_libro], map: "id_libro")
-  @@index([id_usuario], map: "id_usuario")
+  libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+
   @@map("mis_libros")
 }
 
-model Pregunta {
+model Preguntas {
   id           Int    @id @default(autoincrement()) @db.UnsignedInt
   num_pregunta Int    @db.UnsignedTinyInt
   pregunta     String @unique @db.VarChar(200)
@@ -84,29 +88,64 @@ model Pregunta {
   resC         String @db.VarChar(100)
   resD         String @db.VarChar(100)
   id_libro     Int    @db.UnsignedInt
-  libros       Libro  @relation(fields: [id_libro], references: [id], onUpdate: Restrict, map: "preguntas_ibfk_1")
 
-  @@index([id_libro], map: "id_libro")
+  libros Libro @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+
   @@map("preguntas")
 }
 
 model Usuario {
-  id               Int             @id @default(autoincrement()) @db.UnsignedInt
-  username         String          @unique @db.VarChar(50)
-  p_nombre         String          @db.VarChar(30)
-  s_nombre         String?         @db.VarChar(30)
-  p_apellido       String          @db.VarChar(30)
-  s_apellido       String?         @db.VarChar(30)
-  edad             Int?            @db.UnsignedInt
-  fecha_nacimiento DateTime?       @db.Date()
-  ciudad           String?         @db.VarChar(50)
-  email            String          @unique @db.VarChar(100)
-  password         String          @db.VarChar(255)
-  avatar_usuario   AvatarUsuario[]
-  grado_usuario    GradoUsuario[]
-  mis_libros       MisLibros[]
+  id               Int       @id @default(autoincrement()) @db.UnsignedInt
+  username         String    @unique @db.VarChar(50)
+  p_nombre         String    @db.VarChar(30)
+  s_nombre         String?   @db.VarChar(30)
+  p_apellido       String    @db.VarChar(30)
+  s_apellido       String?   @db.VarChar(30)
+  edad             Int?      @db.UnsignedInt
+  fecha_nacimiento DateTime? @db.Date()
+  ciudad           String?   @db.VarChar(50)
+  email            String    @unique @db.VarChar(100)
+  password         String    @db.VarChar(255)
+  rol              Rol       @default(Estudiante)
 
-  @@map("usuario")
+  docente        Docente[]
+  estudiante     Estudiante[]
+  foto_perfil    FotosPerfilUsuario[]
+  avatar_usuario AvatarUsuario[]
+  grado_usuario  GradoUsuario[]
+  mis_libros     MisLibros[]
+
+  @@map("usuarios")
+}
+
+model Docente {
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id_usuario  Int    @db.UnsignedInt
+  cod_docente String @unique @db.VarChar(8)
+
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+
+  @@map("docentes")
+}
+
+model Estudiante {
+  id             Int    @id @default(autoincrement()) @db.UnsignedInt
+  id_usuario     Int    @db.UnsignedInt
+  cod_estudiante String @unique @db.VarChar(10)
+
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+
+  @@map("estudiantes")
+}
+
+model FotosPerfilUsuario {
+  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  id_usuario Int    @db.UnsignedInt
+  url        String @unique @db.VarChar(255)
+
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+
+  @@map("fotos_perfil_usuario")
 }
 
 model Contactos {

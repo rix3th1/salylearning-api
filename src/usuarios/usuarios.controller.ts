@@ -17,11 +17,12 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma, Usuario as TUsuario } from '@prisma/client';
 import * as argon2 from 'argon2';
+import { exclude } from '../libs';
 import { Public } from '../public.decorator';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
-import Usuario from './entities/usuario.entity';
+import { UsuarioRespuesta } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
 
 @ApiTags('usuarios')
@@ -37,10 +38,13 @@ export class UsuariosController {
   })
   @ApiOkResponse({
     description: 'Lista de usuarios',
-    type: [Usuario],
+    type: [UsuarioRespuesta],
   })
   async obtenerUsuarios() {
-    return await this.usuariosService.obtenerUsuarios();
+    const usuarios = await this.usuariosService.obtenerUsuarios();
+    return usuarios.map((usuario) =>
+      exclude<TUsuario, keyof TUsuario>(usuario, 'password'),
+    );
   }
 
   @ApiBearerAuth('access-token')
@@ -51,7 +55,7 @@ export class UsuariosController {
   })
   @ApiOkResponse({
     description: 'Usuario encontrado',
-    type: Usuario,
+    type: UsuarioRespuesta,
   })
   async obtenerUsuarioPorId(@Param('id') id: string) {
     try {
@@ -73,7 +77,7 @@ export class UsuariosController {
   })
   @ApiCreatedResponse({
     description: 'Usuario creado',
-    type: Usuario,
+    type: UsuarioRespuesta,
   })
   async crearUsuario(@Body() usuario: CrearUsuarioDto) {
     try {
@@ -108,7 +112,7 @@ export class UsuariosController {
   })
   @ApiOkResponse({
     description: 'Usuario actualizado',
-    type: Usuario,
+    type: UsuarioRespuesta,
   })
   async actualizarUsuario(
     @Param('id') id: string,
@@ -151,7 +155,7 @@ export class UsuariosController {
   })
   @ApiOkResponse({
     description: 'Usuario eliminado',
-    type: Usuario,
+    type: UsuarioRespuesta,
   })
   async eliminarUsuario(@Param('id') id: string) {
     try {

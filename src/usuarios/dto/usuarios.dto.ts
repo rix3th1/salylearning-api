@@ -1,8 +1,9 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { $Enums } from '@prisma/client';
 import {
-  IsDate,
   IsDateString,
   IsEmail,
+  IsIn,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -108,6 +109,15 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
     },
   )
   password: string;
+
+  @IsOptional()
+  @IsString({ message: 'El rol debe ser una cadena de texto' })
+  @MinLength(3, { message: 'El rol debe tener al menos 3 caracteres' })
+  @MaxLength(30, { message: 'El rol debe tener menos de 30 caracteres' })
+  @IsIn([$Enums.Rol.Docente, $Enums.Rol.Estudiante], {
+    message: 'El rol debe ser Docente o Estudiante',
+  })
+  rol?: $Enums.Rol;
 }
 
 export class ActualizarUsuarioDto extends PartialType(CrearUsuarioDto) {

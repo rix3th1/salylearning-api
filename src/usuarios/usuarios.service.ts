@@ -7,21 +7,8 @@ import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
 export class UsuariosService {
   constructor(private prisma: PrismaService) {}
 
-  async obtenerUsuarios(): Promise<Omit<Usuario, 'password'>[]> {
-    return this.prisma.usuario.findMany({
-      select: {
-        id: true,
-        username: true,
-        p_nombre: true,
-        s_nombre: true,
-        p_apellido: true,
-        s_apellido: true,
-        edad: true,
-        fecha_nacimiento: true,
-        ciudad: true,
-        email: true,
-      },
-    });
+  async obtenerUsuarios(): Promise<Usuario[]> {
+    return this.prisma.usuario.findMany();
   }
 
   async obtenerUsuarioPorId(id: number): Promise<Usuario> {
