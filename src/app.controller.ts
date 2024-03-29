@@ -12,6 +12,7 @@ import { AuthService } from './auth/auth.service';
 import { LoginUsuarioDto } from './auth/dto/auth.dto';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { Public } from './public.decorator';
+import { Perfil } from './usuarios/entities/usuario.entity';
 
 @Controller()
 export class AppController {
@@ -79,15 +80,7 @@ export class AppController {
   })
   @ApiOkResponse({
     description: 'Perfil de usuario',
-    schema: {
-      title: 'Perfil de usuario',
-      description: 'Perfil de usuario',
-      example: {
-        id: 1,
-        username: 'XXXX',
-        email: 'XXXX@gmail.com',
-      },
-    },
+    type: Perfil,
   })
   getProfile(@Request() req) {
     return req.user;
