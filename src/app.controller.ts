@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
-import { UserLoginDto } from './auth/dto/auth.dto';
+import { LoginUsuarioDto } from './auth/dto/auth.dto';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { Public } from './public.decorator';
 
@@ -64,7 +64,7 @@ export class AppController {
   })
   @ApiBody({
     description: 'Login de usuario',
-    type: UserLoginDto,
+    type: LoginUsuarioDto,
   })
   async login(@Request() req) {
     return this.authService.login(req.user);
