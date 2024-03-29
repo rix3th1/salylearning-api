@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -39,6 +40,19 @@ export class LibrosController {
   })
   async obtenerLibros() {
     return await this.librosService.obtenerLibros();
+  }
+
+  @Get('buscar')
+  @ApiOperation({
+    summary: 'Buscar libros por nombre',
+    description: 'Buscar libros por nombre',
+  })
+  @ApiOkResponse({
+    description: 'Lista de libros encontrados',
+    type: [Libro],
+  })
+  async obtenerLibroPorNombre(@Query('nom_libro') nom_libro: string) {
+    return await this.librosService.obtenerLibrosPorNombre(nom_libro);
   }
 
   @Get(':id')
