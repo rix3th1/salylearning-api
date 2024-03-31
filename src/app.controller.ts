@@ -67,7 +67,7 @@ export class AppController {
     description: 'Login de usuario',
     type: LoginUsuarioDto,
   })
-  async login(@Request() req) {
+  async login(@Request() req: Express.Request) {
     return this.authService.login(req.user);
   }
 
@@ -82,7 +82,7 @@ export class AppController {
     description: 'Perfil de usuario',
     type: Perfil,
   })
-  getProfile(@Request() req) {
+  getProfile(@Request() req: Express.Request) {
     return req.user;
   }
 }

@@ -16,6 +16,11 @@ import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
 import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
+const AppGuard = {
+  provide: APP_GUARD,
+  useClass: JwtAuthGuard,
+};
+
 @Module({
   imports: [
     LibrosModule,
@@ -32,6 +37,6 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     SoporteModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
+  providers: [AppService, AppGuard],
 })
 export class AppModule {}
