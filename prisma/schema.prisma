@@ -132,7 +132,6 @@ model Estudiante {
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
   id_usuario     Int     @db.UnsignedInt
   cod_estudiante String  @unique @db.VarChar(10)
-  curso_actual   String? @db.VarChar(10)
   apodo          String? @unique @db.VarChar(30)
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
