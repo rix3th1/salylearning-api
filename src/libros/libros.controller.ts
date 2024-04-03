@@ -23,6 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import { fileValidators } from 'src/fileValidators';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
 import { LibrosService } from './libros.service';
@@ -89,8 +90,9 @@ export class LibrosController {
     type: Libro,
   })
   async crearLibro(
-    @UploadedFile() imagen_portada: Express.Multer.File,
     @Body() libro: CrearLibroDto,
+    @UploadedFile(fileValidators)
+    imagen_portada: Express.Multer.File,
   ) {
     let public_id: string;
 
@@ -99,12 +101,9 @@ export class LibrosController {
         await this.librosService.subirPortadaLibro(imagen_portada);
 
       public_id = cloudinaryPublicId;
-      console.log(public_id);
+      libro.imagen_portada = imagen_portada_url;
 
-      return await this.librosService.crearLibro({
-        ...libro,
-        imagen_portada: imagen_portada_url,
-      });
+      return await this.librosService.crearLibro(libro);
     } catch (error) {
       console.error(error.message);
 
@@ -127,6 +126,8 @@ export class LibrosController {
   }
 
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('imagen_portada'))
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Actualizar un libro',
     description: 'Actualizar un libro',
@@ -138,11 +139,37 @@ export class LibrosController {
   async actualizarLibro(
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
+    @UploadedFile(fileValidators) imagen_portada: Express.Multer.File,
   ) {
+    let public_id: string;
+
     try {
+      if (imagen_portada) {
+        const {
+          secure_url: imagen_portada_url,
+          public_id: cloudinaryPublicId,
+        } = await this.librosService.subirPortadaLibro(imagen_portada);
+
+        public_id = cloudinaryPublicId;
+        libro.imagen_portada = imagen_portada_url;
+
+        const libroAnterior = await this.librosService.obtenerLibroPorId(+id);
+        if (libroAnterior.imagen_portada) {
+          const public_id_anterior = libroAnterior.imagen_portada
+            .split('/')
+            .pop()
+            .split('.')[0];
+          await this.librosService.eliminarPortadaLibro(public_id_anterior);
+        }
+      }
+
       return await this.librosService.actualizarLibro(+id, libro);
     } catch (error) {
       console.error(error.message);
+
+      if (imagen_portada) {
+        await this.librosService.eliminarPortadaLibro(public_id);
+      }
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {

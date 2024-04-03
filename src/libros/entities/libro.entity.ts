@@ -42,6 +42,8 @@ export class Libro implements TLibro {
     title: 'Imagen de portada',
     description: 'La imagen de portada del libro',
     type: 'string',
+    example:
+      'https://res.cloudinary.com/xxxxx/image/upload/v1630000000/xxxxx.jpg',
     format: 'binary',
   })
   imagen_portada: string;

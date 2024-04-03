@@ -1,4 +1,5 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
@@ -10,7 +11,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { Libro } from '../entities/libro.entity';
-import { Transform } from 'class-transformer';
 
 export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   @IsNotEmpty({ message: 'El nombre del libro es requerido' })
@@ -39,8 +39,6 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   @Transform(({ value: cant_leido }) => parseInt(cant_leido))
   cant_leido: number;
 
-  // @IsNotEmpty({ message: 'La imagen de portada es requerida' })
-  // @IsString({ message: 'La imagen de portada debe ser una cadena de texto' })
   imagen_portada: string;
 
   @IsNotEmpty({ message: 'La url del libro es requerida' })
