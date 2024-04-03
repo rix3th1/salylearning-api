@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AvatarUsuarioModule } from './avatar-usuario/avatar-usuario.module';
 import { AvatarModule } from './avatar/avatar.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ContactosModule } from './contactos/contactos.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
@@ -35,6 +36,7 @@ const AppGuard = {
     RecuperarClaveModule,
     ContactosModule,
     SoporteModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
