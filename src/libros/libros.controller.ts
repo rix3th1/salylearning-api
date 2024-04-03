@@ -10,9 +10,14 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -74,6 +79,8 @@ export class LibrosController {
   }
 
   @Post()
+  @UseInterceptors(FileInterceptor('imagen_portada'))
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Crear un libro',
     description: 'Crear un libro',
@@ -82,15 +89,26 @@ export class LibrosController {
     description: 'Libro creado',
     type: Libro,
   })
-  async crearLibro(@Body() libro: CrearLibroDto) {
+  async crearLibro(
+    @UploadedFile() imagen_portada: Express.Multer.File,
+    @Body() libro: CrearLibroDto,
+  ) {
     try {
-      return await this.librosService.crearLibro(libro);
+      const { secure_url: imagen_portada_url } =
+        await this.librosService.subirPortadaLibro(imagen_portada);
+
+      return await this.librosService.crearLibro({
+        ...libro,
+        imagen_portada: imagen_portada_url,
+      });
     } catch (error) {
       console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new BadRequestException('El nombre del libro ya existe');
+          throw new BadRequestException(
+            'El nombre, la portada o la url del libro ya existe',
+          );
         } else if (error.code === 'P2003') {
           throw new BadRequestException('El id de grado del libro no existe');
         }
@@ -120,7 +138,9 @@ export class LibrosController {
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new BadRequestException('El nombre del libro ya existe');
+          throw new BadRequestException(
+            'El nombre, la portada o la url del libro ya existe',
+          );
         } else if (error.code === 'P2003') {
           throw new BadRequestException('El id de grado del libro no existe');
         }

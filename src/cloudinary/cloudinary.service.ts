@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import toStream from 'buffer-to-stream';
+import * as toStream from 'buffer-to-stream';
 import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 
 @Injectable()

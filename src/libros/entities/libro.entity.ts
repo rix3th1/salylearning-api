@@ -39,6 +39,23 @@ export class Libro implements TLibro {
   cant_leido: number;
 
   @ApiProperty({
+    title: 'Imagen de portada',
+    description: 'La imagen de portada del libro',
+    type: 'string',
+    format: 'binary',
+  })
+  imagen_portada: string;
+
+  @ApiProperty({
+    title: 'URL del libro',
+    description: 'La URL del libro en la librería (Canva, Google Books, etc.)',
+    example: 'https://www.canva.com/',
+    minLength: 3,
+    maxLength: 255,
+  })
+  url_libro: string;
+
+  @ApiProperty({
     title: 'Id de grado',
     description: 'El id de grado del libro',
     example: 1,
