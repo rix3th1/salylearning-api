@@ -16,7 +16,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,
@@ -93,9 +92,14 @@ export class LibrosController {
     @UploadedFile() imagen_portada: Express.Multer.File,
     @Body() libro: CrearLibroDto,
   ) {
+    let public_id: string;
+
     try {
-      const { secure_url: imagen_portada_url } =
+      const { secure_url: imagen_portada_url, public_id: cloudinaryPublicId } =
         await this.librosService.subirPortadaLibro(imagen_portada);
+
+      public_id = cloudinaryPublicId;
+      console.log(public_id);
 
       return await this.librosService.crearLibro({
         ...libro,
@@ -103,6 +107,10 @@ export class LibrosController {
       });
     } catch (error) {
       console.error(error.message);
+
+      if (imagen_portada) {
+        await this.librosService.eliminarPortadaLibro(public_id);
+      }
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {

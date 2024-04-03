@@ -33,6 +33,10 @@ export class LibrosService {
     return this.cloudinary.subirImagen(imagen_portada);
   }
 
+  async eliminarPortadaLibro(public_id: string) {
+    return this.cloudinary.eliminarImagen(public_id);
+  }
+
   async actualizarLibro(id: number, libro: ActualizarLibroDto): Promise<Libro> {
     return this.prisma.libro.update({ where: { id }, data: libro });
   }
