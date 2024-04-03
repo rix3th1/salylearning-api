@@ -54,13 +54,13 @@ model Grado {
 }
 
 model Libro {
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
-  nom_libro   String @unique @db.VarChar(100)
-  num_pag     Int    @db.UnsignedTinyInt
-  cant_leido  Int    @db.UnsignedInt
-  id_grado    Int    @db.UnsignedInt
-  url_portada String @unique @db.VarChar(255)
-  url_libro   String @unique @db.VarChar(255)
+  id             Int    @id @default(autoincrement()) @db.UnsignedInt
+  nom_libro      String @unique @db.VarChar(100)
+  num_pag        Int    @db.UnsignedTinyInt
+  cant_leido     Int    @db.UnsignedInt
+  imagen_portada String @unique @db.VarChar(255)
+  url_libro      String @unique @db.VarChar(255)
+  id_grado       Int    @db.UnsignedInt
 
   grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
   mis_libros MisLibros[]
