@@ -1,6 +1,5 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { Avatar } from '../entities/Avatar.entity';
 
 export class CrearAvatarDto extends OmitType(Avatar, ['id'] as const) {
