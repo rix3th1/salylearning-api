@@ -8,6 +8,7 @@ import { AvatarUsuarioModule } from './avatar-usuario/avatar-usuario.module';
 import { AvatarModule } from './avatar/avatar.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ContactosModule } from './contactos/contactos.module';
+import { DocentesModule } from './docentes/docentes.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
 import { LibrosModule } from './libros/libros.module';
@@ -37,6 +38,7 @@ const AppGuard = {
     ContactosModule,
     SoporteModule,
     CloudinaryModule,
+    DocentesModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
