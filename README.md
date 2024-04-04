@@ -1,73 +1,196 @@
+# Documentación de la API de salylearning
+
+La API de salylearning es una API RESTful que proporciona acceso a recursos como libros, usuarios, categorías, comentarios, etc. La API está diseñada para ser utilizada por la aplicación web de salylearning, pero también puede ser utilizada por otras aplicaciones que deseen consumir los recursos proporcionados por la API.
+
+El lenguaje de programación utilizado para desarrollar la API es [TypeScript](https://www.typescriptlang.org/) y se basa en el paradigma de [programación orientada a objetos](https://en.wikipedia.org/wiki/Object-oriented_programming) y [programación funcional](https://en.wikipedia.org/wiki/Functional_programming). TypeScript es un superconjunto de JavaScript que agrega tipado estático y otras características a JavaScript, lo que hace que el código sea más seguro y fácil de mantener.
+
+Está implementada utilizando [Node.js](https://nodejs.org) como entorno de ejecución y el marco de trabajo [Nest.js](https://nestjs.com).
+La API utiliza una base de datos MySQL para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/) y la API de [SendGrid](https://sendgrid.com/docs) se utiliza para enviar correos electrónicos.
+
+La API de salylearning proporciona una serie de endpoints que permiten a los usuarios realizar operaciones como registrarse, iniciar sesión, obtener información de libros, agregar comentarios, etc.
+
+La API está alojada en [Vercel](https://vercel.com/) y está disponible en la siguiente URL: [https://salylearning.vercel.app](https://salylearning.vercel.app) y la documentación de la API se genera automáticamente utilizando [Swagger](https://swagger.io/) y está disponible en la ruta `/docs`.
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <a href="https://nodejs.org" target="blank"><img src="https://nodejs.org/static/images/logo.svg" width="200" alt="Node.js Logo" style="margin-right: 30;" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" /></a>
+</p>
+<p align="center">
+  <a href="https://www.typescriptlang.org/" target="blank"><img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/typescript-def.png" width="100" alt="TypeScript Logo" style="margin-right: 30;" /></a> 
+  <a href="https://www.prisma.io/" target="blank"><img src="https://cdn.worldvectorlogo.com/logos/prisma-2.svg" width="200" alt="Prisma Logo" style="margin-right: 30;" /></a>
+  <a href="https://jwt.io/introduction/" target="blank"><img src="https://jwt.io/img/pic_logo.svg" width="100" alt="JWT Logo" /></a>
+</p>
+<p align="center">
+  <a href="https://vercel.com/" target="blank"><img src="https://assets.vercel.com/image/upload/v1538361091/repositories/vercel/logo.png" width="100" alt="Vercel Logo" style="margin-right: 30; margin-bottom: 50;" /></a>
+  <a href="https://cloudinary.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Cloudinary_logo.svg/2560px-Cloudinary_logo.svg.png" width="200" alt="Cloudinary Logo" style="margin-bottom: 80; margin-right: 30;" /></a>
+  <a href="https://sendgrid.com/docs" target="blank"><img src="https://www.svgrepo.com/show/354326/sendgrid.svg" width="200" alt="SendGrid Logo" style="margin-right: 30;" /></a>
+  <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Tabla de contenidos
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [Instalación](#instalación)
+- [Variables de entorno](#variables-de-entorno)
+- [Autenticación](#autenticación)
+- [Consumir endpoints con Fetch](#consumir-endpoints-con-fetch)
+- [Endpoints con subida de archivos](#endpoints-con-subida-de-archivos-imágenes-de-portadas-de-libros-avatares-etc)
 
-## Description
+## Instalación
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Para instalar y ejecutar la aplicación en desarrollo local, sigue estos pasos:
 
-## Installation
+1. Clona el repositorio de salylearning-api o bifurca el repositorio y clónalo desde tu cuenta de GitHub. Para clonar el repositorio, ejecuta el siguiente comando en tu terminal:
 
 ```bash
-$ yarn install
+git clone https://github.com/rojasricor/salylearning-api.git
 ```
 
-## Running the app
+2. Navega al directorio del proyecto:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+cd salylearning-api
 ```
 
-## Test
+3. Instala las dependencias utilizando Yarn:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+yarn install
 ```
 
-## Support
+4. Configura las [variables de entorno](#variables-de-entorno) necesarias para la aplicación.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+5. Ejecuta la aplicación en modo de desarrollo:
 
-## Stay in touch
+```bash
+yarn dev
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+La aplicación ahora estará disponible en `http://localhost:3000`.
 
-## License
+> [!NOTE]
+> Debes tener instalado el administrador de paquetes Yarn para poder instalar las dependencias y ejecutar la aplicación.
 
-Nest is [MIT licensed](LICENSE).
+## Variables de entorno
+
+La aplicación utiliza las siguientes variables de entorno:
+
+- `DATABASE_URL` - La URL de la base de datos de Mysql.
+
+- `DEV_PROJECT_URL` - La URL de la api cuando se está en desarrollo.
+
+- `PROD_PROJECT_URL` - La URL de la api cuando se está en producción.
+
+- `JWTSECRET` - La clave secreta utilizada para firmar los tokens JWT.
+
+- `JWTEXPIRESIN` - El tiempo de expiración de los tokens JWT.
+
+- `SENDGRID_API_KEY` - La clave de la API de SendGrid para enviar correos electrónicos.
+
+- `EMAIL_SENDER` - La dirección de correo electrónico del remitente.
+
+- `NAME_SENDER` - El nombre del remitente.
+
+- `CLD_CLOUD_NAME` - El nombre de la nube de Cloudinary para guardar las imágenes **_(Portadas de los libros, avatares, imágenes de perfíl, etc)_**.
+
+- `CLD_API_KEY` - La clave de la API de Cloudinary.
+
+- `CLD_API_SECRET` - La clave secreta de la API de Cloudinary.
+
+## Autenticación
+
+La API de salylearning utiliza autenticación basada en Bearer Token. Para autenticar las solicitudes, debes incluir un encabezado `Authorization` con el valor `Bearer <token>` en tus solicitudes.
+
+Para obtener un token de autenticación, debes enviar una solicitud POST a la ruta `/auth/login` con las credenciales de inicio de sesión en el cuerpo de la solicitud. A continuación se muestra un ejemplo de cómo iniciar sesión y obtener un token de autenticación:
+
+```javascript
+const login = async () => {
+  const response = await fetch('https://salylearning.vercel.app/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: 'johndoe',
+      password: 'Password123!',
+    }),
+  });
+
+  const data = await response.json();
+  const access_token = data.access_token;
+  console.log(access_token);
+};
+
+login();
+```
+
+> [!IMPORTANT]
+> Reemplaza `username` y `password` con las credenciales de inicio de sesión válidas.
+
+## Consumir endpoints con Fetch
+
+Puedes consumir los endpoints de la API de salylearning utilizando la función `fetch` de JavaScript. A continuación se muestra un ejemplo de cómo consumir un endpoint utilizando `fetch`:
+
+```javascript
+const fetchEndpoint = async () => {
+  const token = 'your_token here';
+
+  const response = await fetch('https://salylearning.vercel.app/<endpoint>', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+};
+
+fetchEndpoint();
+```
+
+> [!NOTE]
+> Reemplaza `your_token_here` con el token de autenticación que obtuviste al iniciar sesión.
+
+### Endpoints con subida de archivos (Imágenes de portadas de libros, avatares, etc)
+
+Para consumir los endpoints que requieren subida de archivos, debes enviar una solicitud POST con un objeto `FormData` en lugar de un objeto JSON. A continuación se muestra un ejemplo de cómo subir una imagen utilizando `fetch`:
+
+```javascript
+const uploadImage = async () => {
+  const token = 'your_token here';
+
+  const file = document.getElementById('file').files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  // Aquí puedes agregar más campos al formData si es necesario, por ejemplo:
+  // formData.append('nom_libro', 'El principito');
+  // formData.append('num_pag', '100');
+
+  const response = await fetch('https://salylearning.vercel.app/<endpoint>', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+};
+
+uploadImage();
+```
+
+> [!IMPORTANT]
+> Asegúrate de que el campo de entrada de archivo en tu HTML tenga el id o nombre que la api espera. En el ejemplo anterior, el campo de entrada de archivo debe tener el id `file` y la API espera que el archivo se llame `file`.
+
+> [!NOTE]
+> Reemplaza `your_token_here` con el token de autenticación que obtuviste al iniciar sesión y `<endpoint>` con la ruta del endpoint que requiere subida de archivos (Ej: `POST: /libros`).
+
+Para obtener más información sobre cómo consumir los endpoints de la API de salylearning, consulta la [documentación de la API](https://salylearning.vercel.app/docs).
+
+> [!TIP]
+> Si tienes alguna pregunta o problema, no dudes en [crear un issue](https://github.com/rojasricor/salylearning-api/issues) en el repositorio de GitHub.
