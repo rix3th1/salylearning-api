@@ -23,7 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { fileValidators } from 'src/fileValidators';
+import { portadaImgValidators } from 'src/fileValidators';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
 import { LibrosService } from './libros.service';
@@ -91,7 +91,7 @@ export class LibrosController {
   })
   async crearLibro(
     @Body() libro: CrearLibroDto,
-    @UploadedFile(fileValidators)
+    @UploadedFile(portadaImgValidators)
     imagen_portada: Express.Multer.File,
   ) {
     let public_id: string;
@@ -139,7 +139,8 @@ export class LibrosController {
   async actualizarLibro(
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
-    @UploadedFile(fileValidators) imagen_portada: Express.Multer.File,
+    @UploadedFile(portadaImgValidators)
+    imagen_portada: Express.Multer.File,
   ) {
     let public_id: string;
 

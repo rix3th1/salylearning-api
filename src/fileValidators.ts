@@ -1,15 +1,23 @@
 import {
-  FileTypeValidator,
-  MaxFileSizeValidator,
-  ParseFilePipe,
+  FileTypeValidatorOptions,
+  HttpStatus,
+  ParseFilePipeBuilder,
 } from '@nestjs/common';
 
-export const fileValidators = new ParseFilePipe({
-  validators: [
-    new MaxFileSizeValidator({
-      maxSize: 300 * 1024,
-      message: 'El tamaño de la imagen no debe ser mayor a 300kb',
-    }),
-    new FileTypeValidator({ fileType: 'image/(png|jpeg)' }),
-  ],
-});
+export const oneKb = 1024;
+
+export const newImgValidator = (fileType: string | RegExp, maxSize: number) => {
+  return new ParseFilePipeBuilder()
+    .addFileTypeValidator({ fileType })
+    .addMaxSizeValidator({
+      maxSize,
+      message(maxSize) {
+        return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
+      },
+    })
+    .build({
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    });
+};
+
+export const portadaImgValidators = newImgValidator('image/png', 300 * oneKb);
