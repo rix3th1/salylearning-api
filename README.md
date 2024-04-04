@@ -1,11 +1,11 @@
 # Documentación de la API de salylearning
 
-La API de salylearning es una API RESTful que proporciona acceso a recursos como libros, usuarios, categorías, comentarios, etc. La API está diseñada para ser utilizada por la aplicación web de salylearning, pero también puede ser utilizada por otras aplicaciones que deseen consumir los recursos proporcionados por la API.
+La [API](https://salylearning.vercel.app) de salylearning es una [API RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) que proporciona acceso a recursos como libros, usuarios, categorías, comentarios, etc. La API está diseñada para ser utilizada por la aplicación web de salylearning, pero también puede ser utilizada por otras aplicaciones que deseen consumir los recursos proporcionados por la API.
 
-El lenguaje de programación utilizado para desarrollar la API es [TypeScript](https://www.typescriptlang.org/) y se basa en el paradigma de [programación orientada a objetos](https://en.wikipedia.org/wiki/Object-oriented_programming) y [programación funcional](https://en.wikipedia.org/wiki/Functional_programming). TypeScript es un superconjunto de JavaScript que agrega tipado estático y otras características a JavaScript, lo que hace que el código sea más seguro y fácil de mantener.
+El lenguaje de programación utilizado para desarrollar la API es [TypeScript](https://www.typescriptlang.org/) y se basa en el paradigma de [programación orientada a objetos](https://en.wikipedia.org/wiki/Object-oriented_programming) y [programación funcional](https://en.wikipedia.org/wiki/Functional_programming). TypeScript es un superconjunto de [JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript) que agrega tipado estático y otras características a JavaScript, lo que hace que el código sea más seguro y fácil de mantener.
 
 Está implementada utilizando [Node.js](https://nodejs.org) como entorno de ejecución y el marco de trabajo [Nest.js](https://nestjs.com).
-La API utiliza una base de datos MySQL para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/) y la API de [SendGrid](https://sendgrid.com/docs) se utiliza para enviar correos electrónicos.
+La API utiliza una base de datos [MySQL](https://www.mysql.com/) para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/) y la API de [SendGrid](https://sendgrid.com/docs) se utiliza para enviar correos electrónicos.
 
 La API de salylearning proporciona una serie de endpoints que permiten a los usuarios realizar operaciones como registrarse, iniciar sesión, obtener información de libros, agregar comentarios, etc.
 
@@ -26,7 +26,8 @@ La API está alojada en [Vercel](https://vercel.com/) y está disponible en la s
   <a href="https://sendgrid.com/docs" target="blank"><img src="https://www.svgrepo.com/show/354326/sendgrid.svg" width="200" alt="SendGrid Logo" style="margin-right: 30;" /></a>
 </p>
 <p align="center">
-   <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
+  <a><img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="150" alt="MySQL Logo" style="margin-right: 30; margin-bottom: 50" /></a>
+  <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
 </p>
 
 ## Tabla de contenidos
@@ -53,7 +54,7 @@ git clone https://github.com/rojasricor/salylearning-api.git
 cd salylearning-api
 ```
 
-3. Instala las dependencias utilizando Yarn:
+3. Instala las dependencias utilizando [Yarn](https://yarnpkg.com/getting-started/install):
 
 ```bash
 yarn install
@@ -76,7 +77,7 @@ La aplicación ahora estará disponible en `http://localhost:3000`.
 
 La aplicación utiliza las siguientes variables de entorno:
 
-- `DATABASE_URL` - La URL de la base de datos de Mysql.
+- `DATABASE_URL` - La URL de la base de datos de MySQL utilizada por la aplicación.
 
 - `DEV_PROJECT_URL` - La URL de la api cuando se está en desarrollo.
 
@@ -100,7 +101,7 @@ La aplicación utiliza las siguientes variables de entorno:
 
 ## Autenticación
 
-La API de salylearning utiliza autenticación basada en Bearer Token. Para autenticar las solicitudes, debes incluir un encabezado `Authorization` con el valor `Bearer <token>` en tus solicitudes.
+La API de salylearning utiliza autenticación basada en [Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/), lo que significa que debes enviar un token de autenticación en tus solicitudes para acceder a los recursos protegidos, incluyendo un encabezado `Authorization` con el valor `Bearer <token>`. Los tokens de autenticación son generados por la API cuando un usuario inicia sesión y tienen una duración limitada [JWT](https://jwt.io/introduction/).
 
 Para obtener un token de autenticación, debes enviar una solicitud POST a la ruta `/auth/login` con las credenciales de inicio de sesión en el cuerpo de la solicitud. A continuación se muestra un ejemplo de cómo iniciar sesión y obtener un token de autenticación:
 
@@ -130,7 +131,7 @@ login();
 
 ## Consumir endpoints con Fetch
 
-Puedes consumir los endpoints de la API de salylearning utilizando la función `fetch` de JavaScript. A continuación se muestra un ejemplo de cómo consumir un endpoint utilizando `fetch`:
+Puedes consumir los endpoints de la API de salylearning utilizando la función [`fetch`](https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch) de JavaScript. A continuación se muestra un ejemplo de cómo consumir un endpoint utilizando `fetch`:
 
 ```javascript
 const fetchEndpoint = async () => {
@@ -156,7 +157,9 @@ fetchEndpoint();
 
 ### Endpoints con subida de archivos (Imágenes de portadas de libros, avatares, etc)
 
-Para consumir los endpoints que requieren subida de archivos, debes enviar una solicitud POST con un objeto `FormData` en lugar de un objeto JSON. A continuación se muestra un ejemplo de cómo subir una imagen utilizando `fetch`:
+Para consumir los endpoints que requieren subida de archivos, debes enviar una solicitud POST con un objeto [`FormData`](https://developer.mozilla.org/es/docs/Web/API/FormData) en lugar de un objeto JSON. La API de salylearning espera que el archivo se llame `file` en el objeto FormData. Asegúrate de que el campo de entrada de archivo en tu HTML tenga el id o nombre que la API espera.
+
+A continuación se muestra un ejemplo de cómo subir una imagen utilizando `fetch`:
 
 ```javascript
 const uploadImage = async () => {
