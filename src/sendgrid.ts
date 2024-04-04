@@ -19,5 +19,7 @@ export async function sendEmail(to: string, subject: string, html: string) {
     if (error instanceof ResponseError) {
       console.error(error.message);
     }
+
+    return { response: false };
   }
 }

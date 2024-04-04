@@ -6,7 +6,7 @@ import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 export class CloudinaryService {
   async subirImagen(
     file: Express.Multer.File,
-  ): Promise<UploadApiResponse | UploadApiErrorResponse> {
+  ): Promise<UploadApiResponse | UploadApiErrorResponse | undefined> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream((error, result) => {
         if (error) return reject(error);

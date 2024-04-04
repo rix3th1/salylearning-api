@@ -12,7 +12,7 @@ export class SoporteService {
   }
 
   async obtenerSoporte(id: number): Promise<Soporte> {
-    return this.prismaService.soporte.findUnique({ where: { id } });
+    return this.prismaService.soporte.findUniqueOrThrow({ where: { id } });
   }
 
   async crearSoporte(soporte: CrearSoporteDto): Promise<Soporte> {

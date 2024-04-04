@@ -4,6 +4,7 @@ import { RecuperarClaveService } from './recuperar-clave.service';
 
 @Controller('recuperar-clave')
 export class RecuperarClaveController {
+  //@ts-ignore
   constructor(private readonly recuperarClaveService: RecuperarClaveService) {}
 
   @Public()

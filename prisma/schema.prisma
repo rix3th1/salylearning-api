@@ -122,8 +122,8 @@ model Usuario {
 
 model Docente {
   id          Int    @id @default(autoincrement()) @db.UnsignedInt
-  id_usuario  Int    @db.UnsignedInt
-  cod_docente String @unique @db.VarChar(8)
+  id_usuario  Int    @unique @db.UnsignedInt
+  cod_docente String @unique @db.VarChar(6)
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 
@@ -132,7 +132,7 @@ model Docente {
 
 model Estudiante {
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
-  id_usuario     Int     @db.UnsignedInt
+  id_usuario     Int     @unique @db.UnsignedInt
   cod_estudiante String  @unique @db.VarChar(10)
   apodo          String? @unique @db.VarChar(30)
 

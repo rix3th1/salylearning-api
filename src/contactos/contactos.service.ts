@@ -12,7 +12,7 @@ export class ContactosService {
   }
 
   async obtenerContacto(id: number): Promise<Contacto> {
-    return this.prismaService.contactos.findUnique({ where: { id } });
+    return this.prismaService.contactos.findUniqueOrThrow({ where: { id } });
   }
 
   async crearContacto(contacto: CrearContactoDto): Promise<Contacto> {

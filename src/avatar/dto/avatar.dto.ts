@@ -1,8 +1,15 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { Avatar } from '../entities/Avatar.entity';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { Avatar } from '../entities/avatar.entity';
 
 export class CrearAvatarDto extends OmitType(Avatar, ['id'] as const) {
+  @IsNotEmpty({ message: 'El nombre del avatar es requerido' })
   @IsString({ message: 'El nombre del avatar debe ser una cadena de texto' })
   @MinLength(3, {
     message: 'El nombre del avatar debe tener al menos 3 caracteres',

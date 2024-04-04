@@ -1,8 +1,4 @@
-import {
-  FileTypeValidatorOptions,
-  HttpStatus,
-  ParseFilePipeBuilder,
-} from '@nestjs/common';
+import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
 export const oneKb = 1024;
 

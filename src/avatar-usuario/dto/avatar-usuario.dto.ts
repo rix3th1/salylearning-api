@@ -1,10 +1,11 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 import { AvatarUsuario } from '../entities/avatar-usuario.entity';
 
 export class CrearAvatarUsuarioDto extends OmitType(AvatarUsuario, [
   'id',
 ] as const) {
+  @IsNotEmpty({ message: 'El id de avatar es requerido' })
   @IsInt({ message: 'El id de avatar debe ser un número entero' })
   @Min(1, { message: 'El id de avatar debe ser mayor o igual a 1' })
   @Max(4294967295, {
@@ -12,6 +13,7 @@ export class CrearAvatarUsuarioDto extends OmitType(AvatarUsuario, [
   })
   id_avatar: number;
 
+  @IsNotEmpty({ message: 'El id de usuario es requerido' })
   @IsInt({ message: 'El id de usuario debe ser un número entero' })
   @Min(1, { message: 'El id de usuario debe ser mayor o igual a 1' })
   @Max(4294967295, {

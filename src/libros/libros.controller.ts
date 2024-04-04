@@ -23,7 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { portadaImgValidators } from 'src/fileValidators';
+import { portadaImgValidators } from '../fileValidators';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
 import { LibrosService } from './libros.service';
@@ -94,11 +94,20 @@ export class LibrosController {
     @UploadedFile(portadaImgValidators)
     imagen_portada: Express.Multer.File,
   ) {
-    let public_id: string;
+    let public_id = '';
 
     try {
-      const { secure_url: imagen_portada_url, public_id: cloudinaryPublicId } =
+      const resCloudinary =
         await this.librosService.subirPortadaLibro(imagen_portada);
+
+      if (!resCloudinary) {
+        throw new InternalServerErrorException(
+          'Error al subir la imagen de portada',
+        );
+      }
+
+      const { secure_url: imagen_portada_url, public_id: cloudinaryPublicId } =
+        resCloudinary;
 
       public_id = cloudinaryPublicId;
       libro.imagen_portada = imagen_portada_url;
@@ -107,7 +116,7 @@ export class LibrosController {
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada) {
+      if (imagen_portada && public_id) {
         await this.librosService.eliminarPortadaLibro(public_id);
       }
 
@@ -142,24 +151,38 @@ export class LibrosController {
     @UploadedFile(portadaImgValidators)
     imagen_portada: Express.Multer.File,
   ) {
-    let public_id: string;
+    let public_id = '';
 
     try {
       if (imagen_portada) {
+        const resCloudinary =
+          await this.librosService.subirPortadaLibro(imagen_portada);
+
+        if (!resCloudinary) {
+          throw new InternalServerErrorException(
+            'Error al subir la imagen de portada',
+          );
+        }
+
         const {
           secure_url: imagen_portada_url,
           public_id: cloudinaryPublicId,
-        } = await this.librosService.subirPortadaLibro(imagen_portada);
+        } = resCloudinary;
 
         public_id = cloudinaryPublicId;
         libro.imagen_portada = imagen_portada_url;
 
         const libroAnterior = await this.librosService.obtenerLibroPorId(+id);
-        if (libroAnterior.imagen_portada) {
-          const public_id_anterior = libroAnterior.imagen_portada
-            .split('/')
-            .pop()
-            .split('.')[0];
+        if (!libroAnterior) {
+          throw new NotFoundException('Libro no encontrado');
+        }
+
+        const public_id_anterior = libroAnterior.imagen_portada
+          .split('/')
+          .pop()
+          ?.split('.')[0];
+
+        if (public_id_anterior) {
           await this.librosService.eliminarPortadaLibro(public_id_anterior);
         }
       }
@@ -168,7 +191,7 @@ export class LibrosController {
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada) {
+      if (imagen_portada && public_id) {
         await this.librosService.eliminarPortadaLibro(public_id);
       }
 

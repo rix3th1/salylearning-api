@@ -38,6 +38,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   p_nombre: string;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'El segundo nombre no puede estar vacío' })
   @IsString({ message: 'El segundo nombre debe ser una cadena de texto' })
   @MinLength(3, {
     message: 'El segundo nombre debe tener al menos 3 caracteres',
@@ -58,6 +59,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   p_apellido: string;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'El segundo apellido no puede estar vacío' })
   @IsString({ message: 'El segundo apellido debe ser una cadena de texto' })
   @MinLength(3, {
     message: 'El segundo apellido debe tener al menos 3 caracteres',
@@ -74,6 +76,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   edad: number;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'La fecha de nacimiento no puede estar vacía' })
   @IsString({ message: 'La fecha de nacimiento debe ser una cadena de texto' })
   @IsDateString(undefined, {
     message: 'La fecha de nacimiento debe tener el formato YYYY-MM-DD',
@@ -81,6 +84,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   fecha_nacimiento?: Date;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'La ciudad no puede estar vacía' })
   @IsString({ message: 'La ciudad debe ser una cadena de texto' })
   @MinLength(3, { message: 'La ciudad debe tener al menos 3 caracteres' })
   @MaxLength(50, { message: 'La ciudad debe tener menos de 50 caracteres' })
@@ -111,6 +115,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   password: string;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'El rol no puede estar vacío' })
   @IsString({ message: 'El rol debe ser una cadena de texto' })
   @MinLength(3, { message: 'El rol debe tener al menos 3 caracteres' })
   @MaxLength(30, { message: 'El rol debe tener menos de 30 caracteres' })

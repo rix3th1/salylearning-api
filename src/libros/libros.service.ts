@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Libro } from '@prisma/client';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 
