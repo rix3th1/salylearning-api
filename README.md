@@ -24,7 +24,9 @@ La API está alojada en [Vercel](https://vercel.com/) y está disponible en la s
   <a href="https://vercel.com/" target="blank"><img src="https://assets.vercel.com/image/upload/v1538361091/repositories/vercel/logo.png" width="100" alt="Vercel Logo" style="margin-right: 30; margin-bottom: 50;" /></a>
   <a href="https://cloudinary.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Cloudinary_logo.svg/2560px-Cloudinary_logo.svg.png" width="200" alt="Cloudinary Logo" style="margin-bottom: 80; margin-right: 30;" /></a>
   <a href="https://sendgrid.com/docs" target="blank"><img src="https://www.svgrepo.com/show/354326/sendgrid.svg" width="200" alt="SendGrid Logo" style="margin-right: 30;" /></a>
-  <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
+</p>
+<p align="center">
+   <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
 </p>
 
 ## Tabla de contenidos
