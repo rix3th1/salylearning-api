@@ -5,28 +5,28 @@ import { Soporte } from './entities/soporte.entity';
 
 @Injectable()
 export class SoporteService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   async obtenerSoportes(): Promise<Soporte[]> {
-    return this.prismaService.soporte.findMany();
+    return this.prisma.soporte.findMany();
   }
 
   async obtenerSoporte(id: number): Promise<Soporte> {
-    return this.prismaService.soporte.findUniqueOrThrow({ where: { id } });
+    return this.prisma.soporte.findUniqueOrThrow({ where: { id } });
   }
 
   async crearSoporte(soporte: CrearSoporteDto): Promise<Soporte> {
-    return this.prismaService.soporte.create({ data: soporte });
+    return this.prisma.soporte.create({ data: soporte });
   }
 
   async actualizarSoporte(
     id: number,
     soporte: ActualizarSoporteDto,
   ): Promise<Soporte> {
-    return this.prismaService.soporte.update({ where: { id }, data: soporte });
+    return this.prisma.soporte.update({ where: { id }, data: soporte });
   }
 
   async eliminarSoporte(id: number): Promise<Soporte> {
-    return this.prismaService.soporte.delete({ where: { id } });
+    return this.prisma.soporte.delete({ where: { id } });
   }
 }
