@@ -91,14 +91,14 @@ export class LibrosController {
   })
   async crearLibro(
     @Body() libro: CrearLibroDto,
-    @UploadedFile(portadaImgValidators)
+    @UploadedFile(portadaImgValidators(true))
     imagen_portada: Express.Multer.File,
   ) {
     let public_id = '';
 
     try {
       const resCloudinary =
-        await this.librosService.subirPortadaLibro(imagen_portada);
+        await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
 
       if (!resCloudinary) {
         throw new InternalServerErrorException(
@@ -117,7 +117,7 @@ export class LibrosController {
       console.error(error.message);
 
       if (imagen_portada && public_id) {
-        await this.librosService.eliminarPortadaLibro(public_id);
+        await this.librosService.eliminarPortadaLibroCloudinary(public_id);
       }
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -148,7 +148,7 @@ export class LibrosController {
   async actualizarLibro(
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
-    @UploadedFile(portadaImgValidators)
+    @UploadedFile(portadaImgValidators(false))
     imagen_portada: Express.Multer.File,
   ) {
     let public_id = '';
@@ -156,7 +156,7 @@ export class LibrosController {
     try {
       if (imagen_portada) {
         const resCloudinary =
-          await this.librosService.subirPortadaLibro(imagen_portada);
+          await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
 
         if (!resCloudinary) {
           throw new InternalServerErrorException(
@@ -183,7 +183,9 @@ export class LibrosController {
           ?.split('.')[0];
 
         if (public_id_anterior) {
-          await this.librosService.eliminarPortadaLibro(public_id_anterior);
+          await this.librosService.eliminarPortadaLibroCloudinary(
+            public_id_anterior,
+          );
         }
       }
 
@@ -192,7 +194,7 @@ export class LibrosController {
       console.error(error.message);
 
       if (imagen_portada && public_id) {
-        await this.librosService.eliminarPortadaLibro(public_id);
+        await this.librosService.eliminarPortadaLibroCloudinary(public_id);
       }
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

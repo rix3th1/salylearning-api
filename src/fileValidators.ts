@@ -2,7 +2,11 @@ import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
 export const oneKb = 1024;
 
-export const newImgValidator = (fileType: string | RegExp, maxSize: number) => {
+export const newImgValidator = (
+  fileType: string | RegExp,
+  maxSize: number,
+  required: boolean,
+) => {
   return new ParseFilePipeBuilder()
     .addFileTypeValidator({ fileType })
     .addMaxSizeValidator({
@@ -13,7 +17,11 @@ export const newImgValidator = (fileType: string | RegExp, maxSize: number) => {
     })
     .build({
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      fileIsRequired: required,
     });
 };
 
-export const portadaImgValidators = newImgValidator('image/png', 300 * oneKb);
+export const portadaImgValidators = (required: boolean = true) =>
+  newImgValidator('image/png', 300 * oneKb, required);
+export const fotoPerfilValidators = (required: boolean = true) =>
+  newImgValidator(new RegExp('image/(jpeg|png)'), 500 * oneKb, required);

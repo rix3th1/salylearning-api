@@ -10,6 +10,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ContactosModule } from './contactos/contactos.module';
 import { DocentesModule } from './docentes/docentes.module';
 import { EstudiantesModule } from './estudiantes/estudiantes.module';
+import { FotoPerfilModule } from './foto-perfil/foto-perfil.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
 import { LibrosModule } from './libros/libros.module';
@@ -41,6 +42,7 @@ const AppGuard = {
     CloudinaryModule,
     DocentesModule,
     EstudiantesModule,
+    FotoPerfilModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],

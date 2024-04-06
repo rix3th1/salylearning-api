@@ -29,11 +29,11 @@ export class LibrosService {
     return this.prisma.libro.create({ data: libro });
   }
 
-  async subirPortadaLibro(imagen_portada: Express.Multer.File) {
+  async subirPortadaLibroCloudinary(imagen_portada: Express.Multer.File) {
     return this.cloudinary.subirImagen(imagen_portada);
   }
 
-  async eliminarPortadaLibro(public_id: string) {
+  async eliminarPortadaLibroCloudinary(public_id: string) {
     return this.cloudinary.eliminarImagen(public_id);
   }
 

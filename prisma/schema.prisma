@@ -112,7 +112,7 @@ model Usuario {
 
   docente        Docente[]
   estudiante     Estudiante[]
-  foto_perfil    FotosPerfilUsuario[]
+  foto_perfil    FotoPerfil[]
   avatar_usuario AvatarUsuario[]
   grado_usuario  GradoUsuario[]
   mis_libros     MisLibros[]
@@ -141,10 +141,10 @@ model Estudiante {
   @@map("estudiantes")
 }
 
-model FotosPerfilUsuario {
+model FotoPerfil {
   id         Int    @id @default(autoincrement()) @db.UnsignedInt
   id_usuario Int    @db.UnsignedInt
-  url        String @unique @db.VarChar(255)
+  foto       String @unique @db.VarChar(255)
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 

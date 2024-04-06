@@ -51,9 +51,10 @@ export class Libro implements TLibro {
   @ApiProperty({
     title: 'URL del libro',
     description: 'La URL del libro en la librería (Canva, Google Books, etc.)',
-    example: 'https://www.canva.com/',
+    example: 'https://www.canva.com/xxxxx/xxxxx-xxxxx-xxxxx-xxxxx/',
     minLength: 3,
     maxLength: 255,
+    format: 'url',
   })
   url_libro: string;
 
