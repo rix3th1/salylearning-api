@@ -21,7 +21,7 @@ export class LibrosService {
     });
   }
 
-  async obtenerLibroPorId(id: number): Promise<Libro> {
+  async obtenerLibro(id: number): Promise<Libro> {
     return this.prisma.libro.findUniqueOrThrow({ where: { id } });
   }
 

@@ -57,10 +57,10 @@ export class UsuariosController {
     description: 'Usuario encontrado',
     type: UsuarioRespuesta,
   })
-  async obtenerUsuarioPorId(@Param('id') id: string) {
+  async obtenerUsuario(@Param('id') id: string) {
     try {
       const { password, ...result } =
-        await this.usuariosService.obtenerUsuarioPorId(+id);
+        await this.usuariosService.obtenerUsuario(+id);
       return result;
     } catch (error) {
       console.error(error.message);

@@ -11,8 +11,15 @@ export class UsuariosService {
     return this.prisma.usuario.findMany();
   }
 
-  async obtenerUsuarioPorId(id: number): Promise<Usuario> {
+  async obtenerUsuario(id: number): Promise<Usuario> {
     return this.prisma.usuario.findUniqueOrThrow({ where: { id } });
+  }
+
+  async obtenerUsuarioForProfile(id: number): Promise<Usuario> {
+    return this.prisma.usuario.findUniqueOrThrow({
+      where: { id },
+      include: { avatar_usuario: true, foto_perfil: true },
+    });
   }
 
   async obtenerUsuarioPorUsername(username: string): Promise<Usuario> {

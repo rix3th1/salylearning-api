@@ -69,9 +69,9 @@ export class LibrosController {
     description: 'Libro encontrado',
     type: Libro,
   })
-  async obtenerLibroPorId(@Param('id') id: string) {
+  async obtenerLibro(@Param('id') id: string) {
     try {
-      return await this.librosService.obtenerLibroPorId(+id);
+      return await this.librosService.obtenerLibro(+id);
     } catch (error) {
       console.error(error.message);
       throw new NotFoundException('Libro no encontrado');
@@ -172,7 +172,7 @@ export class LibrosController {
         public_id = cloudinaryPublicId;
         libro.imagen_portada = imagen_portada_url;
 
-        const libroAnterior = await this.librosService.obtenerLibroPorId(+id);
+        const libroAnterior = await this.librosService.obtenerLibro(+id);
         if (!libroAnterior) {
           throw new NotFoundException('Libro no encontrado');
         }
