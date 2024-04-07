@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Grado } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarGradoDto, CrearGradoDto } from './dto/grados.dto';
+import { Grado } from './entities/grado.entity';
 
 @Injectable()
 export class GradosService {

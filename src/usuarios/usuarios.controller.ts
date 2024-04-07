@@ -17,12 +17,12 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Prisma, Usuario as TUsuario } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { exclude } from '../libs';
 import { Public } from '../public.decorator';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
-import { UsuarioRespuesta } from './entities/usuario.entity';
+import { Usuario, UsuarioRespuesta } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
 
 @ApiTags('usuarios')
@@ -43,7 +43,7 @@ export class UsuariosController {
   async obtenerUsuarios() {
     const usuarios = await this.usuariosService.obtenerUsuarios();
     return usuarios.map((usuario) =>
-      exclude<TUsuario, keyof TUsuario>(usuario, 'password'),
+      exclude<Usuario, keyof Usuario>(usuario, 'password'),
     );
   }
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Contactos as TContacto } from '@prisma/client';
+import { Contacto as TContacto } from '@prisma/client';
 
 export class Contacto implements TContacto {
   @ApiProperty({

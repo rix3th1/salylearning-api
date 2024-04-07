@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { GradoUsuario } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarGradoUsuarioDto,
   CrearGradoUsuarioDto,
 } from './dto/grado-usuario.dto';
+import { GradoUsuario } from './entities/grado-usuario.entity';
 
 @Injectable()
 export class GradoUsuarioService {

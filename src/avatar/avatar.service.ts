@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Avatar } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
+import { Avatar } from './entities/avatar.entity';
 
 @Injectable()
 export class AvatarService {

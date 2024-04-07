@@ -8,28 +8,28 @@ export class ContactosService {
   constructor(private prisma: PrismaService) {}
 
   async obtenerContactos(): Promise<Contacto[]> {
-    return this.prisma.contactos.findMany();
+    return this.prisma.contacto.findMany();
   }
 
   async obtenerContacto(id: number): Promise<Contacto> {
-    return this.prisma.contactos.findUniqueOrThrow({ where: { id } });
+    return this.prisma.contacto.findUniqueOrThrow({ where: { id } });
   }
 
   async crearContacto(contacto: CrearContactoDto): Promise<Contacto> {
-    return this.prisma.contactos.create({ data: contacto });
+    return this.prisma.contacto.create({ data: contacto });
   }
 
   async actualizarContacto(
     id: number,
     contacto: ActualizarContactoDto,
   ): Promise<Contacto> {
-    return this.prisma.contactos.update({
+    return this.prisma.contacto.update({
       where: { id },
       data: contacto,
     });
   }
 
   async eliminarContacto(id: number): Promise<Contacto> {
-    return this.prisma.contactos.delete({ where: { id } });
+    return this.prisma.contacto.delete({ where: { id } });
   }
 }

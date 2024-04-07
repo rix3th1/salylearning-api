@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { AvatarUsuario } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarAvatarUsuarioDto,
   CrearAvatarUsuarioDto,
 } from './dto/avatar-usuario.dto';
+import { AvatarUsuario } from './entities/avatar-usuario.entity';
 
 @Injectable()
 export class AvatarUsuarioService {

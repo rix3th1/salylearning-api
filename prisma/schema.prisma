@@ -16,14 +16,14 @@ model Avatar {
   id         Int    @id @default(autoincrement()) @db.UnsignedInt
   nom_avatar String @unique @db.VarChar(30)
 
-  avatar_usuario AvatarUsuario[]
+  avatar_usuario AvatarUsuario? // Relación 1-1 con AvatarUsuario
 
   @@map("avatar")
 }
 
 model AvatarUsuario {
   id         Int @id @default(autoincrement()) @db.UnsignedInt
-  id_avatar  Int @db.UnsignedInt
+  id_avatar  Int @unique @db.UnsignedInt
   id_usuario Int @unique @db.UnsignedInt
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
@@ -36,7 +36,7 @@ model Grado {
   id        Int    @id @default(autoincrement()) @db.UnsignedInt
   nom_grado String @unique @db.VarChar(30)
 
-  grado_usuario GradoUsuario[]
+  grado_usuario GradoUsuario? // Relación 1-1 con GradoUsuario
   libros        Libro[]
 
   @@map("grados")
@@ -44,7 +44,7 @@ model Grado {
 
 model GradoUsuario {
   id         Int @id @default(autoincrement()) @db.UnsignedInt
-  id_grado   Int @db.UnsignedInt
+  id_grado   Int @unique @db.UnsignedInt
   id_usuario Int @unique @db.UnsignedInt
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
@@ -64,7 +64,7 @@ model Libro {
 
   grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
   mis_libros MisLibros[]
-  preguntas  Preguntas[]
+  preguntas  Pregunta[]
 
   @@map("libros")
 }
@@ -81,7 +81,7 @@ model MisLibros {
   @@map("mis_libros")
 }
 
-model Preguntas {
+model Pregunta {
   id           Int    @id @default(autoincrement()) @db.UnsignedInt
   num_pregunta Int    @db.UnsignedTinyInt
   pregunta     String @unique @db.VarChar(200)
@@ -110,11 +110,11 @@ model Usuario {
   password         String    @db.VarChar(255)
   rol              Rol       @default(Estudiante)
 
-  docente        Docente[]
-  estudiante     Estudiante[]
-  foto_perfil    FotoPerfil[]
-  avatar_usuario AvatarUsuario[]
-  grado_usuario  GradoUsuario[]
+  docente        Docente? // Relación 1-1 con Docente
+  estudiante     Estudiante? // Relación 1-1 con Estudiante
+  foto_perfil    FotoPerfil? // Relación 1-1 con FotoPerfil
+  avatar_usuario AvatarUsuario? // Relación 1-1 con AvatarUsuario
+  grado_usuario  GradoUsuario? // Relación 1-1 con GradoUsuario
   mis_libros     MisLibros[]
 
   @@map("usuarios")
@@ -143,7 +143,7 @@ model Estudiante {
 
 model FotoPerfil {
   id         Int    @id @default(autoincrement()) @db.UnsignedInt
-  id_usuario Int    @db.UnsignedInt
+  id_usuario Int    @unique @db.UnsignedInt
   foto       String @unique @db.VarChar(255)
 
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
@@ -151,7 +151,7 @@ model FotoPerfil {
   @@map("fotos_perfil_usuario")
 }
 
-model Contactos {
+model Contacto {
   id              Int    @id @default(autoincrement()) @db.UnsignedInt
   nombre_completo String @db.VarChar(60)
   email           String @db.VarChar(100)
