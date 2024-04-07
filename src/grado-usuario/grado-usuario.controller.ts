@@ -82,7 +82,7 @@ export class GradoUsuarioController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe un grado del usuario con el mismo usuario',
+            'Ya existe un grado del usuario con el mismo usuario o id de grado',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
@@ -121,7 +121,7 @@ export class GradoUsuarioController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe un grado del usuario con el mismo usuario',
+            'Ya existe un grado del usuario con el mismo usuario o id de grado',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(

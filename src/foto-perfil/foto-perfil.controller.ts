@@ -113,7 +113,7 @@ export class FotoPerfilController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe esta foto de perfil en la base de datos',
+            'Ya existe una foto de perfil con el mismo usuario o foto de perfil',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
@@ -175,7 +175,7 @@ export class FotoPerfilController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe esta foto de perfil en la base de datos',
+            'Ya existe una foto de perfil con el mismo usuario o foto de perfil',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(

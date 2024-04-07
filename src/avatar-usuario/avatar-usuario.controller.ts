@@ -82,7 +82,7 @@ export class AvatarUsuarioController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe un avatar del usuario con el mismo usuario',
+            'Ya existe un avatar del usuario con el mismo usuario o id de avatar',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
@@ -121,7 +121,7 @@ export class AvatarUsuarioController {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'Ya existe un avatar del usuario con el mismo usuario',
+            'Ya existe un avatar del usuario con el mismo usuario o id de avatar',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
