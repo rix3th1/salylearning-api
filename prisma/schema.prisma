@@ -32,6 +32,16 @@ model AvatarUsuario {
   @@map("avatar_usuario")
 }
 
+model Grado {
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  nom_grado String @unique @db.VarChar(30)
+
+  grado_usuario GradoUsuario[]
+  libros        Libro[]
+
+  @@map("grados")
+}
+
 model GradoUsuario {
   id         Int @id @default(autoincrement()) @db.UnsignedInt
   id_grado   Int @db.UnsignedInt
@@ -41,16 +51,6 @@ model GradoUsuario {
   grados  Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
 
   @@map("grado_usuario")
-}
-
-model Grado {
-  id        Int    @id @default(autoincrement()) @db.UnsignedInt
-  nom_grado String @unique @db.VarChar(30)
-
-  grado_usuario GradoUsuario[]
-  libros        Libro[]
-
-  @@map("grados")
 }
 
 model Libro {
