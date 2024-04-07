@@ -162,6 +162,25 @@ export class FotoPerfilController {
 
         public_id = cloudinaryPublicId;
         fotoPerfil.foto = foto_url;
+
+        const fotoPerfilAnterior =
+          await this.fotoPerfilService.obtenerFotoPerfil(+id);
+        if (!fotoPerfilAnterior) {
+          throw new NotFoundException(
+            'No se encontró la foto de perfil con el ID proporcionado',
+          );
+        }
+
+        const public_id_anterior = fotoPerfilAnterior.foto
+          .split('/')
+          .pop()
+          ?.split('.')[0];
+
+        if (public_id_anterior) {
+          await this.fotoPerfilService.eliminarFotoCloudinary(
+            public_id_anterior,
+          );
+        }
       }
 
       return await this.fotoPerfilService.actualizarFotoPerfil(+id, fotoPerfil);
