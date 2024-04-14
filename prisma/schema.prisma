@@ -12,104 +12,164 @@ enum Rol {
   Estudiante
 }
 
+// Tabla que almacena los avatares disponibles para los usuarios
 model Avatar {
+  // ID del avatar
   id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre del avatar
   nom_avatar String @unique @db.VarChar(30)
 
+  // Relación 1-1 con AvatarUsuario (avatar_usuario)
   avatar_usuario AvatarUsuario? // Relación 1-1 con AvatarUsuario
 
   @@map("avatar")
 }
 
+// Tabla que almacena la relación entre los avatares y los usuarios
 model AvatarUsuario {
+  // ID de la relación avatar-usuario
   id         Int @id @default(autoincrement()) @db.UnsignedInt
+  // ID del avatar
   id_avatar  Int @unique @db.UnsignedInt
+  // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
 
+  // Relaciones 1-1 con Usuario y Avatar (usuarios y avatar)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
   avatar  Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict)
 
   @@map("avatar_usuario")
 }
 
+// Tabla que almacena los grados disponibles
 model Grado {
+  // ID del grado
   id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre del grado
   nom_grado String @unique @db.VarChar(30)
 
+  // Relación 1-1 con GradoUsuario (grado_usuario)
   grado_usuario GradoUsuario? // Relación 1-1 con GradoUsuario
+  // Relación 1-N con Libro (libros)
   libros        Libro[]
 
   @@map("grados")
 }
 
+// Tabla que almacena la relación entre los grados y los usuarios
 model GradoUsuario {
+  // ID de la relación grado-usuario
   id         Int @id @default(autoincrement()) @db.UnsignedInt
+  // ID del grado
   id_grado   Int @unique @db.UnsignedInt
+  // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
 
+  // Relaciones 1-1 con Usuario y Grado (usuarios y grados)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
   grados  Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
 
   @@map("grado_usuario")
 }
 
+// Tabla que almacena los libros disponibles
 model Libro {
+  // ID del libro
   id             Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre del libro
   nom_libro      String @unique @db.VarChar(100)
+  // Número de páginas del libro
   num_pag        Int    @db.UnsignedTinyInt
+  // Número de páginas leídas por el usuario
   cant_leido     Int    @db.UnsignedInt
+  // URL de la imagen de portada del libro
   imagen_portada String @unique @db.VarChar(255)
+  // URL del libro
   url_libro      String @unique @db.VarChar(255)
+  // ID del grado al que pertenece el libro
   id_grado       Int    @db.UnsignedInt
 
+  // Relación 1-1 con Grado (grados)
   grados     Grado       @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
+  // Relación 1-N con MisLibros (mis_libros)  
   mis_libros MisLibros[]
+  // Relación 1-N con Pregunta (preguntas)
   preguntas  Pregunta[]
 
   @@map("libros")
 }
 
+// Tabla que almacena los libros que el usuario ha leído
 model MisLibros {
+  // ID de la relación libro-usuario
   id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  // ID del usuario
   id_usuario Int     @db.UnsignedInt
+  // ID del libro
   id_libro   Int     @db.UnsignedInt
+  // Booleano que indica si el libro ha sido terminado
   terminado  Boolean
 
+  // Relaciones 1-1 con Usuario y Libro (usuarios y libros)
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 
   @@map("mis_libros")
 }
 
+// Tabla que almacena las preguntas de los libros
 model Pregunta {
+  // ID de la pregunta
   id           Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Número de la pregunta
   num_pregunta Int    @db.UnsignedTinyInt
+  // Pregunta
   pregunta     String @unique @db.VarChar(200)
+  // Respuesta A
   resA         String @db.VarChar(100)
+  // Respuesta B
   resB         String @db.VarChar(100)
+  // Respuesta C
   resC         String @db.VarChar(100)
+  // Respuesta D
   resD         String @db.VarChar(100)
+  // ID del libro al que pertenece la pregunta
   id_libro     Int    @db.UnsignedInt
 
+  // Relación 1-1 con Libro (libros)
   libros Libro @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
 
   @@map("preguntas")
 }
 
+// Tabla que almacena los usuarios
 model Usuario {
+  // ID del usuario
   id               Int       @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre de usuario
   username         String    @unique @db.VarChar(50)
+  // Primer nombre
   p_nombre         String    @db.VarChar(30)
+  // Segundo nombre (opcional)
   s_nombre         String?   @db.VarChar(30)
+  // Primer apellido
   p_apellido       String    @db.VarChar(30)
+  // Segundo apellido (opcional)
   s_apellido       String?   @db.VarChar(30)
+  // Edad del usuario (opcional)
   edad             Int?      @db.UnsignedInt
+  // Fecha de nacimiento del usuario (opcional)
   fecha_nacimiento DateTime? @db.Date()
+  // Ciudad de residencia del usuario (opcional)
   ciudad           String?   @db.VarChar(50)
+  // Correo electrónico del usuario
   email            String    @unique @db.VarChar(100)
+  // Contraseña del usuario
   password         String    @db.VarChar(255)
+  // Rol del usuario (Docente o Estudiante)
   rol              Rol       @default(Estudiante)
 
+  // Relaciones 1-1 con Docente, Estudiante, FotoPerfil, AvatarUsuario y GradoUsuario (docentes, estudiantes, fotos_perfil_usuario, avatar_usuario y grado_usuario)
   docente        Docente? // Relación 1-1 con Docente
   estudiante     Estudiante? // Relación 1-1 con Estudiante
   foto_perfil    FotoPerfil? // Relación 1-1 con FotoPerfil
@@ -120,52 +180,80 @@ model Usuario {
   @@map("usuarios")
 }
 
+// Tabla que almacena los docentes
 model Docente {
+  // ID del docente
   id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  // ID del usuario
   id_usuario  Int    @unique @db.UnsignedInt
+  // Código del docente
   cod_docente String @unique @db.VarChar(6)
 
+  // Relación 1-1 con Usuario (usuarios)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 
   @@map("docentes")
 }
 
+// Tabla que almacena los estudiantes
 model Estudiante {
+  // ID del estudiante
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
+  // ID del usuario
   id_usuario     Int     @unique @db.UnsignedInt
+  // Código del estudiante
   cod_estudiante String  @unique @db.VarChar(10)
+  // Apodo del estudiante (opcional)
   apodo          String? @db.VarChar(30)
 
+  // Relación 1-1 con Usuario (usuarios)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 
   @@map("estudiantes")
 }
 
+// Tabla que almacena las fotos de perfil de los usuarios
 model FotoPerfil {
+  // ID de la foto de perfil
   id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  // ID del usuario
   id_usuario Int    @unique @db.UnsignedInt
+  // URL de la foto de perfil
   foto       String @unique @db.VarChar(255)
 
+  // Relación 1-1 con Usuario (usuarios)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
 
   @@map("fotos_perfil_usuario")
 }
 
+// Tabla que almacena los mensajes de contacto
 model Contacto {
+  // ID del mensaje
   id              Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre completo del remitente
   nombre_completo String @db.VarChar(60)
+  // Correo electrónico del remitente
   email           String @db.VarChar(100)
+  // Número de teléfono del remitente
   telefono        String @db.VarChar(10)
+  // Asunto del mensaje
   mensaje         String @db.LongText
 
   @@map("contactos")
 }
 
+// Tabla que almacena los mensajes de soporte
 model Soporte {
+  // ID del mensaje
   id              Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Nombre completo del remitente
   nombre_completo String @db.VarChar(60)
+  // Correo electrónico del remitente
   email           String @db.VarChar(100)
+  // Asunto del mensaje
   asunto          String @db.MediumText
+  // Mensaje
   mensaje         String @db.LongText
 
   @@map("soporte-contacto")
