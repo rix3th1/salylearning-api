@@ -32,6 +32,7 @@ async function bootstrap() {
     .addTag('publico')
     .addTag('inicio')
     .addTag('login')
+    .addTag('recuperar-clave')
     .addTag('perfil')
     .addTag('avatar')
     .addTag('avatar-usuario')
