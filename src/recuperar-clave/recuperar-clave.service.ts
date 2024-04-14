@@ -1,23 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import * as JWT from 'jsonwebtoken';
+import { sendEmail } from '../nodemailer';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Injectable()
 export class RecuperarClaveService {
-  constructor() {}
+  constructor(private readonly usuariosService: UsuariosService) {}
 
-  async enviarEmailDeRecuperacion(token: string, email: string) {
-    console.info({ token, email });
+  async enviarEmailDeRecuperacion(origin: string, token: string, to: string) {
+    const url = `${origin}/recuperar-clave/cambiar-clave?token=${token}`;
+    const html = `
+      <h1>Recuperación de contraseña Salylearning</h1>
+      <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+      <a href="${url}">Restablecer contraseña</a>
+    `;
+
+    return sendEmail(to, 'Restablecer contraseña', html);
   }
 
-  async guardarTokenDeRecuperacion(token: string, email: string) {}
+  async cambiarClave(email: string, clave: string) {
+    return this.usuariosService.cambiarClave(email, clave);
+  }
 
-  async cambiarClave(clave: string) {}
-
-  generarToken(email: string) {
-    return JWT.sign({ email }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN_RP,
+  generarToken(payload: { email: string; oldPassword: string }) {
+    return JWT.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRESIN_RP,
     });
   }
 
-  async validarToken(token: string) {}
+  validarToken(token: string) {
+    return JWT.verify(token, process.env.JWT_SECRET) as JWT.JwtPayload & {
+      email: string;
+      oldPassword: string;
+    };
+  }
 }

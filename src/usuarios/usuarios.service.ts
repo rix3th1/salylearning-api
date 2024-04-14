@@ -41,6 +41,10 @@ export class UsuariosService {
     return this.prisma.usuario.update({ where: { id }, data: usuario });
   }
 
+  async cambiarClave(email: string, password: string): Promise<Usuario> {
+    return this.prisma.usuario.update({ where: { email }, data: { password } });
+  }
+
   async eliminarUsuario(id: number): Promise<Usuario> {
     return this.prisma.usuario.delete({ where: { id } });
   }

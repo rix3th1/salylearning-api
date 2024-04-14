@@ -29,6 +29,17 @@ async function bootstrap() {
       },
       'access-token',
     )
+    .addBearerAuth(
+      {
+        name: 'token-cambiar-clave',
+        description: 'Ingrese el token JWT para cambiar la clave',
+        bearerFormat: 'Bearer',
+        scheme: 'Bearer',
+        type: 'http',
+        in: 'Header',
+      },
+      'access-token-cambiar-clave',
+    )
     .addTag('publico')
     .addTag('inicio')
     .addTag('login')

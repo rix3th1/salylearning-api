@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   BadRequestException,
   Body,
   Controller,
@@ -106,9 +107,7 @@ export class LibrosController {
         await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
 
       if (!resCloudinary) {
-        throw new InternalServerErrorException(
-          'Error al subir la imagen de portada',
-        );
+        throw new BadGatewayException('Error al subir la imagen de portada');
       }
 
       const { secure_url: imagen_portada_url, public_id: cloudinaryPublicId } =
@@ -125,7 +124,9 @@ export class LibrosController {
         await this.librosService.eliminarPortadaLibroCloudinary(public_id);
       }
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
             'El nombre, la portada o la url del libro ya existe',
@@ -164,9 +165,7 @@ export class LibrosController {
           await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
 
         if (!resCloudinary) {
-          throw new InternalServerErrorException(
-            'Error al subir la imagen de portada',
-          );
+          throw new BadGatewayException('Error al subir la imagen de portada');
         }
 
         const {
@@ -182,7 +181,7 @@ export class LibrosController {
         const public_id_anterior = libroAnterior.imagen_portada
           .split('/')
           .pop()
-          .split('.')[0];
+          ?.split('.')[0];
 
         if (public_id_anterior) {
           await this.librosService.eliminarPortadaLibroCloudinary(
@@ -199,7 +198,9 @@ export class LibrosController {
         await this.librosService.eliminarPortadaLibroCloudinary(public_id);
       }
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
             'El nombre, la portada o la url del libro ya existe',

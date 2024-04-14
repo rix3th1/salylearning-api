@@ -59,9 +59,9 @@ export class UsuariosController {
   })
   async obtenerUsuario(@Param('id') id: string) {
     try {
-      const { password, ...result } =
-        await this.usuariosService.obtenerUsuario(+id);
-      return result;
+      const usuario = await this.usuariosService.obtenerUsuario(+id);
+      delete usuario.password;
+      return usuario;
     } catch (error) {
       console.error(error.message);
 
@@ -84,18 +84,18 @@ export class UsuariosController {
     description: 'Usuario creado',
     type: UsuarioRespuesta,
   })
-  async crearUsuario(@Body() usuario: CrearUsuarioDto) {
+  async crearUsuario(@Body() nuevoUsuario: CrearUsuarioDto) {
     try {
-      const hash = await argon2.hash(usuario.password);
-      usuario.password = hash;
+      const hash = await argon2.hash(nuevoUsuario.password);
+      nuevoUsuario.password = hash;
 
-      if (usuario.fecha_nacimiento) {
-        usuario.fecha_nacimiento = new Date(usuario.fecha_nacimiento);
+      if (nuevoUsuario.fecha_nacimiento) {
+        nuevoUsuario.fecha_nacimiento = new Date(nuevoUsuario.fecha_nacimiento);
       }
 
-      const { password, ...result } =
-        await this.usuariosService.crearUsuario(usuario);
-      return result;
+      const usuario = await this.usuariosService.crearUsuario(nuevoUsuario);
+      delete usuario.password;
+      return usuario;
     } catch (error) {
       console.error(error.message);
 
@@ -123,21 +123,24 @@ export class UsuariosController {
   })
   async actualizarUsuario(
     @Param('id') id: string,
-    @Body() usuario: ActualizarUsuarioDto,
+    @Body() nuevoUsuario: ActualizarUsuarioDto,
   ) {
     try {
-      if (usuario.password) {
-        const hash = await argon2.hash(usuario.password);
-        usuario.password = hash;
+      if (nuevoUsuario.password) {
+        const hash = await argon2.hash(nuevoUsuario.password);
+        nuevoUsuario.password = hash;
       }
 
-      if (usuario.fecha_nacimiento) {
-        usuario.fecha_nacimiento = new Date(usuario.fecha_nacimiento);
+      if (nuevoUsuario.fecha_nacimiento) {
+        nuevoUsuario.fecha_nacimiento = new Date(nuevoUsuario.fecha_nacimiento);
       }
 
-      const { password, ...result } =
-        await this.usuariosService.actualizarUsuario(+id, usuario);
-      return result;
+      const usuario = await this.usuariosService.actualizarUsuario(
+        +id,
+        nuevoUsuario,
+      );
+      delete usuario.password;
+      return usuario;
     } catch (error) {
       console.error(error.message);
 
@@ -165,9 +168,9 @@ export class UsuariosController {
   })
   async eliminarUsuario(@Param('id') id: string) {
     try {
-      const { password, ...result } =
-        await this.usuariosService.eliminarUsuario(+id);
-      return result;
+      const usuario = await this.usuariosService.eliminarUsuario(+id);
+      delete usuario.password;
+      return usuario;
     } catch (error) {
       console.error(error.message);
 

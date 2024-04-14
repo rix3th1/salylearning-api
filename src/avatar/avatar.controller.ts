@@ -20,7 +20,6 @@ import { Prisma } from '@prisma/client';
 import { AvatarService } from './avatar.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
 import { Avatar } from './entities/avatar.entity';
-import { match } from 'assert';
 
 @ApiTags('avatar')
 @ApiBearerAuth('access-token')

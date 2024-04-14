@@ -4,3 +4,7 @@ import { CrearUsuarioDto } from '../../usuarios/dto/usuarios.dto';
 export class RecuperarClaveDto extends PickType(CrearUsuarioDto, [
   'email',
 ] as const) {}
+
+export class CambiarClaveDto extends PickType(CrearUsuarioDto, [
+  'password',
+] as const) {}

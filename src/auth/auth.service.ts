@@ -15,8 +15,8 @@ export class AuthService {
     const isMatch = await argon2.verify(user.password, pass);
 
     if (user && isMatch) {
-      const { password, ...result } = user;
-      return result;
+      delete user.password;
+      return user;
     }
     return null;
   }

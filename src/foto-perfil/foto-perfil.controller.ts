@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   BadRequestException,
   Body,
   Controller,
@@ -96,9 +97,7 @@ export class FotoPerfilController {
         await this.fotoPerfilService.subirFotoCloudinary(foto);
 
       if (!resCloudinary) {
-        throw new InternalServerErrorException(
-          'Error al subir la imagen de perfil',
-        );
+        throw new BadGatewayException('Error al subir la imagen de perfil');
       }
 
       const { secure_url: foto_url, public_id: cloudinaryPublicId } =
@@ -115,7 +114,9 @@ export class FotoPerfilController {
         await this.fotoPerfilService.eliminarFotoCloudinary(public_id);
       }
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
             'Ya existe una foto de perfil con el mismo usuario o foto de perfil',
@@ -157,9 +158,7 @@ export class FotoPerfilController {
           await this.fotoPerfilService.subirFotoCloudinary(foto);
 
         if (!resCloudinary) {
-          throw new InternalServerErrorException(
-            'Error al subir la imagen de perfil',
-          );
+          throw new BadGatewayException('Error al subir la imagen de perfil');
         }
 
         const { secure_url: foto_url, public_id: cloudinaryPublicId } =
@@ -174,7 +173,7 @@ export class FotoPerfilController {
         const public_id_anterior = fotoPerfilAnterior.foto
           .split('/')
           .pop()
-          .split('.')[0];
+          ?.split('.')[0];
 
         if (public_id_anterior) {
           await this.fotoPerfilService.eliminarFotoCloudinary(
@@ -191,7 +190,9 @@ export class FotoPerfilController {
         await this.fotoPerfilService.eliminarFotoCloudinary(public_id);
       }
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
             'Ya existe una foto de perfil con el mismo usuario o foto de perfil',
