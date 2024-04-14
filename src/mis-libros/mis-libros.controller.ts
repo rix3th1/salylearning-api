@@ -55,7 +55,12 @@ export class MisLibrosController {
       return await this.misLibrosService.obtenerMiLibro(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Libro no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
+        }
+      }
     }
   }
 
@@ -113,10 +118,10 @@ export class MisLibrosController {
           throw new BadRequestException(
             'El id de usuario o el id de libro no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
         }
       }
-
-      throw new NotFoundException('Libro no encontrado');
     }
   }
 
@@ -134,7 +139,12 @@ export class MisLibrosController {
       return await this.misLibrosService.eliminarMiLibro(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Libro no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
+        }
+      }
     }
   }
 }

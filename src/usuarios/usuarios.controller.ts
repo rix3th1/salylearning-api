@@ -64,7 +64,12 @@ export class UsuariosController {
       return result;
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Usuario no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+      }
     }
   }
 
@@ -141,10 +146,10 @@ export class UsuariosController {
           throw new BadRequestException(
             'El email o el nombre de usuario ya existen',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('Usuario no encontrado');
         }
       }
-
-      throw new NotFoundException('Usuario no encontrado');
     }
   }
 
@@ -165,7 +170,12 @@ export class UsuariosController {
       return result;
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Usuario no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+      }
     }
   }
 }

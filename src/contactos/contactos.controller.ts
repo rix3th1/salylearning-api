@@ -16,6 +16,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import { Public } from '../public.decorator';
 import { ContactosService } from './contactos.service';
 import { ActualizarContactoDto, CrearContactoDto } from './dto/contactos.dto';
@@ -55,7 +56,12 @@ export class ContactosController {
       return await this.contactosService.obtenerContacto(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Contacto no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el contacto solicitado');
+        }
+      }
     }
   }
 
@@ -97,7 +103,12 @@ export class ContactosController {
       return await this.contactosService.actualizarContacto(+id, contacto);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Contacto no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el contacto solicitado');
+        }
+      }
     }
   }
 
@@ -116,7 +127,12 @@ export class ContactosController {
       return await this.contactosService.eliminarContacto(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Contacto no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el contacto solicitado');
+        }
+      }
     }
   }
 }

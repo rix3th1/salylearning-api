@@ -55,7 +55,12 @@ export class PreguntasController {
       return await this.preguntasService.obtenerPregunta(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Pregunta no encontrada');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Pregunta no encontrada');
+        }
+      }
     }
   }
 
@@ -109,10 +114,10 @@ export class PreguntasController {
           throw new BadRequestException('La pregunta ya existe');
         } else if (error.code === 'P2003') {
           throw new BadRequestException('El id de libro no existe');
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('Pregunta no encontrada');
         }
       }
-
-      throw new NotFoundException('Pregunta no encontrada');
     }
   }
 
@@ -130,7 +135,12 @@ export class PreguntasController {
       return await this.preguntasService.eliminarPregunta(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Pregunta no encontrada');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Pregunta no encontrada');
+        }
+      }
     }
   }
 }

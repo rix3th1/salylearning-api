@@ -58,7 +58,12 @@ export class GradosController {
       return await this.gradosService.obtenerGrado(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('No se encontró el grado solicitado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el grado solicitado');
+        }
+      }
     }
   }
 
@@ -114,10 +119,10 @@ export class GradosController {
           throw new BadRequestException(
             'Ya existe un grado con el mismo nombre',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el grado solicitado');
         }
       }
-
-      throw new NotFoundException('No se encontró el grado solicitado');
     }
   }
 
@@ -136,7 +141,12 @@ export class GradosController {
       return await this.gradosService.eliminarGrado(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('No se encontró el grado solicitado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el grado solicitado');
+        }
+      }
     }
   }
 }

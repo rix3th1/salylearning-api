@@ -58,9 +58,12 @@ export class GradoUsuarioController {
       return await this.gradoUsuarioService.obtenerGradoUsuario(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el grado del usuario solicitado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Grado de usuario no encontrado');
+        }
+      }
     }
   }
 
@@ -127,12 +130,10 @@ export class GradoUsuarioController {
           throw new BadRequestException(
             'El id de grado del usuario o el id de usuario no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('Grado de usuario no encontrado');
         }
       }
-
-      throw new NotFoundException(
-        'No se encontró el grado del usuario solicitado',
-      );
     }
   }
 
@@ -150,9 +151,12 @@ export class GradoUsuarioController {
       return await this.gradoUsuarioService.eliminarGradoUsuario(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el grado del usuario solicitado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Grado de usuario no encontrado');
+        }
+      }
     }
   }
 }

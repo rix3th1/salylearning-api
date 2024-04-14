@@ -58,9 +58,14 @@ export class EstudiantesController {
       return await this.estudiantesService.obtenerEstudiante(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el estudiante con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el estudiante con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 
@@ -127,12 +132,12 @@ export class EstudiantesController {
           throw new BadRequestException(
             'No se pudo actualizar el estudiante porque el id de usuario proporcionado no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el estudiante con el ID proporcionado',
+          );
         }
       }
-
-      throw new NotFoundException(
-        'No se encontró el estudiante con el ID proporcionado',
-      );
     }
   }
 
@@ -150,9 +155,14 @@ export class EstudiantesController {
       return await this.estudiantesService.eliminarEstudiante(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el estudiante con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el estudiante con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 }

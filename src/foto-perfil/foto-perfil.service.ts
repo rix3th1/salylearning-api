@@ -19,7 +19,7 @@ export class FotoPerfilService {
   }
 
   async obtenerFotoPerfil(id: number): Promise<FotoPerfil> {
-    return this.prisma.fotoPerfil.findUnique({ where: { id } });
+    return this.prisma.fotoPerfil.findUniqueOrThrow({ where: { id } });
   }
 
   async crearFotoPerfil(fotoPerfil: CrearFotoPerfilDto): Promise<FotoPerfil> {

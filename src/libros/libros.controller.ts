@@ -74,7 +74,12 @@ export class LibrosController {
       return await this.librosService.obtenerLibro(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Libro no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
+        }
+      }
     }
   }
 
@@ -173,14 +178,11 @@ export class LibrosController {
         libro.imagen_portada = imagen_portada_url;
 
         const libroAnterior = await this.librosService.obtenerLibro(+id);
-        if (!libroAnterior) {
-          throw new NotFoundException('Libro no encontrado');
-        }
 
         const public_id_anterior = libroAnterior.imagen_portada
           .split('/')
           .pop()
-          ?.split('.')[0];
+          .split('.')[0];
 
         if (public_id_anterior) {
           await this.librosService.eliminarPortadaLibroCloudinary(
@@ -204,10 +206,10 @@ export class LibrosController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException('El id de grado del libro no existe');
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
         }
       }
-
-      throw new NotFoundException('Libro no encontrado');
     }
   }
 
@@ -225,7 +227,12 @@ export class LibrosController {
       return await this.librosService.eliminarLibro(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Libro no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
+        }
+      }
     }
   }
 }

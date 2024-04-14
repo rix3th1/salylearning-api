@@ -63,9 +63,14 @@ export class FotoPerfilController {
       return await this.fotoPerfilService.obtenerFotoPerfil(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró la foto de perfil con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró la foto de perfil con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 
@@ -165,16 +170,11 @@ export class FotoPerfilController {
 
         const fotoPerfilAnterior =
           await this.fotoPerfilService.obtenerFotoPerfil(+id);
-        if (!fotoPerfilAnterior) {
-          throw new NotFoundException(
-            'No se encontró la foto de perfil con el ID proporcionado',
-          );
-        }
 
         const public_id_anterior = fotoPerfilAnterior.foto
           .split('/')
           .pop()
-          ?.split('.')[0];
+          .split('.')[0];
 
         if (public_id_anterior) {
           await this.fotoPerfilService.eliminarFotoCloudinary(
@@ -200,12 +200,12 @@ export class FotoPerfilController {
           throw new BadRequestException(
             'No se pudo actualizar la foto de perfil porque el id de usuario proporcionado no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró la foto de perfil con el ID proporcionado',
+          );
         }
       }
-
-      throw new NotFoundException(
-        'No se encontró la foto de perfil con el ID proporcionado',
-      );
     }
   }
 
@@ -223,9 +223,14 @@ export class FotoPerfilController {
       return await this.fotoPerfilService.eliminarFotoPerfil(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró la foto de perfil con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró la foto de perfil con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 }

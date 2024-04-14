@@ -20,6 +20,7 @@ import { Prisma } from '@prisma/client';
 import { AvatarService } from './avatar.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
 import { Avatar } from './entities/avatar.entity';
+import { match } from 'assert';
 
 @ApiTags('avatar')
 @ApiBearerAuth('access-token')
@@ -54,7 +55,12 @@ export class AvatarController {
       return await this.avatarService.obtenerAvatar(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('No se encontró el avatar solicitado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el avatar solicitado');
+        }
+      }
     }
   }
 
@@ -109,10 +115,10 @@ export class AvatarController {
           throw new BadRequestException(
             'Ya existe un avatar con el mismo nombre',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el avatar solicitado');
         }
       }
-
-      throw new NotFoundException('No se encontró el avatar solicitado');
     }
   }
 
@@ -130,7 +136,12 @@ export class AvatarController {
       return await this.avatarService.eliminarAvatar(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('No se encontró el avatar solicitado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('No se encontró el avatar solicitado');
+        }
+      }
     }
   }
 }

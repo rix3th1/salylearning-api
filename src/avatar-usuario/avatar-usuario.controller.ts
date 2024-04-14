@@ -58,9 +58,14 @@ export class AvatarUsuarioController {
       return await this.avatarUsuarioService.obtenerAvatarUsuario(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el avatar del usuario solicitado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el avatar de usuario solicitado',
+          );
+        }
+      }
     }
   }
 
@@ -127,12 +132,12 @@ export class AvatarUsuarioController {
           throw new BadRequestException(
             'El id de avatar del usuario o el id de usuario no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el avatar del usuario solicitado',
+          );
         }
       }
-
-      throw new NotFoundException(
-        'No se encontró el avatar del usuario solicitado',
-      );
     }
   }
 
@@ -150,9 +155,14 @@ export class AvatarUsuarioController {
       return await this.avatarUsuarioService.eliminarAvatarUsuario(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el avatar del usuario solicitado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el avatar del usuario solicitado',
+          );
+        }
+      }
     }
   }
 }

@@ -16,6 +16,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import { Public } from '../public.decorator';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
@@ -55,7 +56,12 @@ export class SoporteController {
       return await this.soporteService.obtenerSoporte(+id);
     } catch (error) {
       console.error(error);
-      throw new NotFoundException('Soporte no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Soporte no encontrado');
+        }
+      }
     }
   }
 
@@ -97,7 +103,12 @@ export class SoporteController {
       return await this.soporteService.actualizarSoporte(+id, soporte);
     } catch (error) {
       console.error(error);
-      throw new NotFoundException('Soporte no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Soporte no encontrado');
+        }
+      }
     }
   }
 
@@ -116,7 +127,12 @@ export class SoporteController {
       return await this.soporteService.eliminarSoporte(+id);
     } catch (error) {
       console.error(error);
-      throw new NotFoundException('Soporte no encontrado');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Soporte no encontrado');
+        }
+      }
     }
   }
 }

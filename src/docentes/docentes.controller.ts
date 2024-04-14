@@ -55,9 +55,14 @@ export class DocentesController {
       return await this.docentesService.obtenerDocente(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el docente con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el docente con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 
@@ -121,12 +126,12 @@ export class DocentesController {
           throw new BadRequestException(
             'No se pudo actualizar el docente porque el id de usuario proporcionado no existe',
           );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el docente con el ID proporcionado',
+          );
         }
       }
-
-      throw new NotFoundException(
-        'No se encontró el docente con el ID proporcionado',
-      );
     }
   }
 
@@ -144,9 +149,14 @@ export class DocentesController {
       return await this.docentesService.eliminarDocente(+id);
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException(
-        'No se encontró el docente con el ID proporcionado',
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el docente con el ID proporcionado',
+          );
+        }
+      }
     }
   }
 }
