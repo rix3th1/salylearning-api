@@ -80,7 +80,7 @@ model Libro {
   nom_libro      String @unique @db.VarChar(100)
   // Número de páginas del libro
   num_pag        Int    @db.UnsignedTinyInt
-  // Número de páginas leídas por el usuario
+  // Cantidad de libros leídos
   cant_leido     Int    @db.UnsignedInt
   // URL de la imagen de portada del libro
   imagen_portada String @unique @db.VarChar(255)
@@ -123,7 +123,7 @@ model Pregunta {
   id           Int    @id @default(autoincrement()) @db.UnsignedInt
   // Número de la pregunta
   num_pregunta Int    @db.UnsignedTinyInt
-  // Pregunta
+  // Contenido de la pregunta
   pregunta     String @unique @db.VarChar(200)
   // Respuesta A
   resA         String @db.VarChar(100)
