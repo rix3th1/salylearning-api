@@ -17,7 +17,7 @@ import { Soporte } from '../entities/soporte.entity';
 
 export class CrearSoporteDto extends IntersectionType(
   OmitType(CrearContactoDto, ['telefono'] as const),
-  PickType(Soporte, ['asunto']),
+  PickType(Soporte, ['asunto'] as const),
 ) {
   @IsNotEmpty({ message: 'El asunto del mensaje es requerido' })
   @IsString({ message: 'El asunto del mensaje debe ser una cadena de texto' })

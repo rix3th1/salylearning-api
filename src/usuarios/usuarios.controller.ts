@@ -20,7 +20,6 @@ import {
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { exclude } from '../libs';
-import { Public } from '../public.decorator';
 import { ActualizarUsuarioDto, CrearUsuarioDto } from './dto/usuarios.dto';
 import { Usuario, UsuarioRespuesta } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
@@ -74,8 +73,6 @@ export class UsuariosController {
   }
 
   @Post()
-  @Public()
-  @ApiTags('publico')
   @ApiOperation({
     summary: 'Crear un usuario',
     description: 'Crea un usuario en la base de datos',

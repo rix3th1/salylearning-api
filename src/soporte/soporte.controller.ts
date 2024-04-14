@@ -17,7 +17,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { Public } from '../public.decorator';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 import { SoporteService } from './soporte.service';
@@ -66,8 +65,6 @@ export class SoporteController {
   }
 
   @Post()
-  @Public()
-  @ApiTags('publico')
   @ApiOperation({
     summary: 'Crear un soporte',
     description: 'Crea un soporte en la base de datos',

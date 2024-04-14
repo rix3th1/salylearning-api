@@ -19,6 +19,7 @@ import { PreguntasModule } from './preguntas/preguntas.module';
 import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
 import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { RegistrarseModule } from './registrarse/registrarse.module';
 
 const AppGuard = {
   provide: APP_GUARD,
@@ -43,6 +44,7 @@ const AppGuard = {
     DocentesModule,
     EstudiantesModule,
     FotoPerfilModule,
+    RegistrarseModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],

@@ -16,7 +16,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Salylearning API')
-    .setDescription('Descripción de la API Salylearning')
+    .setDescription(
+      'Descripción de la API de Salylearning. Aquí se encuentran todos los endpoints de la API de Salylearning. Para más información, visite la documentación de la API en github.',
+    )
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -43,6 +45,7 @@ async function bootstrap() {
     .addTag('publico')
     .addTag('inicio')
     .addTag('login')
+    .addTag('registrarse')
     .addTag('recuperar-clave')
     .addTag('perfil')
     .addTag('avatar')
