@@ -76,17 +76,19 @@ export class RecuperarClaveController {
 
       if (response.error) {
         throw new BadGatewayException(
-          `No se pudo enviar el email de recuperación de clave a ${datosUsuario.email}. Por favor, intenta de nuevo más tarde.`,
+          `No se pudo enviar el email de recuperación de clave a "${datosUsuario.email}". Por favor, intenta de nuevo más tarde.`,
         );
       }
 
       return {
-        message: `Si existe una cuenta asociada a este email: ${datosUsuario.email}, se enviará un email con las instrucciones para recuperar la clave.`,
+        message: `Si existe una cuenta asociada a este email: "${datosUsuario.email}", se enviará un email con las instrucciones para recuperar la clave.`,
       };
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
           throw new NotFoundException(
             `No existe una cuenta asociada a este email: ${datosUsuario.email}`,
@@ -139,7 +141,7 @@ export class RecuperarClaveController {
         email,
       };
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
       if (error instanceof ForbiddenException) {
         throw error;
@@ -211,7 +213,7 @@ export class RecuperarClaveController {
         message: `Se ha cambiado la clave del ${usuario.rol} "${usuario.p_nombre} ${usuario.p_apellido}" asociada al email ${usuario.email}. Por favor, inicia sesión con tu nueva clave.`,
       };
     } catch (error) {
-      console.error({ error });
+      console.error(error.message);
 
       if (error instanceof BadRequestException) {
         throw error;

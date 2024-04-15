@@ -17,9 +17,10 @@ import { LibrosModule } from './libros/libros.module';
 import { MisLibrosModule } from './mis-libros/mis-libros.module';
 import { PreguntasModule } from './preguntas/preguntas.module';
 import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
+import { RegistrarseModule } from './registrarse/registrarse.module';
 import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
-import { RegistrarseModule } from './registrarse/registrarse.module';
+import { VerificarCuentaModule } from './verificar-cuenta/verificar-cuenta.module';
 
 const AppGuard = {
   provide: APP_GUARD,
@@ -45,6 +46,7 @@ const AppGuard = {
     EstudiantesModule,
     FotoPerfilModule,
     RegistrarseModule,
+    VerificarCuentaModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],

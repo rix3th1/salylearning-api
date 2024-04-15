@@ -46,6 +46,7 @@ async function bootstrap() {
     .addTag('inicio')
     .addTag('login')
     .addTag('registrarse')
+    .addTag('verificar-cuenta')
     .addTag('recuperar-clave')
     .addTag('perfil')
     .addTag('avatar')

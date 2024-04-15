@@ -1,7 +1,9 @@
 import {
+  BadGatewayException,
   BadRequestException,
   Body,
   Controller,
+  Headers,
   InternalServerErrorException,
   Post,
 } from '@nestjs/common';
@@ -28,7 +30,7 @@ export class RegistrarseController {
     description: 'Usuario registrado',
     type: UsuarioRespuesta,
   })
-  async registrarse(@Body() nuevoUsuario: RegistrarseDto) {
+  async registrarse(@Body() nuevoUsuario: RegistrarseDto, @Headers() headers) {
     try {
       const hash = await argon2.hash(nuevoUsuario.password);
       nuevoUsuario.password = hash;
@@ -39,11 +41,36 @@ export class RegistrarseController {
         await this.registrarseService.registrarUsuario(nuevoUsuario);
       // Delete password property from the response because it is sensitive
       delete usuario.password;
-      return usuario;
+
+      // Generate activation token
+      const tokenDeActivacion =
+        this.registrarseService.generarTokenDeActivacion({
+          email: usuario.email,
+        });
+
+      // Send the email to activate account
+      const response = await this.registrarseService.enviarEmailDeVerificacion(
+        headers.origin,
+        tokenDeActivacion,
+        usuario.email,
+      );
+
+      if (response.error) {
+        throw new BadGatewayException(
+          `No se pudo enviar el email de verificación a "${usuario.email}". Por favor, intenta de nuevo más tarde.`,
+        );
+      }
+
+      return {
+        message: `Usuario registrado. Se ha enviado un email de verificación a "${usuario.email}". Por favor, verifica tu cuenta.`,
+        usuario,
+      };
     } catch (error) {
       console.error(error.message);
 
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
             'El email, el nombre de usuario o el grado ya existen',

@@ -41,6 +41,15 @@ export class UsuariosService {
     return this.prisma.usuario.update({ where: { id }, data: usuario });
   }
 
+  async verificarUsuario(email: string): Promise<Usuario> {
+    return this.prisma.usuario.update({
+      where: { email },
+      data: {
+        verificado: true,
+      },
+    });
+  }
+
   async cambiarClave(email: string, password: string): Promise<Usuario> {
     return this.prisma.usuario.update({ where: { email }, data: { password } });
   }

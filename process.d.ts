@@ -6,6 +6,7 @@ declare namespace NodeJS {
     JWT_SECRET?: string;
     JWT_EXPIRESIN?: string;
     JWT_EXPIRESIN_RP?: string;
+    JWT_EXPIRESIN_AC?: string;
     GMAIL_USER?: string;
     GMAIL_PASS?: string;
     GMAIL_SENDER?: string;
