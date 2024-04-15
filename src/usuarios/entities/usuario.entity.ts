@@ -109,6 +109,13 @@ export class Usuario implements Partial<TUsuario> {
     maxLength: 30,
   })
   rol?: $Enums.Rol;
+
+  @ApiPropertyOptional({
+    title: 'Verificado',
+    description: 'Usuario verificado (Opcional, por defecto false)',
+    example: false,
+  })
+  verificado?: boolean;
 }
 
 export class UsuarioRespuesta extends OmitType(Usuario, [

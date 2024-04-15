@@ -168,6 +168,8 @@ model Usuario {
   password         String    @db.VarChar(255)
   // Rol del usuario (Docente o Estudiante)
   rol              Rol       @default(Estudiante)
+  // Booleano que indica si el usuario verificó su correo electrónico
+  verificado       Boolean   @default(false)
 
   // Relaciones 1-1 con Docente, Estudiante, FotoPerfil, AvatarUsuario y GradoUsuario (docentes, estudiantes, fotos_perfil_usuario, avatar_usuario y grado_usuario)
   docente        Docente? // Relación 1-1 con Docente

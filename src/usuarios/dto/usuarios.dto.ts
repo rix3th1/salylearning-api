@@ -1,6 +1,7 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { $Enums } from '@prisma/client';
 import {
+  IsBoolean,
   IsDateString,
   IsEmail,
   IsIn,
@@ -123,6 +124,11 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
     message: 'El rol debe ser Docente o Estudiante',
   })
   rol?: $Enums.Rol;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'El usuario verificado no puede estar vacío' })
+  @IsBoolean({ message: 'El usuario verificado debe ser un booleano' })
+  verificado?: boolean;
 }
 
 export class ActualizarUsuarioDto extends PartialType(CrearUsuarioDto) {

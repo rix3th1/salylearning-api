@@ -6,7 +6,12 @@ import { CrearUsuarioDto } from '../../usuarios/dto/usuarios.dto';
 import { Registrarse } from '../entities/registrarse.entity';
 
 export class RegistrarseDto extends IntersectionType(
-  OmitType(CrearUsuarioDto, ['fecha_nacimiento', 'ciudad', 'rol'] as const),
+  OmitType(CrearUsuarioDto, [
+    'fecha_nacimiento',
+    'ciudad',
+    'rol',
+    'verificado',
+  ] as const),
   PickType(Registrarse, ['confirmar_password'] as const),
   PickType(CrearGradoUsuarioDto, ['id_grado'] as const),
 ) {
