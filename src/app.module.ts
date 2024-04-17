@@ -11,6 +11,7 @@ import { ContactosModule } from './contactos/contactos.module';
 import { DocentesModule } from './docentes/docentes.module';
 import { EstudiantesModule } from './estudiantes/estudiantes.module';
 import { FotoPerfilModule } from './foto-perfil/foto-perfil.module';
+import { GenerosLiterariosModule } from './generos-literarios/generos-literarios.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
 import { LibrosModule } from './libros/libros.module';
@@ -47,6 +48,7 @@ const AppGuard = {
     FotoPerfilModule,
     RegistrarseModule,
     VerificarCuentaModule,
+    GenerosLiterariosModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],

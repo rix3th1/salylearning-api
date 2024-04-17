@@ -35,6 +35,19 @@ import { LibrosService } from './libros.service';
 export class LibrosController {
   constructor(private readonly librosService: LibrosService) {}
 
+  @Get('contar')
+  @ApiOperation({
+    summary: 'Contar libros',
+    description: 'Devuelve el número de libros',
+  })
+  @ApiOkResponse({
+    description: 'Número de libros',
+    type: Number,
+  })
+  async contarLibros() {
+    return await this.librosService.contarLibros();
+  }
+
   @Get()
   @ApiOperation({
     summary: 'Obtener todos los libros',
@@ -48,7 +61,7 @@ export class LibrosController {
     return await this.librosService.obtenerLibros();
   }
 
-  @Get('buscar')
+  @Get('nombre')
   @ApiOperation({
     summary: 'Buscar libros por nombre',
     description: 'Buscar libros por nombre',
@@ -59,6 +72,32 @@ export class LibrosController {
   })
   async obtenerLibroPorNombre(@Query('nom_libro') nom_libro: string) {
     return await this.librosService.obtenerLibrosPorNombre(nom_libro);
+  }
+
+  @Get('autor')
+  @ApiOperation({
+    summary: 'Buscar libros por autor',
+    description: 'Buscar libros por autor',
+  })
+  @ApiOkResponse({
+    description: 'Lista de libros encontrados',
+    type: [Libro],
+  })
+  async obtenerLibroPorAutor(@Query('autor') autor: string) {
+    return await this.librosService.obtenerLibrosPorAutor(autor);
+  }
+
+  @Get('editorial')
+  @ApiOperation({
+    summary: 'Buscar libros por editorial',
+    description: 'Buscar libros por editorial',
+  })
+  @ApiOkResponse({
+    description: 'Lista de libros encontrados',
+    type: [Libro],
+  })
+  async obtenerLibroPorEditorial(@Query('editorial') editorial: string) {
+    return await this.librosService.obtenerLibrosPorEditorial(editorial);
   }
 
   @Get(':id')

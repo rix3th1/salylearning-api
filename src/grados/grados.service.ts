@@ -7,6 +7,10 @@ import { Grado } from './entities/grado.entity';
 export class GradosService {
   constructor(private prisma: PrismaService) {}
 
+  async contarGrados(): Promise<number> {
+    return this.prisma.grado.count();
+  }
+
   async obtenerGrados(): Promise<Grado[]> {
     return this.prisma.grado.findMany();
   }

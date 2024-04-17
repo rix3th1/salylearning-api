@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsuariosModule } from 'src/usuarios/usuarios.module';
+import { UsuariosModule } from '../usuarios/usuarios.module';
 import { VerificarCuentaController } from './verificar-cuenta.controller';
 import { VerificarCuentaService } from './verificar-cuenta.service';
 

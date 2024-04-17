@@ -30,6 +30,50 @@ export class Libro implements TLibro {
   num_pag: number;
 
   @ApiProperty({
+    title: 'Autor del libro',
+    description: 'El autor del libro',
+    example: 'Juan Pérez',
+    minLength: 3,
+    maxLength: 100,
+  })
+  autor: string;
+
+  @ApiProperty({
+    title: 'Editorial del libro',
+    description: 'La editorial del libro',
+    example: 'Editorial Pérez',
+    minLength: 3,
+    maxLength: 50,
+  })
+  editorial: string;
+
+  @ApiProperty({
+    title: 'Más información del libro',
+    description: 'Más información del libro',
+    example: 'https://wwww.wikipedia.org/xxxxx',
+    minLength: 3,
+    maxLength: 255,
+    format: 'url',
+  })
+  url_info: string;
+
+  @ApiProperty({
+    title: 'Año de publicación',
+    description: 'El año de publicación del libro',
+    example: 2021,
+  })
+  fecha_pub: Date;
+
+  @ApiProperty({
+    title: 'Id de género literario',
+    description: 'El id del género literario del libro',
+    example: 1,
+    minLength: 1,
+    maxLength: 4294967295,
+  })
+  id_genero_literario: number;
+
+  @ApiProperty({
     title: 'Cantidad de veces leído',
     description: 'La cantidad de veces que el libro ha sido leído',
     example: 5,

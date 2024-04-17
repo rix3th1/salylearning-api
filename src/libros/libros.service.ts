@@ -11,6 +11,10 @@ export class LibrosService {
     private cloudinary: CloudinaryService,
   ) {}
 
+  async contarLibros(): Promise<number> {
+    return this.prisma.libro.count();
+  }
+
   async obtenerLibros(): Promise<Libro[]> {
     return this.prisma.libro.findMany();
   }
@@ -18,6 +22,18 @@ export class LibrosService {
   async obtenerLibrosPorNombre(nom_libro: string): Promise<Libro[]> {
     return this.prisma.libro.findMany({
       where: { nom_libro: { contains: nom_libro } },
+    });
+  }
+
+  async obtenerLibrosPorAutor(autor: string): Promise<Libro[]> {
+    return this.prisma.libro.findMany({
+      where: { autor: { contains: autor } },
+    });
+  }
+
+  async obtenerLibrosPorEditorial(editorial: string): Promise<Libro[]> {
+    return this.prisma.libro.findMany({
+      where: { editorial: { contains: editorial } },
     });
   }
 

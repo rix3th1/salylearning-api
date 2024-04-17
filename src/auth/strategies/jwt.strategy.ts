@@ -19,6 +19,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         payload.sub,
       );
       const { id, ...result } = usuario;
+
+      // Delete the password from the user object
       delete usuario.password;
       return { userId: id, ...result };
     } catch (error) {

@@ -16,6 +16,7 @@ export class AuthService {
     const isVerified = user.verificado;
 
     if (user && isMatch && isVerified) {
+      // Delete the password from the user object
       delete user.password;
       return user;
     }

@@ -34,22 +34,31 @@ export class VerificarCuentaController {
       title: 'Cuenta verificada',
       description: 'Cuenta verificada',
       example: {
+        verified: true,
         message:
           'Muchas gracias por verificar tu cuenta. Ahora puedes iniciar sesión.',
-        verificado: true,
       },
     },
   })
   async verificarCuenta(@Query('token') token: string) {
     try {
       const { email } = this.verificarCuentaService.validarToken(token);
+      const usuario = await this.usuariosService.obtenerUsuarioPorEmail(email);
 
-      const verificado = await this.usuariosService.verificarUsuario(email);
+      if (usuario.verificado) {
+        return {
+          verified: true,
+          message: 'Tu cuenta ya ha sido verificada anteriormente.',
+        };
+      }
+
+      // Verify the account
+      await this.usuariosService.verificarUsuario(email);
 
       return {
+        verified: true,
         message:
           'Muchas gracias por verificar tu cuenta. Ahora puedes iniciar sesión.',
-        verificado,
       };
     } catch (error) {
       console.error(error.message);

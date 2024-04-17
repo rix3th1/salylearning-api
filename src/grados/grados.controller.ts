@@ -28,6 +28,20 @@ import { GradosService } from './grados.service';
 export class GradosController {
   constructor(private readonly gradosService: GradosService) {}
 
+  @ApiBearerAuth('access-token')
+  @Get('contar')
+  @ApiOperation({
+    summary: 'Contar grados',
+    description: 'Devuelve el número de grados',
+  })
+  @ApiOkResponse({
+    description: 'Número de grados',
+    type: Number,
+  })
+  async contarGrados() {
+    return await this.gradosService.contarGrados();
+  }
+
   @Get()
   @Public()
   @ApiTags('publico')

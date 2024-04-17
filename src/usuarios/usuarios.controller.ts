@@ -59,6 +59,7 @@ export class UsuariosController {
   async obtenerUsuario(@Param('id') id: string) {
     try {
       const usuario = await this.usuariosService.obtenerUsuario(+id);
+      // Delete the password from the user object
       delete usuario.password;
       return usuario;
     } catch (error) {
@@ -91,6 +92,7 @@ export class UsuariosController {
       }
 
       const usuario = await this.usuariosService.crearUsuario(nuevoUsuario);
+      // Delete the password from the user object
       delete usuario.password;
       return usuario;
     } catch (error) {
@@ -136,6 +138,7 @@ export class UsuariosController {
         +id,
         nuevoUsuario,
       );
+      // Delete the password from the user object
       delete usuario.password;
       return usuario;
     } catch (error) {
@@ -166,6 +169,7 @@ export class UsuariosController {
   async eliminarUsuario(@Param('id') id: string) {
     try {
       const usuario = await this.usuariosService.eliminarUsuario(+id);
+      // Delete the password from the user object
       delete usuario.password;
       return usuario;
     } catch (error) {
