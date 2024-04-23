@@ -1,8 +1,9 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { $Enums } from '@prisma/client';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
-  IsDateString,
+  IsDate,
   IsEmail,
   IsIn,
   IsInt,
@@ -77,11 +78,8 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   edad: number;
 
   @IsOptional()
-  @IsNotEmpty({ message: 'La fecha de nacimiento no puede estar vacía' })
-  @IsString({ message: 'La fecha de nacimiento debe ser una cadena de texto' })
-  @IsDateString(undefined, {
-    message: 'La fecha de nacimiento debe tener el formato YYYY-MM-DD',
-  })
+  @IsDate({ message: 'La fecha de nacimiento debe ser una fecha' })
+  @Transform(({ value: fecha_nacimiento }) => new Date(fecha_nacimiento))
   fecha_nacimiento?: Date;
 
   @IsOptional()
@@ -120,9 +118,10 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   @IsString({ message: 'El rol debe ser una cadena de texto' })
   @MinLength(3, { message: 'El rol debe tener al menos 3 caracteres' })
   @MaxLength(30, { message: 'El rol debe tener menos de 30 caracteres' })
-  @IsIn([$Enums.Rol.Docente, $Enums.Rol.Estudiante], {
-    message: 'El rol debe ser Docente o Estudiante',
+  @IsIn(Object.values($Enums.Rol), {
+    message: `El rol debe ser uno de los siguientes valores: ${Object.values($Enums.Rol).join(', ')}`,
   })
+  @Transform(({ value: rol }) => rol.toUpperCase())
   rol?: $Enums.Rol;
 
   @IsOptional()

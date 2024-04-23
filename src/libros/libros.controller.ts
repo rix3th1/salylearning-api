@@ -171,7 +171,9 @@ export class LibrosController {
             'El nombre, la portada o la url del libro ya existe',
           );
         } else if (error.code === 'P2003') {
-          throw new BadRequestException('El id de grado del libro no existe');
+          throw new BadRequestException(
+            'El id de grado o el id de género literario del libro no existe',
+          );
         }
       }
 
@@ -245,7 +247,9 @@ export class LibrosController {
             'El nombre, la portada o la url del libro ya existe',
           );
         } else if (error.code === 'P2003') {
-          throw new BadRequestException('El id de grado del libro no existe');
+          throw new BadRequestException(
+            'El id de grado o el id de género literario del libro no existe',
+          );
         } else if (error.code === 'P2025') {
           throw new NotFoundException('Libro no encontrado');
         }

@@ -1,11 +1,12 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-  IsDateString,
+  IsDate,
   IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUrl,
   Max,
   MaxLength,
   Min,
@@ -55,6 +56,15 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   @IsString({
     message: 'La url de más información del libro debe ser una cadena de texto',
   })
+  @IsUrl(
+    {
+      require_protocol: true,
+      require_host: true,
+      require_valid_protocol: true,
+      protocols: ['https'],
+    },
+    { message: 'La url de más información del libro debe ser una URL válida' },
+  )
   @MinLength(3, {
     message:
       'La url de más información del libro debe tener al menos 3 caracteres',
@@ -66,12 +76,8 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   url_info: string;
 
   @IsNotEmpty({ message: 'La fecha de publicación del libro es requerida' })
-  @IsString({
-    message: 'La fecha de publicación del libro debe ser una cadena de texto',
-  })
-  @IsDateString(undefined, {
-    message: 'La fecha de publicación del libro debe ser una fecha',
-  })
+  @IsDate({ message: 'La fecha de publicación del libro debe ser una fecha' })
+  @Transform(({ value: fecha_pub }) => new Date(fecha_pub))
   fecha_pub: Date;
 
   @IsNotEmpty({ message: 'El id del género literario es requerido' })
@@ -96,6 +102,15 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
 
   @IsNotEmpty({ message: 'La url del libro es requerida' })
   @IsString({ message: 'La url del libro debe ser una cadena de texto' })
+  @IsUrl(
+    {
+      require_protocol: true,
+      require_host: true,
+      require_valid_protocol: true,
+      protocols: ['https'],
+    },
+    { message: 'La url del libro debe ser una URL válida' },
+  )
   @MinLength(3, {
     message: 'La url del libro debe tener al menos 3 caracteres',
   })

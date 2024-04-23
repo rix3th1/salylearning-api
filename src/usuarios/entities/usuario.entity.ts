@@ -68,7 +68,9 @@ export class Usuario implements Partial<TUsuario> {
   @ApiPropertyOptional({
     title: 'Fecha de nacimiento',
     description: 'Fecha de nacimiento del usuario (Opcional)',
-    example: '2018-12-10',
+    example: new Date(),
+    type: 'string',
+    format: 'date',
   })
   fecha_nacimiento?: Date;
 
@@ -101,10 +103,10 @@ export class Usuario implements Partial<TUsuario> {
 
   @ApiPropertyOptional({
     title: 'Rol',
-    description: "Rol del usuario (Opcional, por defecto 'Estudiante')",
-    example: 'Estudiante',
+    description: `Rol del usuario (Opcional, por defecto ${$Enums.Rol.ESTUDIANTE})`,
+    example: $Enums.Rol.ESTUDIANTE,
     enum: $Enums.Rol,
-    default: $Enums.Rol.Estudiante,
+    default: $Enums.Rol.ESTUDIANTE,
     minLength: 3,
     maxLength: 30,
   })

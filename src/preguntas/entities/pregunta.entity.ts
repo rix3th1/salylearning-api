@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Pregunta as TPregunta } from '@prisma/client';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { EstadoCuestionario, Pregunta as TPregunta } from '@prisma/client';
 
 export class Pregunta implements TPregunta {
   @ApiProperty({
@@ -73,4 +73,15 @@ export class Pregunta implements TPregunta {
     maximum: 4294967295, // 2^32 - 1 = 4.294.967.295
   })
   id_libro: number;
+
+  @ApiPropertyOptional({
+    title: 'Estado de la pregunta',
+    description: `Estado de la pregunta (Opcional, por defecto: ${EstadoCuestionario.PENDIENTE})`,
+    example: EstadoCuestionario.PENDIENTE,
+    enum: EstadoCuestionario,
+    default: EstadoCuestionario.PENDIENTE,
+    minLength: 3,
+    maxLength: 30,
+  })
+  estado: EstadoCuestionario;
 }

@@ -58,9 +58,11 @@ export class Libro implements TLibro {
   url_info: string;
 
   @ApiProperty({
-    title: 'Año de publicación',
-    description: 'El año de publicación del libro',
-    example: 2021,
+    title: 'Fecha de publicación',
+    description: 'La fecha de publicación del libro',
+    example: new Date(),
+    type: 'string',
+    format: 'date',
   })
   fecha_pub: Date;
 

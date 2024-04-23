@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -17,16 +18,69 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { EstadoCuestionario, Prisma } from '@prisma/client';
 import { ActualizarPreguntaDto, CrearPreguntaDto } from './dto/preguntas.dto';
 import { Pregunta } from './entities/pregunta.entity';
 import { PreguntasService } from './preguntas.service';
+import { isIn } from 'class-validator';
 
 @ApiBearerAuth('access-token')
 @ApiTags('preguntas')
 @Controller('preguntas')
 export class PreguntasController {
   constructor(private readonly preguntasService: PreguntasService) {}
+
+  @Get('contar')
+  @ApiOperation({
+    summary: 'Contar todas las preguntas',
+    description: 'Cuenta todas las preguntas de la base de datos',
+  })
+  @ApiOkResponse({
+    description: 'Número de preguntas',
+    type: Number,
+  })
+  async contarPreguntas() {
+    return await this.preguntasService.contarPreguntas();
+  }
+
+  @Get('contar-pendientes')
+  @ApiOperation({
+    summary: 'Contar todas las preguntas pendientes',
+    description: 'Cuenta todas las preguntas pendientes de la base de datos',
+  })
+  @ApiOkResponse({
+    description: 'Número de preguntas pendientes',
+    type: Number,
+  })
+  async contarPreguntasPendientes() {
+    return await this.preguntasService.contarPreguntasPendientes();
+  }
+
+  @Get('contar-no-logradas')
+  @ApiOperation({
+    summary: 'Contar todas las preguntas no logradas',
+    description: 'Cuenta todas las preguntas no logradas de la base de datos',
+  })
+  @ApiOkResponse({
+    description: 'Número de preguntas no logradas',
+    type: Number,
+  })
+  async contarPreguntasNoLogradas() {
+    return await this.preguntasService.contarPreguntasNoLogradas();
+  }
+
+  @Get('contar-completadas')
+  @ApiOperation({
+    summary: 'Contar todas las preguntas completadas',
+    description: 'Cuenta todas las preguntas completadas de la base de datos',
+  })
+  @ApiOkResponse({
+    description: 'Número de preguntas completadas',
+    type: Number,
+  })
+  async contarPreguntasCompletadas() {
+    return await this.preguntasService.contarPreguntasCompletadas();
+  }
 
   @Get()
   @ApiOperation({
@@ -39,6 +93,31 @@ export class PreguntasController {
   })
   async obtenerPreguntas() {
     return await this.preguntasService.obtenerPreguntas();
+  }
+
+  @Get('estado')
+  @ApiOperation({
+    summary: `Obtener preguntas por estado: ${Object.values(EstadoCuestionario).join(', ')}`,
+    description: `Obtiene preguntas de la base de datos por su estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+  })
+  @ApiOkResponse({
+    description: 'Lista de preguntas',
+    type: [Pregunta],
+  })
+  async obtenerPreguntasPorEstado(
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+
+    if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
+
+    return await this.preguntasService.obtenerPreguntasPorEstado(
+      estadoCuestionario,
+    );
   }
 
   @Get(':id')

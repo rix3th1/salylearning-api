@@ -7,9 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enum que almacena los roles de los usuarios
 enum Rol {
-  Docente
-  Estudiante
+  DOCENTE
+  ESTUDIANTE
+}
+
+// Enum que almacena los estados de los cuestionarios de los libros (COMPLETADO, PENDIENTE, NO_LOGRADO)
+enum EstadoCuestionario {
+  COMPLETADO
+  PENDIENTE
+  NO_LOGRADO
 }
 
 // Tabla que almacena los avatares disponibles para los usuarios
@@ -144,21 +152,23 @@ model MisLibros {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id           Int    @id @default(autoincrement()) @db.UnsignedInt
+  id           Int                @id @default(autoincrement()) @db.UnsignedInt
   // Número de la pregunta
-  num_pregunta Int    @db.UnsignedTinyInt
+  num_pregunta Int                @db.UnsignedTinyInt
   // Contenido de la pregunta
-  pregunta     String @unique @db.VarChar(200)
+  pregunta     String             @unique @db.VarChar(200)
   // Respuesta A
-  resA         String @db.VarChar(100)
+  resA         String             @db.VarChar(100)
   // Respuesta B
-  resB         String @db.VarChar(100)
+  resB         String             @db.VarChar(100)
   // Respuesta C
-  resC         String @db.VarChar(100)
+  resC         String             @db.VarChar(100)
   // Respuesta D
-  resD         String @db.VarChar(100)
+  resD         String             @db.VarChar(100)
   // ID del libro al que pertenece la pregunta
-  id_libro     Int    @db.UnsignedInt
+  id_libro     Int                @db.UnsignedInt
+  // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
+  estado       EstadoCuestionario @default(PENDIENTE)
 
   // Relación 1-1 con Libro (libros)
   libros Libro @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -190,8 +200,8 @@ model Usuario {
   email            String    @unique @db.VarChar(100)
   // Contraseña del usuario
   password         String    @db.VarChar(255)
-  // Rol del usuario (Docente o Estudiante)
-  rol              Rol       @default(Estudiante)
+  // Rol del usuario (DOCENTE o ESTUDIANTE)
+  rol              Rol       @default(ESTUDIANTE)
   // Booleano que indica si el usuario verificó su correo electrónico
   verificado       Boolean   @default(false)
 
