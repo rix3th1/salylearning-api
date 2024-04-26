@@ -76,7 +76,7 @@ export class RecuperarClaveController {
 
       if (response.error) {
         throw new BadGatewayException(
-          `No se pudo enviar el email de recuperación de clave a "${datosUsuario.email}". Por favor, intenta de nuevo más tarde.`,
+          `Error al enviar el email de recuperación de clave a "${datosUsuario.email}". Por favor, intenta de nuevo más tarde.`,
         );
       }
 

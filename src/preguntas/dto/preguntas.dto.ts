@@ -66,25 +66,6 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
     message: 'El id de libro debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
   id_libro: number;
-
-  @IsOptional()
-  @IsNotEmpty({ message: 'El estado del cuestionario no puede estar vacío' })
-  @IsString({
-    message: 'El estado del cuestionario debe ser una cadena de texto',
-  })
-  @MinLength(3, {
-    message: 'El estado del cuestionario debe tener al menos 3 caracteres',
-  })
-  @MaxLength(30, {
-    message: 'El estado del cuestionario debe tener menos de 30 caracteres',
-  })
-  @IsIn(Object.values(EstadoCuestionario), {
-    message: `El estado del cuestionario debe ser uno de los siguientes valores: ${Object.values(
-      EstadoCuestionario,
-    ).join(', ')}`,
-  })
-  @Transform(({ value: estado }) => estado.toUpperCase())
-  estado: EstadoCuestionario;
 }
 
 export class ActualizarPreguntaDto extends PartialType(CrearPreguntaDto) {

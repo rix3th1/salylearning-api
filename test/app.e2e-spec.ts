@@ -19,6 +19,10 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect({
+        message: 'Bienvenido a la API de Salylearning',
+        version: '1.0.0',
+        docs: `${process.env[process.env.NODE_ENV === 'production' ? 'PROD_PROJECT_URL' : 'DEV_PROJECT_URL']}/docs`,
+      });
   });
 });

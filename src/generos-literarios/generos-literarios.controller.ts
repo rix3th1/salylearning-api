@@ -17,12 +17,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import {
+  ActualizarGeneroLiterarioDto,
+  CrearGeneroLiterarioDto,
+} from './dto/genero-literario.dto';
 import { GeneroLiterario } from './entities/genero-literario.entity';
 import { GenerosLiterariosService } from './generos-literarios.service';
-import {
-  CrearGeneroLiterarioDto,
-  ActualizarGeneroLiterarioDto,
-} from './dto/genero-literario.dto';
 
 @ApiBearerAuth('access-token')
 @ApiTags('generos-literarios')
@@ -75,9 +75,7 @@ export class GenerosLiterariosController {
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new NotFoundException({
-            message: 'El género literario no existe',
-          });
+          throw new NotFoundException('El género literario no existe');
         }
       }
     }
@@ -102,15 +100,15 @@ export class GenerosLiterariosController {
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new NotFoundException({
-            message: 'Ya existe un género literario con el mismo nombre',
-          });
+          throw new NotFoundException(
+            'Ya existe un género literario con el mismo nombre',
+          );
         }
       }
 
-      throw new InternalServerErrorException({
-        message: 'Error al crear el género literario',
-      });
+      throw new InternalServerErrorException(
+        'Error al crear el género literario',
+      );
     }
   }
 
@@ -136,16 +134,14 @@ export class GenerosLiterariosController {
       console.error(error.message);
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2025') {
-          throw new NotFoundException({
-            message: 'El género literario no existe',
-          });
+        if (error.code === 'P2002') {
+          throw new NotFoundException(
+            'Ya existe un género literario con el mismo nombre',
+          );
+        } else if (error.code === 'P2025') {
+          throw new NotFoundException('El género literario no existe');
         }
       }
-
-      throw new InternalServerErrorException({
-        message: 'Error al actualizar el género literario',
-      });
     }
   }
 
@@ -166,9 +162,7 @@ export class GenerosLiterariosController {
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new NotFoundException({
-            message: 'El género literario no existe',
-          });
+          throw new NotFoundException('El género literario no existe');
         }
       }
     }

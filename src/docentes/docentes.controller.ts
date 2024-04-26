@@ -88,14 +88,12 @@ export class DocentesController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo crear el docente porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         }
       }
 
-      throw new InternalServerErrorException(
-        'Ocurrió un error al intentar crear el docente',
-      );
+      throw new InternalServerErrorException('Error al crear el docente');
     }
   }
 
@@ -124,7 +122,7 @@ export class DocentesController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo actualizar el docente porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         } else if (error.code === 'P2025') {
           throw new NotFoundException(

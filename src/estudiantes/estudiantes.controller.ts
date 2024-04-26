@@ -91,14 +91,12 @@ export class EstudiantesController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo crear el estudiante porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         }
       }
 
-      throw new InternalServerErrorException(
-        'Ocurrió un error al intentar crear el estudiante',
-      );
+      throw new InternalServerErrorException('Error al crear el estudiante');
     }
   }
 
@@ -130,7 +128,7 @@ export class EstudiantesController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo actualizar el estudiante porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         } else if (error.code === 'P2025') {
           throw new NotFoundException(

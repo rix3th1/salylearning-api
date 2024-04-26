@@ -123,13 +123,13 @@ export class FotoPerfilController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo crear la foto de perfil porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         }
       }
 
       throw new InternalServerErrorException(
-        'Error al intentar crear la foto de perfil',
+        'Error al crear la foto de perfil',
       );
     }
   }
@@ -199,7 +199,7 @@ export class FotoPerfilController {
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
-            'No se pudo actualizar la foto de perfil porque el id de usuario proporcionado no existe',
+            'El id de usuario proporcionado no existe',
           );
         } else if (error.code === 'P2025') {
           throw new NotFoundException(

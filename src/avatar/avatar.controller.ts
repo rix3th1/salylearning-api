@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -68,7 +69,7 @@ export class AvatarController {
     summary: 'Crear un nuevo avatar',
     description: 'Crea un nuevo avatar.',
   })
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     status: 201,
     description: 'Avatar creado',
     type: Avatar,

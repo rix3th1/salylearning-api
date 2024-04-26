@@ -152,28 +152,44 @@ model MisLibros {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id           Int                @id @default(autoincrement()) @db.UnsignedInt
+  id           Int    @id @default(autoincrement()) @db.UnsignedInt
   // Número de la pregunta
-  num_pregunta Int                @db.UnsignedTinyInt
+  num_pregunta Int    @db.UnsignedTinyInt
   // Contenido de la pregunta
-  pregunta     String             @unique @db.VarChar(200)
+  pregunta     String @unique @db.VarChar(200)
   // Respuesta A
-  resA         String             @db.VarChar(100)
+  resA         String @db.VarChar(100)
   // Respuesta B
-  resB         String             @db.VarChar(100)
+  resB         String @db.VarChar(100)
   // Respuesta C
-  resC         String             @db.VarChar(100)
+  resC         String @db.VarChar(100)
   // Respuesta D
-  resD         String             @db.VarChar(100)
+  resD         String @db.VarChar(100)
   // ID del libro al que pertenece la pregunta
-  id_libro     Int                @db.UnsignedInt
-  // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
-  estado       EstadoCuestionario @default(PENDIENTE)
+  id_libro     Int    @db.UnsignedInt
 
   // Relación 1-1 con Libro (libros)
-  libros Libro @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros        Libro          @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  // Relación 1-N con Cuestionario (cuestionarios)
+  cuestionarios Cuestionario[]
 
   @@map("preguntas")
+}
+
+model Cuestionario {
+  // ID del cuestionario
+  id             Int                @id @default(autoincrement()) @db.UnsignedInt
+  // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
+  estado         EstadoCuestionario @default(PENDIENTE)
+  // ID de la pregunta a la que pertenece el cuestionario
+  id_pregunta    Int                @db.UnsignedInt
+  fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
+  fecha_entrega  DateTime           @db.DateTime()
+
+  // Relación 1-1 con Pregunta (preguntas) 
+  preguntas Pregunta @relation(fields: [id_pregunta], references: [id], onUpdate: Restrict)
+
+  @@map("cuestionarios")
 }
 
 // Tabla que almacena los usuarios

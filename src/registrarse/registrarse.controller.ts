@@ -57,7 +57,7 @@ export class RegistrarseController {
 
       if (response.error) {
         throw new BadGatewayException(
-          `No se pudo enviar el email de verificación a "${usuario.email}". Por favor, intenta de nuevo más tarde.`,
+          `Error al enviar el email de verificación a "${usuario.email}". Por favor, intenta de nuevo más tarde.`,
         );
       }
 
