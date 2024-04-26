@@ -5,7 +5,7 @@ La [API](https://salylearning.vercel.app) de salylearning es una [API RESTful](h
 El lenguaje de programación utilizado para desarrollar la API es [TypeScript](https://www.typescriptlang.org/) y se basa en el paradigma de [programación orientada a objetos](https://en.wikipedia.org/wiki/Object-oriented_programming) y [programación funcional](https://en.wikipedia.org/wiki/Functional_programming). TypeScript es un superconjunto de [JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript) que agrega tipado estático y otras características a JavaScript, lo que hace que el código sea más seguro y fácil de mantener.
 
 Está implementada utilizando [Node.js](https://nodejs.org) como entorno de ejecución y el marco de trabajo [Nest.js](https://nestjs.com).
-La API utiliza una base de datos [MySQL](https://www.mysql.com/) para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/) y la API de [SendGrid](https://sendgrid.com/docs) se utiliza para enviar correos electrónicos.
+La API utiliza una base de datos [MySQL](https://www.mysql.com/) para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/). Para el envío de correos electrónicos se utiliza [NodeMailer](https://nodemailer.com/).
 
 La API de salylearning proporciona una serie de endpoints que permiten a los usuarios realizar operaciones como registrarse, iniciar sesión, obtener información de libros, agregar comentarios, etc.
 
@@ -23,7 +23,7 @@ La API está alojada en [Vercel](https://vercel.com/) y está disponible en la s
 <p align="center">
   <a href="https://vercel.com/" target="blank"><img src="https://assets.vercel.com/image/upload/v1538361091/repositories/vercel/logo.png" width="100" alt="Vercel Logo" style="margin-right: 30; margin-bottom: 50;" /></a>
   <a href="https://cloudinary.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Cloudinary_logo.svg/2560px-Cloudinary_logo.svg.png" width="200" alt="Cloudinary Logo" style="margin-bottom: 80; margin-right: 30;" /></a>
-  <a href="https://sendgrid.com/docs" target="blank"><img src="https://www.svgrepo.com/show/354326/sendgrid.svg" width="200" alt="SendGrid Logo" style="margin-right: 30;" /></a>
+  <a href="https://nodemailer.com/" target="blank"><img src="https://i0.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png?fit=422%2C360&ssl=1" width="200" alt="Nodemailer Logo" style="margin-right: 30;" /></a>
 </p>
 <p align="center">
   <a><img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="150" alt="MySQL Logo" style="margin-right: 30; margin-bottom: 50" /></a>
