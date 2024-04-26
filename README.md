@@ -75,6 +75,10 @@ La aplicación ahora estará disponible en `http://localhost:3000`.
 
 ## Variables de entorno
 
+La aplicación de salylearning utiliza variables de entorno para configurar la aplicación en diferentes entornos (desarrollo, producción, etc). Debes configurar las variables de entorno necesarias para la aplicación antes de ejecutarla. Puedes configurar las variables de entorno en un archivo `.env` en el directorio raíz del proyecto. Asegúrate de que el archivo `.env` no se incluya en el control de versiones y que no se comparta públicamente.
+
+Para configurar las variables de entorno responsables del envío de correos electrónicos, debes habilitar el acceso de aplicaciones menos seguras en tu cuenta de Gmail. Puedes hacerlo siguiendo los pasos en este [enlace](https://myaccount.google.com/lesssecureapps). Luego debes proporcionar esos datos obtenidos en las variables de entorno `GMAIL_USER` y `GMAIL_PASS`.
+
 La aplicación utiliza las siguientes variables de entorno:
 
 - `DATABASE_URL` - La URL de la base de datos de MySQL utilizada por la aplicación.
@@ -87,11 +91,11 @@ La aplicación utiliza las siguientes variables de entorno:
 
 - `JWTEXPIRESIN` - El tiempo de expiración de los tokens JWT.
 
-- `SENDGRID_API_KEY` - La clave de la API de SendGrid para enviar correos electrónicos.
+- `GMAIL_USER` - El correo electrónico de Gmail utilizado para enviar correos electrónicos.
 
-- `EMAIL_SENDER` - La dirección de correo electrónico del remitente.
+- `GMAIL_PASS` - Contraseña de applicaciones de Gmail.
 
-- `NAME_SENDER` - El nombre del remitente.
+- `GMAIL_SENDER` - El nombre del remitente que aparecerá en los correos electrónicos enviados.
 
 - `CLD_CLOUD_NAME` - El nombre de la nube de Cloudinary para guardar las imágenes **_(Portadas de los libros, avatares, imágenes de perfíl, etc)_**.
 
