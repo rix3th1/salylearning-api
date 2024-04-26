@@ -23,7 +23,7 @@ La API está alojada en [Vercel](https://vercel.com/) y está disponible en la s
 <p align="center">
   <a href="https://vercel.com/" target="blank"><img src="https://assets.vercel.com/image/upload/v1538361091/repositories/vercel/logo.png" width="100" alt="Vercel Logo" style="margin-right: 30; margin-bottom: 50;" /></a>
   <a href="https://cloudinary.com/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Cloudinary_logo.svg/2560px-Cloudinary_logo.svg.png" width="200" alt="Cloudinary Logo" style="margin-bottom: 80; margin-right: 30;" /></a>
-  <a href="https://nodemailer.com/" target="blank"><img src="https://i0.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png?fit=422%2C360&ssl=1" width="200" alt="Nodemailer Logo" style="margin-right: 30;" /></a>
+  <a href="https://nodemailer.com/" target="blank"><img src="https://i0.wp.com/community.nodemailer.com/wp-content/uploads/2015/10/n2-2.png?fit=422%2C360&ssl=1" width="100" alt="Nodemailer Logo" style="margin-right: 30;" /></a>
 </p>
 <p align="center">
   <a><img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="150" alt="MySQL Logo" style="margin-right: 30; margin-bottom: 50" /></a>
