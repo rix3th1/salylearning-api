@@ -103,10 +103,10 @@ La aplicación utiliza las siguientes variables de entorno:
 
 - `CLD_API_SECRET` - La clave secreta de la API de Cloudinary.
 
-> [!DANGER]
+> [!CAUTION]
 > Asegúrate de que el archivo `.env` no se incluya en el control de versiones y que no se comparta públicamente.
 
-> [!IMPORTANT]
+> [!WARNING]
 > Si alguna de las variables de entorno no está configurada, la aplicación no se ejecutará correctamente y mostrará un error.
 
 ## Autenticación
