@@ -103,6 +103,12 @@ La aplicación utiliza las siguientes variables de entorno:
 
 - `CLD_API_SECRET` - La clave secreta de la API de Cloudinary.
 
+> [!DANGER]
+> Asegúrate de que el archivo `.env` no se incluya en el control de versiones y que no se comparta públicamente.
+
+> [!IMPORTANT]
+> Si alguna de las variables de entorno no está configurada, la aplicación no se ejecutará correctamente y mostrará un error.
+
 ## Autenticación
 
 La API de salylearning utiliza autenticación basada en [Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/), lo que significa que debes enviar un token de autenticación en tus solicitudes para acceder a los recursos protegidos, incluyendo un encabezado `Authorization` con el valor `Bearer <token>`. Los tokens de autenticación son generados por la API cuando un usuario inicia sesión y tienen una duración limitada [JWT](https://jwt.io/introduction/).
