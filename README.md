@@ -1,10 +1,15 @@
 # Documentación de la API de salylearning
 
-La [API](https://salylearning.vercel.app) de salylearning es una [API RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) que proporciona acceso a recursos como libros, usuarios, categorías, comentarios, etc. La API está diseñada para ser utilizada por la aplicación web de salylearning, pero también puede ser utilizada por otras aplicaciones que deseen consumir los recursos proporcionados por la API.
+La [API](https://salylearning.vercel.app) de salylearning es una [API RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) que proporciona acceso a recursos como libros, usuarios, categorías, comentarios, etc. La API está diseñada para ser utilizada por la aplicación web de [salylearning](https://salylearning-app.vercel.app), pero también puede ser utilizada por otras aplicaciones que deseen consumir los recursos proporcionados por la API.
 
 El lenguaje de programación utilizado para desarrollar la API es [TypeScript](https://www.typescriptlang.org/) y se basa en el paradigma de [programación orientada a objetos](https://en.wikipedia.org/wiki/Object-oriented_programming) y [programación funcional](https://en.wikipedia.org/wiki/Functional_programming). TypeScript es un superconjunto de [JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript) que agrega tipado estático y otras características a JavaScript, lo que hace que el código sea más seguro y fácil de mantener.
 
-Está implementada utilizando [Node.js](https://nodejs.org) como entorno de ejecución y el marco de trabajo [Nest.js](https://nestjs.com).
+Está implementada utilizando [Bun](https://bun.sh) como entorno de ejecución y el marco de trabajo [Nest.js](https://nestjs.com).
+Bun es un entorno de ejecución de JavaScript y TypeScript basado en [Deno](https://deno.land/) que proporciona una API simple y segura para ejecutar código JavaScript y TypeScript en el servidor.
+
+Bun es una alternativa a Node.js que proporciona una experiencia de desarrollo moderna y segura para los desarrolladores de JavaScript y TypeScript y es totalmente compatible con los módulos de Node.js y Deno.
+Nest.js es un marco de trabajo de Node.js que proporciona una arquitectura modular y escalable para construir aplicaciones web y APIs en Node.js y TypeScript
+
 La API utiliza una base de datos [MySQL](https://www.mysql.com/) para almacenar los datos y se comunica con la base de datos utilizando el [ORM Prisma](https://www.prisma.io). La autenticación en la API se realiza utilizando tokens [JWT](https://jwt.io/introduction/), las imágenes se almacenan en [Cloudinary](https://cloudinary.com/). Para el envío de correos electrónicos se utiliza [NodeMailer](https://nodemailer.com/).
 
 La API de salylearning proporciona una serie de endpoints que permiten a los usuarios realizar operaciones como registrarse, iniciar sesión, obtener información de libros, agregar comentarios, etc.
@@ -12,7 +17,7 @@ La API de salylearning proporciona una serie de endpoints que permiten a los usu
 La API está alojada en [Vercel](https://vercel.com/) y está disponible en la siguiente URL: [https://salylearning.vercel.app](https://salylearning.vercel.app) y la documentación de la API se genera automáticamente utilizando [Swagger](https://swagger.io/) y está disponible en la ruta `/docs`.
 
 <p align="center">
-  <a href="https://nodejs.org" target="blank"><img src="https://nodejs.org/static/images/logo.svg" width="200" alt="Node.js Logo" style="margin-right: 30;" /></a>
+  <a href="https://bun.sh" target="blank"><img src="https://bun.sh/logo.svg" width="100" alt="Bun Logo" style="margin-right: 30;" /></a>
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" /></a>
 </p>
 <p align="center">
@@ -54,10 +59,10 @@ git clone https://github.com/rojasricor/salylearning-api.git
 cd salylearning-api
 ```
 
-3. Instala las dependencias utilizando [Yarn](https://yarnpkg.com/getting-started/install):
+3. Instala las dependencias utilizando Bun:
 
 ```bash
-yarn install
+bun install
 ```
 
 4. Configura las [variables de entorno](#variables-de-entorno) necesarias para la aplicación.
@@ -65,13 +70,13 @@ yarn install
 5. Ejecuta la aplicación en modo de desarrollo:
 
 ```bash
-yarn dev
+bun run dev
 ```
 
 La aplicación ahora estará disponible en `http://localhost:3000`.
 
 > [!NOTE]
-> Debes tener instalado el administrador de paquetes Yarn para poder instalar las dependencias y ejecutar la aplicación.
+> Debes tener instalado [Bun](https://bun.sh) para ejecutar la aplicación. Puedes instalar Bun siguiendo las [instrucciones de instalación](https://bun.sh/#installation).
 
 ## Variables de entorno
 
