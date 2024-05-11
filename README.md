@@ -70,7 +70,7 @@ bun install
 5. Ejecuta la aplicación en modo de desarrollo:
 
 ```bash
-bun run dev
+bun run start:dev
 ```
 
 La aplicación ahora estará disponible en `http://localhost:3000`.
