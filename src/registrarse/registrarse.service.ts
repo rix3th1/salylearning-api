@@ -15,8 +15,9 @@ export class RegistrarseService {
       data: {
         ...data,
         grado_usuario: {
-          create: {
-            id_grado,
+          connectOrCreate: {
+            where: { id_grado },
+            create: { id_grado },
           },
         },
       },
