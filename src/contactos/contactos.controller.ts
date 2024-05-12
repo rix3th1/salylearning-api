@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   Body,
   Controller,
   Delete,
@@ -78,9 +79,24 @@ export class ContactosController {
   })
   async crearContacto(@Body() contacto: CrearContactoDto) {
     try {
+      const response = await this.contactosService.enviarGraciasPorContactar(
+        contacto.email,
+      );
+
+      if (response.error) {
+        throw new BadGatewayException(
+          'Error al enviar el email de agradecimiento por contactar. Por favor, intenta de nuevo más tarde.',
+        );
+      }
+
       return await this.contactosService.crearContacto(contacto);
     } catch (error) {
       console.error(error.message);
+
+      if (error instanceof BadGatewayException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException('Error al crear el contacto');
     }
   }
