@@ -73,7 +73,7 @@ bun install
 bun run start:dev
 ```
 
-La aplicación ahora estará disponible en `http://localhost:3000`.
+La aplicación ahora estará disponible en `http://localhost:8000`.
 
 > [!NOTE]
 > Debes tener instalado [Bun](https://bun.sh) para ejecutar la aplicación. Puedes instalar Bun siguiendo las [instrucciones de instalación](https://bun.sh/#installation).
