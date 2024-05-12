@@ -4,11 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  app.enableCors({
-    origin: '*',
-  });
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -84,7 +80,7 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.12.3/swagger-ui.min.css',
   });
 
-  await app.listen(3000);
+  await app.listen(8000);
 
   console.info(`Salylearning API is running on: ${await app.getUrl()}`);
   console.info(`Docs is running on: ${await app.getUrl()}/docs`);
