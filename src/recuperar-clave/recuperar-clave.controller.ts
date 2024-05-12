@@ -187,11 +187,20 @@ export class RecuperarClaveController {
     const token = headers.authorization?.split(' ')[1];
 
     try {
-      const { email } = this.recuperarClaveService.validarToken(token);
-      const usuario = await this.usuariosService.obtenerUsuarioPorEmail(email);
+      const { email, oldPassword } =
+        this.recuperarClaveService.validarToken(token);
+
+      const { p_nombre, p_apellido, password, rol } =
+        await this.usuariosService.obtenerUsuarioPorEmail(email);
+
+      if (oldPassword !== password) {
+        throw new ForbiddenException(
+          'Ya se ha cambiado la clave asociada a este email. Por favor, solicita un nuevo email de recuperación de clave.',
+        );
+      }
 
       const notPasswordChanges = await argon2.verify(
-        usuario.password,
+        password,
         cambiarClave.password,
       );
 
@@ -210,12 +219,14 @@ export class RecuperarClaveController {
       );
 
       return {
-        message: `Se ha cambiado la clave del ${usuario.rol} "${usuario.p_nombre} ${usuario.p_apellido}" asociada al email ${usuario.email}. Por favor, inicia sesión con tu nueva clave.`,
+        message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email}. Por favor, inicia sesión con tu nueva clave.`,
       };
     } catch (error) {
       console.error(error.message);
 
-      if (error instanceof BadRequestException) {
+      if (error instanceof ForbiddenException) {
+        throw error;
+      } else if (error instanceof BadRequestException) {
         throw error;
       } else if (error instanceof TokenExpiredError) {
         throw new UnauthorizedException(
