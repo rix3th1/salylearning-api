@@ -218,13 +218,26 @@ export class RecuperarClaveController {
         cambiarClave.password,
       );
 
+      const response =
+        await this.recuperarClaveService.enviarEmailDeAvisoDeCambioDeClave(
+          email,
+        );
+
+      if (response.error) {
+        throw new BadGatewayException(
+          `Error al enviar el email de aviso de cambio de clave a "${email}". Por favor, intenta de nuevo más tarde.`,
+        );
+      }
+
       return {
         message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email}. Por favor, inicia sesión con tu nueva clave.`,
       };
     } catch (error) {
       console.error(error.message);
 
-      if (error instanceof ForbiddenException) {
+      if (error instanceof BadGatewayException) {
+        throw error;
+      } else if (error instanceof ForbiddenException) {
         throw error;
       } else if (error instanceof BadRequestException) {
         throw error;

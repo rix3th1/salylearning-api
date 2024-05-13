@@ -34,4 +34,14 @@ export class RecuperarClaveService {
       oldPassword: string;
     };
   }
+
+  async enviarEmailDeAvisoDeCambioDeClave(to: string) {
+    const html = `
+      <h1>Cambio de contraseña Salylearning</h1>
+      <p>Se ha cambiado la contraseña de tu cuenta de Salylearning.</p>
+      <p>Si no has sido tú, por favor, ponte en contacto con nosotros.</p>
+    `;
+
+    return sendEmail(to, 'Cambio de contraseña', html);
+  }
 }
