@@ -25,7 +25,7 @@ export class RegistrarseService {
   }
 
   async enviarEmailDeVerificacion(origin: string, token: string, to: string) {
-    const url = `${origin}/verificar-cuenta?token=${token}`;
+    const url = `${origin}/verify-account?token=${token}`;
     const html = `
       <h1>Verificación de cuenta Salylearning</h1>
       <p>Para verificar tu cuenta, haz clic en el siguiente enlace:</p>
