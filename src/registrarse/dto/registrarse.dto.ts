@@ -9,7 +9,6 @@ export class RegistrarseDto extends IntersectionType(
   OmitType(CrearUsuarioDto, [
     'fecha_nacimiento',
     'ciudad',
-    'rol',
     'verificado',
   ] as const),
   PickType(Registrarse, ['confirmar_password'] as const),

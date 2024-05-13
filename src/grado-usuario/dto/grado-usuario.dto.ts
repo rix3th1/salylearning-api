@@ -1,6 +1,7 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 import { GradoUsuario } from '../entities/grado-usuario.entity';
+import { Transform } from 'class-transformer';
 
 export class CrearGradoUsuarioDto extends OmitType(GradoUsuario, [
   'id',
@@ -11,6 +12,7 @@ export class CrearGradoUsuarioDto extends OmitType(GradoUsuario, [
   @Max(4294967295, {
     message: 'El id de grado debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
+  @Transform(({ value: id_grado }) => parseInt(id_grado))
   id_grado: number;
 
   @IsNotEmpty({ message: 'El id de usuario es requerido' })
