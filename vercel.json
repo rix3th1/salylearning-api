@@ -1,4 +1,7 @@
 {
+  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bun run build",
   "builds": [
     {
       "src": "dist/main.js",
