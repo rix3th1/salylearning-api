@@ -8,7 +8,7 @@ export class RecuperarClaveService {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   async enviarEmailDeRecuperacion(origin: string, token: string, to: string) {
-    const url = `${origin}/recuperar-clave/cambiar-clave?token=${token}`;
+    const url = `${origin}/change-password?token=${token}`;
     const html = `
       <h1>Recuperación de contraseña Salylearning</h1>
       <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
