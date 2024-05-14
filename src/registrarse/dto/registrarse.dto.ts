@@ -34,7 +34,3 @@ export class RegistrarseDto extends IntersectionType(
   @Match('password', { message: 'Las contraseñas no coinciden' })
   confirmar_password: string;
 }
-
-export class RegistrarUsuarioDto extends OmitType(RegistrarseDto, [
-  'confirmar_password',
-] as const) {}

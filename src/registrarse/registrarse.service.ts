@@ -3,14 +3,16 @@ import * as JWT from 'jsonwebtoken';
 import { sendEmail } from '../nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
-import { RegistrarUsuarioDto } from './dto/registrarse.dto';
+import { RegistrarseDto } from './dto/registrarse.dto';
 
 @Injectable()
 export class RegistrarseService {
   constructor(private prisma: PrismaService) {}
 
-  async registrarUsuario(usuario: RegistrarUsuarioDto): Promise<Usuario> {
+  async registrarUsuario(usuario: RegistrarseDto): Promise<Usuario> {
     const { id_grado, ...data } = usuario;
+    delete data.confirmar_password;
+
     return this.prisma.usuario.create({
       data: {
         ...data,
