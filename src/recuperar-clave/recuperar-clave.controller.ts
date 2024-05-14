@@ -190,7 +190,7 @@ export class RecuperarClaveController {
       const { email, oldPassword } =
         this.recuperarClaveService.validarToken(token);
 
-      const { p_nombre, p_apellido, password, rol } =
+      const { p_nombre, p_apellido, password, rol, username } =
         await this.usuariosService.obtenerUsuarioPorEmail(email);
 
       if (oldPassword !== password) {
@@ -230,7 +230,7 @@ export class RecuperarClaveController {
       }
 
       return {
-        message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email}. Por favor, inicia sesión con tu nueva clave.`,
+        message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email} con nombre de usuario ${username}. Por favor, inicia sesión con tu nueva clave.`,
       };
     } catch (error) {
       console.error(error.message);
