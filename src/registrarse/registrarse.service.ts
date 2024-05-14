@@ -37,6 +37,21 @@ export class RegistrarseService {
     return sendEmail(to, 'Verificar cuenta', html);
   }
 
+  async reenviarEmailDeVerificacionPorqueElUsuarioEsDespistado(
+    origin: string,
+    token: string,
+    to: string,
+  ) {
+    const url = `${origin}/verify-account?token=${token}`;
+    const html = `
+      <h1>Verificación de cuenta Salylearning</h1>
+      <p>Ser despistado es humano. Haz clic en el siguiente enlace para verificar tu cuenta:</p>
+      <a href="${url}">Verificar cuenta</a>
+    `;
+
+    return sendEmail(to, 'Verificar cuenta', html);
+  }
+
   generarTokenDeActivacion(payload: { email: string }) {
     return JWT.sign(payload, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRESIN_AC,
