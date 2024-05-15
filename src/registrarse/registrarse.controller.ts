@@ -40,7 +40,7 @@ export class RegistrarseController {
 
     try {
       const usuarioExistente =
-        await this.usuariosService.obtenerUsuarioPorEmail(nuevoUsuario.email);
+        await this.usuariosService.obtenerUsuarioExistente(nuevoUsuario.email);
       if (usuarioExistente) {
         isNewUser = false;
         usuario = usuarioExistente;
