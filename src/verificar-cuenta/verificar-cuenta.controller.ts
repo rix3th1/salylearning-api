@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   BadRequestException,
   Controller,
   Get,
@@ -54,6 +55,18 @@ export class VerificarCuentaController {
 
       // Verify the account
       await this.usuariosService.verificarUsuario(email);
+
+      // Send the success notification email
+      const response =
+        await this.verificarCuentaService.enviarEmailDeVerificacionExitosa(
+          email,
+        );
+
+      if (response.error) {
+        throw new BadGatewayException(
+          'Hubo un error al enviar el email de verificación de cuenta. Por favor, intenta de nuevo.',
+        );
+      }
 
       return {
         verified: true,
