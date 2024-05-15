@@ -1,6 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { CrearUsuarioDto } from '../../usuarios/dto/usuarios.dto';
-import { RegistrarseDto } from 'src/registrarse/dto/registrarse.dto';
+import { RegistrarseDto } from '../../registrarse/dto/registrarse.dto';
 
 export class RecuperarClaveDto extends PickType(RegistrarseDto, [
   'email',

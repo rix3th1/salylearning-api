@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { sendEmail } from 'src/nodemailer';
+import { sendEmail } from '../nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarContactoDto, CrearContactoDto } from './dto/contactos.dto';
 import { Contacto } from './entities/contacto.entity';

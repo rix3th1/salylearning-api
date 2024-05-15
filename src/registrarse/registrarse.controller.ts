@@ -10,9 +10,9 @@ import {
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Public } from '../public.decorator';
 import { Usuario, UsuarioRespuesta } from '../usuarios/entities/usuario.entity';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { RegistrarseDto } from './dto/registrarse.dto';
 import { RegistrarseService } from './registrarse.service';
 

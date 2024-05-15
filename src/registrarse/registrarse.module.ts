@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { PrismaModule } from '../prisma/prisma.module';
+import { UsuariosModule } from '../usuarios/usuarios.module';
 import { RegistrarseController } from './registrarse.controller';
 import { RegistrarseService } from './registrarse.service';
 
