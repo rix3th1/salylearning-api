@@ -12,7 +12,7 @@ export class GradosService {
   }
 
   async obtenerGrados(): Promise<Grado[]> {
-    return this.prisma.grado.findMany();
+    return this.prisma.grado.findMany({ orderBy: { id: 'asc' } });
   }
 
   async obtenerGrado(id: number): Promise<Grado> {
