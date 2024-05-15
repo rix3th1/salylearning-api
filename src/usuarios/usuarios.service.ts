@@ -30,6 +30,10 @@ export class UsuariosService {
     return this.prisma.usuario.findUniqueOrThrow({ where: { email } });
   }
 
+  async obtenerUsuarioExistente(email: string): Promise<Usuario> {
+    return this.prisma.usuario.findFirst({ where: { email } });
+  }
+
   async crearUsuario(usuario: CrearUsuarioDto): Promise<Usuario> {
     return this.prisma.usuario.create({ data: usuario });
   }
