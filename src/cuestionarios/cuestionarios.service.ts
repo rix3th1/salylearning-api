@@ -37,10 +37,36 @@ export class CuestionariosService {
     return this.prisma.cuestionario.findMany();
   }
 
-  async obtenerCuestionariosPorEstado(
-    estado: EstadoCuestionario,
-  ): Promise<Cuestionario[]> {
-    return this.prisma.cuestionario.findMany({ where: { estado } });
+  async obtenerCuestionariosPorEstado(estado: EstadoCuestionario) {
+    return this.prisma.cuestionario.findMany({
+      where: { estado },
+      select: {
+        fecha_asignado: true,
+        fecha_entrega: true,
+        estado: true,
+        preguntas: {
+          select: {
+            libros: {
+              select: {
+                mis_libros: {
+                  select: {
+                    libros: { select: { nom_libro: true } },
+                    usuario: {
+                      select: {
+                        p_nombre: true,
+                        p_apellido: true,
+                        grado_usuario: true,
+                        username: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   async obtenerCuestionario(id: number): Promise<Cuestionario> {
