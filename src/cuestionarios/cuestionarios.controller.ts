@@ -116,15 +116,23 @@ export class CuestionariosController {
   async obtenerCuestionariosPorEstado(
     @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
-    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
-    if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
+
+      return await this.cuestionariosService.obtenerCuestionariosPorEstado(
+        estadoCuestionario,
+      );
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
       throw new BadRequestException('Estado de cuestionario no válido');
     }
-
-    return await this.cuestionariosService.obtenerCuestionariosPorEstado(
-      estadoCuestionario,
-    );
   }
 
   @Get(':id')
