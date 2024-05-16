@@ -48,15 +48,17 @@ export class CuestionariosService {
           select: {
             libros: {
               select: {
+                nom_libro: true,
                 mis_libros: {
                   select: {
-                    libros: { select: { nom_libro: true } },
                     usuario: {
                       select: {
                         p_nombre: true,
                         p_apellido: true,
-                        grado_usuario: true,
                         username: true,
+                        grado_usuario: {
+                          select: { grados: { select: { nom_grado: true } } },
+                        },
                       },
                     },
                   },
