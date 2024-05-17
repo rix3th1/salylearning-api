@@ -99,7 +99,7 @@ model Libro {
   // ID del género literario al que pertenece el libro
   id_genero_literario Int      @db.UnsignedInt
   // Cantidad de libros leídos
-  cant_leido          Int      @db.UnsignedInt
+  cant_leido          Int      @default(0) @db.UnsignedInt
   // URL de la imagen de portada del libro
   imagen_portada      String   @unique @db.VarChar(255)
   // URL del libro
