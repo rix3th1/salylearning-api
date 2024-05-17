@@ -89,14 +89,15 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   @Transform(({ value: id_genero_literario }) => parseInt(id_genero_literario))
   id_genero_literario: number;
 
-  @IsNotEmpty({ message: 'La cantidad de veces leído es requerido' })
+  @IsOptional()
+  @IsNotEmpty({ message: 'La cantidad de veces leído no puede estar vacío' })
   @IsInt({ message: 'La cantidad de veces leído debe ser un número entero' })
   @Min(0, { message: 'La cantidad de veces leído debe ser mayor o igual a 0' })
   @Max(4294967295, {
     message: 'La cantidad de veces leído debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
   @Transform(({ value: cant_leido }) => parseInt(cant_leido))
-  cant_leido: number;
+  cant_leido?: number;
 
   imagen_portada: string;
 
@@ -157,10 +158,6 @@ export class ActualizarLibroDto extends PartialType(CrearLibroDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_genero_literario?: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  cant_leido?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
