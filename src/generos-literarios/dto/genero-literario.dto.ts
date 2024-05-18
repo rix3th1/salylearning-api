@@ -22,6 +22,20 @@ export class CrearGeneroLiterarioDto extends OmitType(GeneroLiterario, [
     message: 'El nombre del género literario debe tener menos de 30 caracteres',
   })
   nom_genero: string;
+
+  @IsNotEmpty({ message: 'La descripción del género literario es requerida' })
+  @IsString({
+    message: 'La descripción del género literario debe ser una cadena de texto',
+  })
+  @MinLength(3, {
+    message:
+      'La descripción del género literario debe tener al menos 3 caracteres',
+  })
+  @MaxLength(500, {
+    message:
+      'La descripción del género literario debe tener menos de 500 caracteres',
+  })
+  descripcion: string;
 }
 
 export class ActualizarGeneroLiterarioDto extends PartialType(
@@ -30,4 +44,8 @@ export class ActualizarGeneroLiterarioDto extends PartialType(
   @ApiPropertyOptional()
   @IsOptional()
   nom_genero?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  descripcion?: string;
 }
