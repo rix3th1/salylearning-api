@@ -19,4 +19,14 @@ export class GeneroLiterario implements TGeneroLiterario {
     maxLength: 30,
   })
   nom_genero: string;
+
+  @ApiProperty({
+    title: 'Descripción genero literario',
+    description: 'La descripción del genero literario',
+    example:
+      'Género literario que se caracteriza por la presencia de elementos irreales o imaginarios',
+    minLength: 3,
+    maxLength: 500,
+  })
+  descripcion: string;
 }
