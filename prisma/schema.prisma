@@ -121,9 +121,11 @@ model Libro {
 
 model GeneroLiterario {
   // ID del género literario
-  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
   // Nombre del género literario
-  nom_genero String @unique @db.VarChar(30)
+  nom_genero  String @unique @db.VarChar(30)
+  // Descripción del género literario
+  descripcion String @db.LongText
 
   // Relación 1-N con Libro (libros)
   libros Libro[]
