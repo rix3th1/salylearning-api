@@ -37,6 +37,16 @@ export class LibrosService {
     });
   }
 
+  async obtenerLibrosPorGeneroLiterario(
+    genero_literario: string,
+  ): Promise<Libro[]> {
+    return this.prisma.libro.findMany({
+      where: {
+        genero_literario: { nom_genero: { contains: genero_literario } },
+      },
+    });
+  }
+
   async obtenerLibro(id: number): Promise<Libro> {
     return this.prisma.libro.findUniqueOrThrow({ where: { id } });
   }
