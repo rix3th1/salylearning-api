@@ -100,6 +100,23 @@ export class LibrosController {
     return await this.librosService.obtenerLibrosPorEditorial(editorial);
   }
 
+  @Get('genero')
+  @ApiOperation({
+    summary: 'Buscar libros por género literario',
+    description: 'Buscar libros por género literario',
+  })
+  @ApiOkResponse({
+    description: 'Lista de libros encontrados',
+    type: [Libro],
+  })
+  async obtenerLibrosPorGeneroLiterario(
+    @Query('genero_literario') genero_literario: string,
+  ) {
+    return await this.librosService.obtenerLibrosPorGeneroLiterario(
+      genero_literario,
+    );
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un libro por su ID',
