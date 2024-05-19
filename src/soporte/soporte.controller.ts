@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   Body,
   Controller,
   Delete,
@@ -17,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import { ContactosService } from 'src/contactos/contactos.service';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 import { SoporteService } from './soporte.service';
@@ -24,7 +26,10 @@ import { SoporteService } from './soporte.service';
 @ApiTags('soporte')
 @Controller('soporte')
 export class SoporteController {
-  constructor(private readonly soporteService: SoporteService) {}
+  constructor(
+    private readonly soporteService: SoporteService,
+    private readonly contactosService: ContactosService,
+  ) {}
 
   @ApiBearerAuth('access-token')
   @Get()
@@ -75,9 +80,24 @@ export class SoporteController {
   })
   async crearSoporte(@Body() soporte: CrearSoporteDto) {
     try {
+      const response = await this.contactosService.enviarGraciasPorContactar(
+        soporte.email,
+      );
+
+      if (response.error) {
+        throw new BadGatewayException(
+          'Error al enviar el email de agradecimiento por contactar. Por favor, intenta de nuevo más tarde.',
+        );
+      }
+
       return await this.soporteService.crearSoporte(soporte);
     } catch (error) {
       console.error(error);
+
+      if (error instanceof BadGatewayException) {
+        throw error;
+      }
+
       throw new InternalServerErrorException('Error al crear el soporte');
     }
   }
