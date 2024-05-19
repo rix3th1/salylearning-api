@@ -7,5 +7,6 @@ import { ContactosService } from './contactos.service';
   controllers: [ContactosController],
   providers: [ContactosService],
   imports: [PrismaModule],
+  exports: [ContactosService],
 })
 export class ContactosModule {}
