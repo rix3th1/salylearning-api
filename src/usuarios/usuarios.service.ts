@@ -18,7 +18,11 @@ export class UsuariosService {
   async obtenerUsuarioForProfile(id: number): Promise<Usuario> {
     return this.prisma.usuario.findUniqueOrThrow({
       where: { id },
-      include: { avatar_usuario: true, foto_perfil: true },
+      include: {
+        avatar_usuario: true,
+        foto_perfil: true,
+        grado_usuario: { select: { grados: { select: { nom_grado: true } } } },
+      },
     });
   }
 
