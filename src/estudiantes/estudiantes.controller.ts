@@ -69,6 +69,33 @@ export class EstudiantesController {
     }
   }
 
+  @Get('usuario/:id_usuario')
+  @ApiOperation({
+    summary: 'Obtener un estudiante por su ID de usuario',
+    description: 'Obtiene un estudiante por su ID de usuario.',
+  })
+  @ApiOkResponse({
+    description: 'Estudiante encontrado',
+    type: Estudiante,
+  })
+  async obtenerEstudiantePorIdUsuario(@Param('id_usuario') id_usuario: string) {
+    try {
+      return await this.estudiantesService.obtenerEstudiantePorIdUsuario(
+        +id_usuario,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el estudiante con el ID de usuario proporcionado',
+          );
+        }
+      }
+    }
+  }
+
   @Post()
   @ApiOperation({
     summary: 'Crear un estudiante',
