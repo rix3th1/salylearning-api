@@ -18,6 +18,10 @@ export class EstudiantesService {
     return this.prisma.estudiante.findUniqueOrThrow({ where: { id } });
   }
 
+  async obtenerEstudiantePorIdUsuario(id_usuario: number): Promise<Estudiante> {
+    return this.prisma.estudiante.findUniqueOrThrow({ where: { id_usuario } });
+  }
+
   async crearEstudiante(estudiante: CrearEstudianteDto): Promise<Estudiante> {
     return this.prisma.estudiante.create({ data: estudiante });
   }
