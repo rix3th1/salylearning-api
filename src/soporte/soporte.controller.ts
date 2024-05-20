@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { ContactosService } from 'src/contactos/contactos.service';
+import { ContactosService } from '../contactos/contactos.service';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 import { SoporteService } from './soporte.service';

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ContactosModule } from 'src/contactos/contactos.module';
+import { ContactosModule } from '../contactos/contactos.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { SoporteController } from './soporte.controller';
 import { SoporteService } from './soporte.service';
