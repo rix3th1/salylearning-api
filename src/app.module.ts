@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AvatarUsuarioModule } from './avatar-usuario/avatar-usuario.module';
 import { AvatarModule } from './avatar/avatar.module';
+import { CambiarClaveModule } from './cambiar-clave/cambiar-clave.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ContactosModule } from './contactos/contactos.module';
 import { CuestionariosModule } from './cuestionarios/cuestionarios.module';
@@ -51,6 +52,7 @@ const AppGuard = {
     VerificarCuentaModule,
     GenerosLiterariosModule,
     CuestionariosModule,
+    CambiarClaveModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
