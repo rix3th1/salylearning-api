@@ -11,7 +11,7 @@ export class RegistrarseDto extends IntersectionType(
     'ciudad',
     'verificado',
   ] as const),
-  PickType(Registrarse, ['confirmar_password'] as const),
+  Registrarse,
   PickType(CrearGradoUsuarioDto, ['id_grado'] as const),
 ) {
   @IsNotEmpty({ message: 'La confirmación de la contraseña es requerida' })
@@ -32,5 +32,5 @@ export class RegistrarseDto extends IntersectionType(
     },
   )
   @Match('password', { message: 'Las contraseñas no coinciden' })
-  confirmar_password: string;
+  declare confirmar_password: string;
 }
