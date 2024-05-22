@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as JWT from 'jsonwebtoken';
+import { CambiarClaveService } from '../cambiar-clave/cambiar-clave.service';
 import { sendEmail } from '../nodemailer';
-import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Injectable()
-export class RecuperarClaveService {
-  constructor(private readonly usuariosService: UsuariosService) {}
-
+export class RecuperarClaveService extends CambiarClaveService {
   async enviarEmailDeRecuperacion(origin: string, token: string, to: string) {
     const url = `${origin}/change-password?token=${token}`;
     const html = `
@@ -16,10 +14,6 @@ export class RecuperarClaveService {
     `;
 
     return sendEmail(to, 'Restablecer contraseña', html);
-  }
-
-  async cambiarClave(email: string, clave: string) {
-    return this.usuariosService.cambiarClave(email, clave);
   }
 
   generarToken(payload: { email: string; oldPassword: string }) {
@@ -33,15 +27,5 @@ export class RecuperarClaveService {
       email: string;
       oldPassword: string;
     };
-  }
-
-  async enviarEmailDeAvisoDeCambioDeClave(to: string) {
-    const html = `
-      <h1>Cambio de contraseña Salylearning</h1>
-      <p>Se ha cambiado la contraseña de tu cuenta de Salylearning.</p>
-      <p>Si no has sido tú, por favor, ponte en contacto con nosotros.</p>
-    `;
-
-    return sendEmail(to, 'Cambio de contraseña', html);
   }
 }

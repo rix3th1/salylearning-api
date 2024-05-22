@@ -23,7 +23,10 @@ import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { Public } from '../public.decorator';
 import { UsuariosService } from '../usuarios/usuarios.service';
-import { CambiarClaveDto, RecuperarClaveDto } from './dto/recuperar-clave.dto';
+import {
+  CambiarClaveRecuperacionDto,
+  RecuperarClaveDto,
+} from './dto/recuperar-clave.dto';
 import { RecuperarClaveService } from './recuperar-clave.service';
 
 @ApiTags('recuperar-clave')
@@ -181,7 +184,7 @@ export class RecuperarClaveController {
     },
   })
   async cambiarClave(
-    @Body() cambiarClave: CambiarClaveDto,
+    @Body() cambiarClave: CambiarClaveRecuperacionDto,
     @Headers() headers,
   ) {
     const token = headers.authorization?.split(' ')[1];
