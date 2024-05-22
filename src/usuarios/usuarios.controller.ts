@@ -118,17 +118,17 @@ export class UsuariosController {
   })
   async actualizarUsuario(
     @Param('id') id: string,
-    @Body() nuevoUsuario: ActualizarUsuarioDto,
+    @Body() usuarioExistente: ActualizarUsuarioDto,
   ) {
     try {
-      if (nuevoUsuario.password) {
-        const hash = await argon2.hash(nuevoUsuario.password);
-        nuevoUsuario.password = hash;
+      if (usuarioExistente.password) {
+        const hash = await argon2.hash(usuarioExistente.password);
+        usuarioExistente.password = hash;
       }
 
       const usuario = await this.usuariosService.actualizarUsuario(
         +id,
-        nuevoUsuario,
+        usuarioExistente,
       );
       // Delete the password from the user object
       delete usuario.password;
