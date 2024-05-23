@@ -21,7 +21,7 @@ export class UsuariosService {
       include: {
         avatar_usuario: true,
         foto_perfil: true,
-        grado_usuario: { select: { grados: { select: { id: true } } } },
+        grado_usuario: { select: { grados: true } },
       },
     });
   }
