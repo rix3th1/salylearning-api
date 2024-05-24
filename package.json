@@ -92,6 +92,10 @@
     "testEnvironment": "node"
   },
   "trustedDependencies": [
-    "@nestjs/core"
+    "@nestjs/core",
+    "@prisma/client",
+    "@prisma/engines",
+    "argon2",
+    "prisma"
   ]
 }
