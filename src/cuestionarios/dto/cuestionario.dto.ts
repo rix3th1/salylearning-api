@@ -52,14 +52,18 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
   @IsDate({
     message: 'La fecha de asignación del cuestionario debe ser una fecha',
   })
-  @Transform(({ value: fecha_asignado }) => new Date(fecha_asignado))
+  @Transform(({ value: fecha_asignado }) =>
+    fecha_asignado ? new Date(fecha_asignado) : null,
+  )
   fecha_asignado: Date;
 
   @IsNotEmpty({ message: 'La fecha de entrega del cuestionario es requerida' })
   @IsDate({
     message: 'La fecha de entrega del cuestionario debe ser una fecha',
   })
-  @Transform(({ value: fecha_entrega }) => new Date(fecha_entrega))
+  @Transform(({ value: fecha_entrega }) =>
+    fecha_entrega ? new Date(fecha_entrega) : null,
+  )
   fecha_entrega: Date;
 }
 
