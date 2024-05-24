@@ -15,6 +15,12 @@ export class DocentesService {
     return this.prismaservice.docente.findUniqueOrThrow({ where: { id } });
   }
 
+  async obtenerDocentePorIdUsuario(id_usuario: number): Promise<Docente> {
+    return this.prismaservice.docente.findUniqueOrThrow({
+      where: { id_usuario },
+    });
+  }
+
   async crearDocente(docente: CrearDocenteDto): Promise<Docente> {
     return this.prismaservice.docente.create({ data: docente });
   }

@@ -66,6 +66,31 @@ export class DocentesController {
     }
   }
 
+  @Get('usuario/:id_usuario')
+  @ApiOperation({
+    summary: 'Obtener un docente por su ID de usuario',
+    description: 'Obtiene un docente por su ID de usuario.',
+  })
+  @ApiOkResponse({
+    description: 'Docente encontrado',
+    type: Docente,
+  })
+  async obtenerDocentePorIdUsuario(@Param('id_usuario') id_usuario: string) {
+    try {
+      return await this.docentesService.obtenerDocentePorIdUsuario(+id_usuario);
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el docente con el ID de usuario proporcionado',
+          );
+        }
+      }
+    }
+  }
+
   @Post()
   @ApiOperation({
     summary: 'Crear un docente',
