@@ -18,6 +18,7 @@ import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
 import { LibrosModule } from './libros/libros.module';
 import { MisLibrosModule } from './mis-libros/mis-libros.module';
+import { PerfilModule } from './perfil/perfil.module';
 import { PreguntasModule } from './preguntas/preguntas.module';
 import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
 import { RegistrarseModule } from './registrarse/registrarse.module';
@@ -53,6 +54,7 @@ const AppGuard = {
     GenerosLiterariosModule,
     CuestionariosModule,
     CambiarClaveModule,
+    PerfilModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
