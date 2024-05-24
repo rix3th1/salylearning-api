@@ -21,6 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
     "@nestjs/core": "^10.3.8",
