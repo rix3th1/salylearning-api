@@ -15,13 +15,19 @@ export class UsuariosService {
     return this.prisma.usuario.findUniqueOrThrow({ where: { id } });
   }
 
-  async obtenerUsuarioForProfile(id: number): Promise<Usuario> {
+  async obtenerUsuarioForProfile(id: number) {
     return this.prisma.usuario.findUniqueOrThrow({
       where: { id },
       include: {
         avatar_usuario: true,
         foto_perfil: true,
-        grado_usuario: { select: { grados: true } },
+        grado_usuario: {
+          select: {
+            id: true,
+            id_grado: true,
+            grados: { select: { nom_grado: true } },
+          },
+        },
       },
     });
   }
@@ -64,5 +70,10 @@ export class UsuariosService {
 
   async eliminarUsuario(id: number): Promise<Usuario> {
     return this.prisma.usuario.delete({ where: { id } });
+  }
+
+  calcularEdad(fechaNacimiento: Date): number {
+    const diff = new Date().getFullYear() - fechaNacimiento.getFullYear();
+    return diff > 0 ? diff : 0;
   }
 }

@@ -124,14 +124,4 @@ export class UsuarioRespuesta extends OmitType(Usuario, [
   'password',
 ] as const) {}
 
-export class Perfil extends UsuarioRespuesta {
-  @ApiProperty({
-    title: 'Id usuario',
-    description: 'Id del usuario',
-    example: 1,
-    minLength: 1,
-    maxLength: 4294967295,
-    name: 'userId',
-  })
-  id: number;
-}
+export class Perfil extends UsuarioRespuesta {}

@@ -87,6 +87,12 @@ export class UsuariosController {
       const hash = await argon2.hash(nuevoUsuario.password);
       nuevoUsuario.password = hash;
 
+      if (nuevoUsuario.fecha_nacimiento && !nuevoUsuario.edad) {
+        nuevoUsuario.edad = this.usuariosService.calcularEdad(
+          nuevoUsuario.fecha_nacimiento,
+        );
+      }
+
       const usuario = await this.usuariosService.crearUsuario(nuevoUsuario);
       // Delete the password from the user object
       delete usuario.password;
@@ -124,6 +130,12 @@ export class UsuariosController {
       if (usuarioExistente.password) {
         const hash = await argon2.hash(usuarioExistente.password);
         usuarioExistente.password = hash;
+      }
+
+      if (usuarioExistente.fecha_nacimiento && !usuarioExistente.edad) {
+        usuarioExistente.edad = this.usuariosService.calcularEdad(
+          usuarioExistente.fecha_nacimiento,
+        );
       }
 
       const usuario = await this.usuariosService.actualizarUsuario(

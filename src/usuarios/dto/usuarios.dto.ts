@@ -80,7 +80,9 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
 
   @IsOptional()
   @IsDate({ message: 'La fecha de nacimiento debe ser una fecha' })
-  @Transform(({ value: fecha_nacimiento }) => new Date(fecha_nacimiento))
+  @Transform(({ value: fecha_nacimiento }) =>
+    fecha_nacimiento ? new Date(fecha_nacimiento) : null,
+  )
   fecha_nacimiento?: Date;
 
   @IsOptional()
