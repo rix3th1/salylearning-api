@@ -22,7 +22,7 @@
     "postinstall": "prisma generate"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
