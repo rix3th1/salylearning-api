@@ -77,7 +77,7 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
 
   @IsNotEmpty({ message: 'La fecha de publicación del libro es requerida' })
   @IsDate({ message: 'La fecha de publicación del libro debe ser una fecha' })
-  @Transform(({ value: fecha_pub }) => new Date(fecha_pub))
+  @Transform(({ value: fecha_pub }) => (fecha_pub ? new Date(fecha_pub) : null))
   fecha_pub: Date;
 
   @IsNotEmpty({ message: 'El id del género literario es requerido' })
