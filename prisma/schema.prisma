@@ -56,8 +56,8 @@ model Grado {
   // Nombre del grado
   nom_grado String @unique @db.VarChar(30)
 
-  // Relación 1-1 con GradoUsuario (grado_usuario)
-  grado_usuario GradoUsuario? // Relación 1-1 con GradoUsuario
+  // Relación 1-N con GradoUsuario (grado_usuario)
+  grado_usuario GradoUsuario[] // Relación 1-N con GradoUsuario
   // Relación 1-N con Libro (libros)
   libros        Libro[]
 
@@ -69,7 +69,7 @@ model GradoUsuario {
   // ID de la relación grado-usuario
   id         Int @id @default(autoincrement()) @db.UnsignedInt
   // ID del grado
-  id_grado   Int @unique @db.UnsignedInt
+  id_grado   Int @db.UnsignedInt
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
 
@@ -93,7 +93,7 @@ model Libro {
   // Editorial del libro
   editorial           String   @db.VarChar(50)
   // Fecha de publicación del libro
-  fecha_pub           DateTime @db.Date()
+  fecha_pub           DateTime @db.DateTime()
   // Url para más información del libro
   url_info            String   @unique @db.VarChar(255)
   // ID del género literario al que pertenece el libro
@@ -237,14 +237,14 @@ model Usuario {
 // Tabla que almacena los docentes
 model Docente {
   // ID del docente
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
   // ID del usuario
-  id_usuario  Int    @unique @db.UnsignedInt
+  id_usuario  Int     @unique @db.UnsignedInt
   // Código del docente
-  cod_docente String @unique @db.VarChar(6)
+  cod_docente String? @unique @db.VarChar(6)
 
   // Relación 1-1 con Usuario (usuarios)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 
   @@map("docentes")
 }
@@ -256,12 +256,12 @@ model Estudiante {
   // ID del usuario
   id_usuario     Int     @unique @db.UnsignedInt
   // Código del estudiante
-  cod_estudiante String  @unique @db.VarChar(10)
+  cod_estudiante String? @unique @db.VarChar(10)
   // Apodo del estudiante (opcional)
   apodo          String? @db.VarChar(30)
 
   // Relación 1-1 con Usuario (usuarios)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 
   @@map("estudiantes")
 }
