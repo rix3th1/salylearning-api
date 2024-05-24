@@ -16,12 +16,9 @@ export class RegistrarseService {
     return this.prisma.usuario.create({
       data: {
         ...data,
-        grado_usuario: {
-          connectOrCreate: {
-            where: { id_grado },
-            create: { id_grado },
-          },
-        },
+        grado_usuario: { create: { id_grado } },
+        estudiante: data.rol === 'ESTUDIANTE' ? { create: {} } : undefined,
+        docente: data.rol === 'DOCENTE' ? { create: {} } : undefined,
       },
     });
   }
