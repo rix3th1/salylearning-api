@@ -18,11 +18,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       const usuario = await this.usuariosService.obtenerUsuarioForProfile(
         payload.sub,
       );
-      const { id, ...result } = usuario;
+
+      const { id, username, email, rol } = usuario;
 
       // Delete the password from the user object
-      delete result.password;
-      return { userId: id, ...result };
+      delete usuario.password;
+      return usuario;
     } catch (error) {
       console.error(error.message);
       throw new UnauthorizedException();
