@@ -19,6 +19,8 @@ export class RegistrarseService {
         grado_usuario: { create: { id_grado } },
         estudiante: data.rol === 'ESTUDIANTE' ? { create: {} } : undefined,
         docente: data.rol === 'DOCENTE' ? { create: {} } : undefined,
+        foto_perfil: { create: {} },
+        avatar_usuario: { create: {} },
       },
     });
   }
