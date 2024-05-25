@@ -23,9 +23,13 @@ enum EstadoCuestionario {
 // Tabla que almacena los avatares disponibles para los usuarios
 model Avatar {
   // ID del avatar
-  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
   // Nombre del avatar
-  nom_avatar String @unique @db.VarChar(30)
+  nom_avatar  String @unique @db.VarChar(30)
+  // Descripción del avatar
+  descripcion String @db.VarChar(100)
+  // rol del avatar (DOCENTE o ESTUDIANTE)
+  rol         Rol
 
   // Relación 1-N con AvatarUsuario (avatar_usuario)
   avatar_usuario AvatarUsuario[] // Relación 1-N con AvatarUsuario
@@ -36,15 +40,16 @@ model Avatar {
 // Tabla que almacena la relación entre los avatares y los usuarios
 model AvatarUsuario {
   // ID de la relación avatar-usuario
-  id         Int @id @default(autoincrement()) @db.UnsignedInt
+  id         Int  @id @default(autoincrement()) @db.UnsignedInt
   // ID del avatar
-  id_avatar  Int @db.UnsignedInt
+  id_avatar  Int? @db.UnsignedInt
   // ID del usuario
-  id_usuario Int @unique @db.UnsignedInt
+  id_usuario Int  @unique @db.UnsignedInt
 
-  // Relaciones 1-1 con Usuario y Avatar (usuarios y avatar)
+  // Relación 1-1 con Usuario (usuarios)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
-  avatar  Avatar  @relation(fields: [id_avatar], references: [id], onUpdate: Restrict)
+  // Relación 1-N con Avatar (avatar)
+  avatar  Avatar? @relation(fields: [id_avatar], references: [id], onUpdate: Restrict)
 
   @@map("avatar_usuario")
 }
@@ -120,6 +125,7 @@ model Libro {
   @@map("libros")
 }
 
+// Tabla que almacena los géneros literarios disponibles para los libros
 model GeneroLiterario {
   // ID del género literario
   id          Int    @id @default(autoincrement()) @db.UnsignedInt
@@ -179,6 +185,7 @@ model Pregunta {
   @@map("preguntas")
 }
 
+// Tabla que almacena los cuestionarios de los libros
 model Cuestionario {
   // ID del cuestionario
   id             Int                @id @default(autoincrement()) @db.UnsignedInt
@@ -270,11 +277,11 @@ model Estudiante {
 // Tabla que almacena las fotos de perfil de los usuarios
 model FotoPerfil {
   // ID de la foto de perfil
-  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  id         Int     @id @default(autoincrement()) @db.UnsignedInt
   // ID del usuario
-  id_usuario Int    @unique @db.UnsignedInt
+  id_usuario Int     @unique @db.UnsignedInt
   // URL de la foto de perfil
-  foto       String @unique @db.VarChar(255)
+  foto       String? @unique @db.VarChar(255)
 
   // Relación 1-1 con Usuario (usuarios)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
