@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AvatarUsuario as TAvatarUsuario } from '@prisma/client';
 
-export class AvatarUsuario implements TAvatarUsuario {
+export class AvatarUsuario implements Partial<TAvatarUsuario> {
   @ApiProperty({
     title: 'Id Avatar usuario',
     description: 'El id del avatar de usuario',
@@ -11,14 +11,14 @@ export class AvatarUsuario implements TAvatarUsuario {
   })
   id: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     title: 'Id Avatar',
     description: 'El id de avatar del usuario',
     example: 1,
     minimum: 1,
     maximum: 4294967295, // 2^32 - 1 = 4.294.967.295
   })
-  id_avatar: number;
+  id_avatar?: number;
 
   @ApiProperty({
     title: 'Id Usuario',
