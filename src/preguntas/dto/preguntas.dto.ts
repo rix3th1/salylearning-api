@@ -1,4 +1,5 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
@@ -16,6 +17,7 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
   @IsInt({ message: 'El número de pregunta debe ser un número entero' })
   @Min(1, { message: 'El número de pregunta debe ser mayor o igual a 1' })
   @Max(255, { message: 'El número de pregunta debe ser menor o igual a 255' })
+  @Transform(({ value: num_pregunta }) => parseInt(num_pregunta))
   num_pregunta: number;
 
   @IsNotEmpty({ message: 'La pregunta es requerida' })
@@ -62,6 +64,7 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
   @Max(4294967295, {
     message: 'El id de libro debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
+  @Transform(({ value: id_libro }) => parseInt(id_libro))
   id_libro: number;
 }
 

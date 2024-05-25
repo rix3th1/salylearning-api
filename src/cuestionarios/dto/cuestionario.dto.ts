@@ -24,6 +24,7 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
   @Max(4294967295, {
     message: 'El id de la pregunta debe ser menor o igual a 4294967295',
   })
+  @Transform(({ value: id_pregunta }) => parseInt(id_pregunta))
   id_pregunta: number;
 
   @IsOptional()

@@ -1,4 +1,5 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsInt,
@@ -16,6 +17,7 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   @Max(4294967295, {
     message: 'El id de libro debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
+  @Transform(({ value: id_libro }) => parseInt(id_libro))
   id_libro: number;
 
   @IsNotEmpty({ message: 'El id de usuario es requerido' })
@@ -24,6 +26,7 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   @Max(4294967295, {
     message: 'El id de usuario debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
+  @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
   @IsNotEmpty({ message: 'El estado del libro es requerido' })

@@ -1,4 +1,5 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
@@ -17,6 +18,7 @@ export class CrearDocenteDto extends OmitType(Docente, ['id'] as const) {
   @Max(4294967295, {
     message: 'El id de usuario debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
+  @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
   @IsOptional()
