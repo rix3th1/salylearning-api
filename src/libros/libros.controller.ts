@@ -237,8 +237,8 @@ export class LibrosController {
         const libroAnterior = await this.librosService.obtenerLibro(+id);
 
         const public_id_anterior = libroAnterior.imagen_portada
-          .split('/')
-          .pop()
+          ?.split('/')
+          ?.pop()
           ?.split('.')[0];
 
         if (public_id_anterior) {
