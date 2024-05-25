@@ -19,7 +19,9 @@ export class UsuariosService {
     return this.prisma.usuario.findUniqueOrThrow({
       where: { id },
       include: {
-        avatar_usuario: true,
+        avatar_usuario: {
+          include: { avatar: { select: { nom_avatar: true } } },
+        },
         foto_perfil: true,
         grado_usuario: {
           select: {
