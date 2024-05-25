@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { FotoPerfil as TFotoPerfil } from '@prisma/client';
 
-export class FotoPerfil implements TFotoPerfil {
+export class FotoPerfil implements Partial<TFotoPerfil> {
   @ApiProperty({
     title: 'Id',
     description: 'Id de la foto de perfil',
@@ -20,7 +20,7 @@ export class FotoPerfil implements TFotoPerfil {
   })
   id_usuario: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     title: 'Foto',
     description: 'Foto de perfil',
     type: 'string',
@@ -28,5 +28,5 @@ export class FotoPerfil implements TFotoPerfil {
       'https://res.cloudinary.com/xxxxx/image/upload/v1630000000/xxxxx.jpg',
     format: 'binary',
   })
-  foto: string;
+  foto?: string;
 }

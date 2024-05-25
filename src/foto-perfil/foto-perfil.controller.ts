@@ -171,8 +171,8 @@ export class FotoPerfilController {
           await this.fotoPerfilService.obtenerFotoPerfil(+id);
 
         const public_id_anterior = fotoPerfilAnterior.foto
-          .split('/')
-          .pop()
+          ?.split('/')
+          ?.pop()
           ?.split('.')[0];
 
         if (public_id_anterior) {

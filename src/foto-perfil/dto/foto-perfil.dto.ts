@@ -13,15 +13,12 @@ export class CrearFotoPerfilDto extends OmitType(FotoPerfil, ['id'] as const) {
   @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
-  foto: string;
+  @IsOptional()
+  foto?: string;
 }
 
 export class ActualizarFotoPerfilDto extends PartialType(CrearFotoPerfilDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_usuario?: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  foto?: string;
 }
