@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Rol } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
 import { Avatar } from './entities/avatar.entity';
@@ -9,6 +10,10 @@ export class AvatarService {
 
   async obtenerAvatares(): Promise<Avatar[]> {
     return this.prisma.avatar.findMany();
+  }
+
+  async obtenerAvataresPorRol(rol: Rol): Promise<Avatar[]> {
+    return this.prisma.avatar.findMany({ where: { rol } });
   }
 
   async obtenerAvatar(id: number): Promise<Avatar> {

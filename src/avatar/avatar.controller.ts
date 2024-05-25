@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -17,7 +18,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma, Rol } from '@prisma/client';
+import { isIn } from 'class-validator';
 import { AvatarService } from './avatar.service';
 import { ActualizarAvatarDto, CrearAvatarDto } from './dto/avatar.dto';
 import { Avatar } from './entities/avatar.entity';
@@ -39,6 +41,33 @@ export class AvatarController {
   })
   async obtenerAvatares() {
     return await this.avatarService.obtenerAvatares();
+  }
+
+  @Get('rol')
+  @ApiOperation({
+    summary: `Obtener avatares por rol: ${Object.values(Rol).join(', ')}`,
+    description: 'Obtiene los avatares por rol.',
+  })
+  @ApiOkResponse({
+    description: 'Lista de avatares',
+    type: [Avatar],
+  })
+  async obtenerCuestionariosPorRol(@Query('rol') rol: Rol) {
+    try {
+      const rolAvatar = rol.toUpperCase() as Rol;
+
+      if (!isIn(rolAvatar, Object.values(Rol))) {
+        throw new BadRequestException('Rol de avatar inválido');
+      }
+
+      return await this.avatarService.obtenerAvataresPorRol(rolAvatar);
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Rol de avatar inválido');
+    }
   }
 
   @Get(':id')

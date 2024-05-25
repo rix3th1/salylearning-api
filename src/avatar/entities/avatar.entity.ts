@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Avatar as TAvatar } from '@prisma/client';
+import { $Enums, Avatar as TAvatar } from '@prisma/client';
 
 export class Avatar implements TAvatar {
   @ApiProperty({
@@ -19,4 +19,23 @@ export class Avatar implements TAvatar {
     maxLength: 30,
   })
   nom_avatar: string;
+
+  @ApiProperty({
+    title: 'Descripción del avatar',
+    description: 'Descripción del avatar',
+    example: 'Avatar 1',
+    minLength: 3,
+    maxLength: 30,
+  })
+  descripcion: string;
+
+  @ApiProperty({
+    title: 'Rol del avatar',
+    description: 'Rol del avatar',
+    example: $Enums.Rol.DOCENTE,
+    enum: $Enums.Rol,
+    minLength: 3,
+    maxLength: 30,
+  })
+  rol: $Enums.Rol;
 }
