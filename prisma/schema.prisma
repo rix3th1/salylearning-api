@@ -228,6 +228,8 @@ model Usuario {
   password         String    @db.VarChar(255)
   // Rol del usuario (DOCENTE o ESTUDIANTE)
   rol              Rol       @default(ESTUDIANTE)
+  // Booleano que indica si el usuario ha subido una foto de perfil o no
+  use_avatar       Boolean   @default(true)
   // Booleano que indica si el usuario verificó su correo electrónico
   verificado       Boolean   @default(false)
 
