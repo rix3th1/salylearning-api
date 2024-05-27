@@ -56,14 +56,14 @@ export class Usuario implements Partial<TUsuario> {
   })
   s_apellido?: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     title: 'Edad',
-    description: 'Edad del usuario',
+    description: 'Edad del usuario (Opcional)',
     example: 30,
     minLength: 1,
     maxLength: 100,
   })
-  edad: number;
+  edad?: number;
 
   @ApiPropertyOptional({
     title: 'Fecha de nacimiento',
@@ -111,6 +111,13 @@ export class Usuario implements Partial<TUsuario> {
     maxLength: 30,
   })
   rol?: $Enums.Rol;
+
+  @ApiPropertyOptional({
+    title: 'Avatar en uso',
+    description: 'Avatar en uso por el usuario (Opcional, por defecto true)',
+    example: true,
+  })
+  use_avatar?: boolean;
 
   @ApiPropertyOptional({
     title: 'Verificado',

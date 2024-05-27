@@ -71,12 +71,13 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   })
   s_apellido?: string;
 
-  @IsNotEmpty({ message: 'La edad es requerida' })
+  @IsOptional()
+  @IsNotEmpty({ message: 'La edad no puede estar vacía' })
   @IsInt({ message: 'La edad debe ser un número entero' })
-  @Min(0, { message: 'La edad debe ser mayor o igual a 0' })
+  @Min(1, { message: 'La edad debe ser mayor o igual a 1' })
   @Max(100, { message: 'La edad debe ser menor o igual a 100' })
   @Transform(({ value: edad }) => parseInt(edad))
-  edad: number;
+  edad?: number;
 
   @IsOptional()
   @IsDate({ message: 'La fecha de nacimiento debe ser una fecha' })
@@ -128,6 +129,17 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   rol?: $Enums.Rol;
 
   @IsOptional()
+  @IsNotEmpty({
+    message:
+      'La propiedad que indica si se usará un avatar no puede estar vacía',
+  })
+  @IsBoolean({
+    message:
+      'La propiedad que indica si se usará un avatar debe ser un booleano',
+  })
+  use_avatar?: boolean;
+
+  @IsOptional()
   @IsNotEmpty({ message: 'El usuario verificado no puede estar vacío' })
   @IsBoolean({ message: 'El usuario verificado debe ser un booleano' })
   verificado?: boolean;
@@ -145,10 +157,6 @@ export class ActualizarUsuarioDto extends PartialType(CrearUsuarioDto) {
   @ApiPropertyOptional()
   @IsOptional()
   p_apellido?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  edad?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
