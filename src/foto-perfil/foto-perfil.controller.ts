@@ -24,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { fotoPerfilValidators } from '../fileValidators';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import {
   ActualizarFotoPerfilDto,
   CrearFotoPerfilDto,
@@ -35,7 +36,10 @@ import { FotoPerfilService } from './foto-perfil.service';
 @ApiTags('foto-perfil')
 @Controller('foto-perfil')
 export class FotoPerfilController {
-  constructor(private readonly fotoPerfilService: FotoPerfilService) {}
+  constructor(
+    private readonly fotoPerfilService: FotoPerfilService,
+    private readonly usuariosService: UsuariosService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -180,6 +184,11 @@ export class FotoPerfilController {
             public_id_anterior,
           );
         }
+
+        await this.usuariosService.actualizarUsuario(
+          fotoPerfilAnterior.id_usuario,
+          { use_avatar: false },
+        );
       }
 
       return await this.fotoPerfilService.actualizarFotoPerfil(+id, fotoPerfil);
