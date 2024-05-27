@@ -18,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { AvatarUsuarioService } from './avatar-usuario.service';
 import {
   ActualizarAvatarUsuarioDto,
@@ -29,7 +30,10 @@ import { AvatarUsuario } from './entities/avatar-usuario.entity';
 @ApiTags('avatar-usuario')
 @Controller('avatar-usuario')
 export class AvatarUsuarioController {
-  constructor(private readonly avatarUsuarioService: AvatarUsuarioService) {}
+  constructor(
+    private readonly avatarUsuarioService: AvatarUsuarioService,
+    private readonly usuariosService: UsuariosService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -116,6 +120,13 @@ export class AvatarUsuarioController {
     @Body() avatarUsuario: ActualizarAvatarUsuarioDto,
   ) {
     try {
+      const avatarUsuarioAnterior =
+        await this.avatarUsuarioService.obtenerAvatarUsuario(+id);
+
+      await this.usuariosService.actualizarUsuario(
+        avatarUsuarioAnterior.id_usuario,
+        { use_avatar: true },
+      );
       return await this.avatarUsuarioService.actualizarAvatarUsuario(
         +id,
         avatarUsuario,
