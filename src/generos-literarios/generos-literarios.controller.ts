@@ -34,7 +34,8 @@ export class GenerosLiterariosController {
 
   @Get('contar')
   @ApiOperation({
-    summary: 'Contar géneros literarios',
+    summary:
+      'Contar todos los géneros literarios que existen en la base de datos',
     description: 'Devuelve el número de géneros literarios',
   })
   @ApiOkResponse({

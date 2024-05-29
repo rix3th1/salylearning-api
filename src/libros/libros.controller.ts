@@ -37,7 +37,7 @@ export class LibrosController {
 
   @Get('contar')
   @ApiOperation({
-    summary: 'Contar libros',
+    summary: 'Contar todos los libros que existen en la base de datos',
     description: 'Devuelve el número de libros',
   })
   @ApiOkResponse({

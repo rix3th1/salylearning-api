@@ -31,7 +31,7 @@ export class GradosController {
   @ApiBearerAuth('access-token')
   @Get('contar')
   @ApiOperation({
-    summary: 'Contar grados',
+    summary: 'Contar todos los grados',
     description: 'Devuelve el número de grados',
   })
   @ApiOkResponse({
