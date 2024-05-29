@@ -45,46 +45,39 @@ export class CuestionariosController {
     return await this.cuestionariosService.contarCuestionarios();
   }
 
-  @Get('contar-pendientes')
+  @Get('contar/estado')
   @ApiOperation({
-    summary: 'Contar todos los cuestionarios pendientes',
-    description:
-      'Cuenta todos los cuestionarios pendientes de la base de datos',
+    summary: `Contar todos los cuestionarios por estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+    description: `Cuenta cuestionarios de la base de datos por su estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
   })
   @ApiOkResponse({
-    description: 'Número de cuestionarios pendientes',
+    description: 'Número de cuestionarios por estado',
     type: Number,
   })
-  async contarCuestionariosPendientes() {
-    return await this.cuestionariosService.contarCuestionariosPendientes();
-  }
+  async contarCuestionariosPorEstado(
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
-  @Get('contar-no-logrados')
-  @ApiOperation({
-    summary: 'Contar todos los cuestionarios no logrados',
-    description:
-      'Cuenta todos los cuestionarios no logrados de la base de datos',
-  })
-  @ApiOkResponse({
-    description: 'Número de cuestionarios no logrados',
-    type: Number,
-  })
-  async contarCuestionariosNoLogrados() {
-    return await this.cuestionariosService.contarCuestionariosNoLogrados();
-  }
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
 
-  @Get('contar-completados')
-  @ApiOperation({
-    summary: 'Contar todos los cuestionarios completados',
-    description:
-      'Cuenta todos los cuestionarios completados de la base de datos',
-  })
-  @ApiOkResponse({
-    description: 'Número de cuestionarios completados',
-    type: Number,
-  })
-  async contarCuestionariosCompletados() {
-    return await this.cuestionariosService.contarCuestionariosCompletados();
+      return await this.cuestionariosService.contarCuestionariosPorEstado(
+        estadoCuestionario,
+      );
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
   }
 
   @Get()

@@ -15,22 +15,10 @@ export class CuestionariosService {
     return this.prisma.cuestionario.count();
   }
 
-  async contarCuestionariosPendientes(): Promise<number> {
-    return this.prisma.cuestionario.count({
-      where: { estado: EstadoCuestionario.PENDIENTE },
-    });
-  }
-
-  async contarCuestionariosNoLogrados(): Promise<number> {
-    return this.prisma.cuestionario.count({
-      where: { estado: EstadoCuestionario.NO_LOGRADO },
-    });
-  }
-
-  async contarCuestionariosCompletados(): Promise<number> {
-    return this.prisma.cuestionario.count({
-      where: { estado: EstadoCuestionario.COMPLETADO },
-    });
+  async contarCuestionariosPorEstado(
+    estado: EstadoCuestionario,
+  ): Promise<number> {
+    return this.prisma.cuestionario.count({ where: { estado } });
   }
 
   async obtenerCuestionarios(): Promise<Cuestionario[]> {
