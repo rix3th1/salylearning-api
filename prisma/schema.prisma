@@ -143,13 +143,15 @@ model GeneroLiterario {
 // Tabla que almacena los libros que el usuario ha leído
 model MisLibros {
   // ID de la relación libro-usuario
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  id             Int     @id @default(autoincrement()) @db.UnsignedInt
   // ID del usuario
-  id_usuario Int     @db.UnsignedInt
+  id_usuario     Int     @db.UnsignedInt
   // ID del libro
-  id_libro   Int     @db.UnsignedInt
+  id_libro       Int     @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
-  terminado  Boolean
+  terminado      Boolean
+  // Tiempo de lectura del libro (en minutos)
+  tiempo_lectura Int     @default(0) @db.UnsignedInt
 
   // Relaciones 1-1 con Usuario y Libro (usuarios y libros)
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -193,8 +195,12 @@ model Cuestionario {
   estado         EstadoCuestionario @default(PENDIENTE)
   // ID de la pregunta a la que pertenece el cuestionario
   id_pregunta    Int                @db.UnsignedInt
+  // Fecha de asignación del cuestionario
   fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
+  // Fecha de entrega del cuestionario
   fecha_entrega  DateTime           @db.DateTime()
+  // Calificación del cuestionario (de 0.0 a 5.0)
+  calificacion   Decimal?           @db.Decimal(2, 1)
 
   // Relación 1-1 con Pregunta (preguntas) 
   preguntas Pregunta @relation(fields: [id_pregunta], references: [id], onUpdate: Restrict)
