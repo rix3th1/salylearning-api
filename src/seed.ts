@@ -6,8 +6,6 @@ async function main() {
   const grados = await prisma.grado.createMany({
     skipDuplicates: true,
     data: [
-      { nom_grado: 'Primero' },
-      { nom_grado: 'Segundo' },
       { nom_grado: 'Tercero' },
       { nom_grado: 'Cuarto' },
       { nom_grado: 'Quinto' },
