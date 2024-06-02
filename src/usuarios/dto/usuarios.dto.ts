@@ -76,7 +76,7 @@ export class CrearUsuarioDto extends OmitType(Usuario, ['id'] as const) {
   @IsInt({ message: 'La edad debe ser un número entero' })
   @Min(1, { message: 'La edad debe ser mayor o igual a 1' })
   @Max(100, { message: 'La edad debe ser menor o igual a 100' })
-  @Transform(({ value: edad }) => parseInt(edad))
+  @Transform(({ value: edad }) => parseInt(edad) || null)
   edad?: number;
 
   @IsOptional()

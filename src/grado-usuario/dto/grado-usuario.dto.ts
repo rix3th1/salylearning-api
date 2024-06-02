@@ -12,7 +12,7 @@ export class CrearGradoUsuarioDto extends OmitType(GradoUsuario, [
   @Max(4294967295, {
     message: 'El id de grado debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
   })
-  @Transform(({ value: id_grado }) => parseInt(id_grado))
+  @Transform(({ value: id_grado }) => parseInt(id_grado) || null)
   id_grado: number;
 
   @IsNotEmpty({ message: 'El id de usuario es requerido' })

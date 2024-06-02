@@ -1,7 +1,18 @@
-import { IntersectionType, OmitType, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsStrongPassword } from 'class-validator';
-import { Match } from '../../match.decorator';
+import {
+  ApiPropertyOptional,
+  IntersectionType,
+  OmitType,
+  PartialType,
+  PickType,
+} from '@nestjs/swagger';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 import { CrearGradoUsuarioDto } from '../../grado-usuario/dto/grado-usuario.dto';
+import { Match } from '../../match.decorator';
 import { CrearUsuarioDto } from '../../usuarios/dto/usuarios.dto';
 import { Registrarse } from '../entities/registrarse.entity';
 
@@ -12,7 +23,7 @@ export class RegistrarseDto extends IntersectionType(
     'verificado',
   ] as const),
   Registrarse,
-  PickType(CrearGradoUsuarioDto, ['id_grado'] as const),
+  PickType(PartialType(CrearGradoUsuarioDto), ['id_grado'] as const),
 ) {
   @IsNotEmpty({ message: 'La confirmación de la contraseña es requerida' })
   @IsString({
@@ -33,4 +44,8 @@ export class RegistrarseDto extends IntersectionType(
   )
   @Match('password', { message: 'Las contraseñas no coinciden' })
   declare confirmar_password: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  id_grado?: number;
 }
