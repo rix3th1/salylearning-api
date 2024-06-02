@@ -1,11 +1,14 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { EstadoCuestionario } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
+  IsDecimal,
   IsIn,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   Max,
@@ -66,6 +69,19 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
     fecha_entrega ? new Date(fecha_entrega) : null,
   )
   fecha_entrega: Date;
+
+  @IsOptional()
+  @IsNotEmpty({
+    message: 'La calificación del cuestionario no puede estar vacía',
+  })
+  @IsNumber(
+    { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 1 },
+    { message: 'La calificación debe ser un número decimal' },
+  )
+  @Min(0.0, { message: 'La calificación debe ser mayor o igual a 0.0' })
+  @Max(5.0, { message: 'La calificación debe ser menor o igual a 5.0' })
+  @Transform(({ value: calificacion }) => Number(calificacion) || null)
+  calificacion?: Decimal;
 }
 
 export class ActualizarCuestionarioDto extends PartialType(

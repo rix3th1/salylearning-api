@@ -8,29 +8,29 @@ export class MisLibrosService {
   constructor(private prisma: PrismaService) {}
 
   async contarMisLibros(): Promise<number> {
-    return this.prisma.misLibros.count();
+    return this.prisma.miLibro.count();
   }
 
   async obtenerMisLibros(): Promise<MiLibro[]> {
-    return this.prisma.misLibros.findMany();
+    return this.prisma.miLibro.findMany();
   }
 
   async obtenerMiLibro(id: number): Promise<MiLibro> {
-    return this.prisma.misLibros.findUniqueOrThrow({ where: { id } });
+    return this.prisma.miLibro.findUniqueOrThrow({ where: { id } });
   }
 
   async crearMiLibro(miLibro: CrearMiLibroDto): Promise<MiLibro> {
-    return this.prisma.misLibros.create({ data: miLibro });
+    return this.prisma.miLibro.create({ data: miLibro });
   }
 
   async actualizarMiLibro(
     id: number,
     miLibro: ActualizarMiLibroDto,
   ): Promise<MiLibro> {
-    return this.prisma.misLibros.update({ where: { id }, data: miLibro });
+    return this.prisma.miLibro.update({ where: { id }, data: miLibro });
   }
 
   async eliminarMiLibro(id: number): Promise<MiLibro> {
-    return this.prisma.misLibros.delete({ where: { id } });
+    return this.prisma.miLibro.delete({ where: { id } });
   }
 }

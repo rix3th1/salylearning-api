@@ -32,6 +32,22 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   @IsNotEmpty({ message: 'El estado del libro es requerido' })
   @IsBoolean({ message: 'El estado del libro debe ser un valor booleano' })
   terminado: boolean;
+
+  @IsOptional()
+  @IsNotEmpty({
+    message: 'El tiempo de lectura del libro no puede estar vacío',
+  })
+  @IsInt({
+    message: 'El tiempo de lectura del libro debe ser un número entero',
+  })
+  @Min(0, {
+    message: 'El tiempo de lectura del libro debe ser mayor o igual a 0',
+  })
+  @Max(1440, {
+    message: 'El tiempo de lectura del libro debe ser menor o igual a 1440',
+  })
+  @Transform(({ value: tiempo_lectura }) => parseInt(tiempo_lectura) || null)
+  tiempo_lectura?: number;
 }
 
 export class ActualizarMiLibroDto extends PartialType(CrearMiLibroDto) {

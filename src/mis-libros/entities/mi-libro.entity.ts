@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { MisLibros as TMiLibro } from '@prisma/client';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { MiLibro as TMiLibro } from '@prisma/client';
 
-export class MiLibro implements TMiLibro {
+export class MiLibro implements Partial<TMiLibro> {
   @ApiProperty({
     title: 'Id de MiLibro',
     description: 'El id de MiLibro',
@@ -37,4 +37,13 @@ export class MiLibro implements TMiLibro {
     example: false,
   })
   terminado: boolean;
+
+  @ApiPropertyOptional({
+    title: 'Tiempo de lectura',
+    description: 'El tiempo de lectura del libro en minutos',
+    example: 0,
+    minimum: 0,
+    maximum: 1440,
+  })
+  tiempo_lectura?: number;
 }

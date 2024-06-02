@@ -31,10 +31,8 @@ model Avatar {
   // rol del avatar (DOCENTE o ESTUDIANTE)
   rol         Rol
 
-  // Relación 1-N con AvatarUsuario (avatar_usuario)
+  // Relación 1-N con AvatarUsuario
   avatar_usuario AvatarUsuario[] // Relación 1-N con AvatarUsuario
-
-  @@map("avatar")
 }
 
 // Tabla que almacena la relación entre los avatares y los usuarios
@@ -46,12 +44,10 @@ model AvatarUsuario {
   // ID del usuario
   id_usuario Int  @unique @db.UnsignedInt
 
-  // Relación 1-1 con Usuario (usuarios)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
-  // Relación 1-N con Avatar (avatar)
+  // Relación 1-1 con Usuario
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
+  // Relación 1-N con Avatar
   avatar  Avatar? @relation(fields: [id_avatar], references: [id], onUpdate: Restrict)
-
-  @@map("avatar_usuario")
 }
 
 // Tabla que almacena los grados disponibles
@@ -61,12 +57,10 @@ model Grado {
   // Nombre del grado
   nom_grado String @unique @db.VarChar(30)
 
-  // Relación 1-N con GradoUsuario (grado_usuario)
+  // Relación 1-N con GradoUsuario
   grado_usuario GradoUsuario[] // Relación 1-N con GradoUsuario
-  // Relación 1-N con Libro (libros)
+  // Relación 1-N con Libro
   libros        Libro[]
-
-  @@map("grados")
 }
 
 // Tabla que almacena la relación entre los grados y los usuarios
@@ -78,12 +72,10 @@ model GradoUsuario {
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
 
-  // Relación 1-1 con Usuario (usuarios)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
-  // Relación 1-N con grado (grados)
+  // Relación 1-1 con Usuario
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
+  // Relación 1-N con Grado
   grados  Grado   @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
-
-  @@map("grado_usuario")
 }
 
 // Tabla que almacena los libros disponibles
@@ -113,16 +105,14 @@ model Libro {
   // ID del grado al que pertenece el libro
   id_grado            Int      @db.UnsignedInt
 
-  // Relacíon 1-N con genero_literario (generos_literarios) 
+  // Relacíon 1-N con GeneroLiterario 
   genero_literario GeneroLiterario @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
-  // Relación 1-1 con Grado (grados)
+  // Relación 1-1 con Grado
   grados           Grado           @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
-  // Relación 1-N con MisLibros (mis_libros)  
-  mis_libros       MisLibros[]
-  // Relación 1-N con Pregunta (preguntas)
+  // Relación 1-N con MiLibro 
+  mis_libros       MiLibro[]
+  // Relación 1-N con Pregunta
   preguntas        Pregunta[]
-
-  @@map("libros")
 }
 
 // Tabla que almacena los géneros literarios disponibles para los libros
@@ -134,14 +124,12 @@ model GeneroLiterario {
   // Descripción del género literario
   descripcion String @db.LongText
 
-  // Relación 1-N con Libro (libros)
+  // Relación 1-N con Libro
   libros Libro[]
-
-  @@map("generos_literarios")
 }
 
 // Tabla que almacena los libros que el usuario ha leído
-model MisLibros {
+model MiLibro {
   // ID de la relación libro-usuario
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
   // ID del usuario
@@ -153,11 +141,9 @@ model MisLibros {
   // Tiempo de lectura del libro (en minutos)
   tiempo_lectura Int     @default(0) @db.UnsignedInt
 
-  // Relaciones 1-1 con Usuario y Libro (usuarios y libros)
+  // Relaciones 1-1 con Usuario y Libro
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
-
-  @@map("mis_libros")
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 }
 
 // Tabla que almacena las preguntas de los libros
@@ -179,12 +165,10 @@ model Pregunta {
   // ID del libro al que pertenece la pregunta
   id_libro     Int    @db.UnsignedInt
 
-  // Relación 1-1 con Libro (libros)
+  // Relación 1-1 con Libro
   libros        Libro          @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
-  // Relación 1-N con Cuestionario (cuestionarios)
+  // Relación 1-N con Cuestionario
   cuestionarios Cuestionario[]
-
-  @@map("preguntas")
 }
 
 // Tabla que almacena los cuestionarios de los libros
@@ -202,10 +186,8 @@ model Cuestionario {
   // Calificación del cuestionario (de 0.0 a 5.0)
   calificacion   Decimal?           @db.Decimal(2, 1)
 
-  // Relación 1-1 con Pregunta (preguntas) 
+  // Relación 1-1 con Pregunta
   preguntas Pregunta @relation(fields: [id_pregunta], references: [id], onUpdate: Restrict)
-
-  @@map("cuestionarios")
 }
 
 // Tabla que almacena los usuarios
@@ -239,15 +221,13 @@ model Usuario {
   // Booleano que indica si el usuario verificó su correo electrónico
   verificado       Boolean   @default(false)
 
-  // Relaciones 1-1 con Docente, Estudiante, FotoPerfil, AvatarUsuario y GradoUsuario (docentes, estudiantes, fotos_perfil_usuario, avatar_usuario y grado_usuario)
+  // Relaciones 1-1 con Docente, Estudiante, FotoPerfil, AvatarUsuario y GradoUsuario
   docente        Docente? // Relación 1-1 con Docente
   estudiante     Estudiante? // Relación 1-1 con Estudiante
   foto_perfil    FotoPerfil? // Relación 1-1 con FotoPerfil
   avatar_usuario AvatarUsuario? // Relación 1-1 con AvatarUsuario
   grado_usuario  GradoUsuario? // Relación 1-1 con GradoUsuario
-  mis_libros     MisLibros[]
-
-  @@map("usuarios")
+  mis_libros     MiLibro[]
 }
 
 // Tabla que almacena los docentes
@@ -259,10 +239,8 @@ model Docente {
   // Código del docente
   cod_docente String? @unique @db.VarChar(6)
 
-  // Relación 1-1 con Usuario (usuarios)
+  // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
-
-  @@map("docentes")
 }
 
 // Tabla que almacena los estudiantes
@@ -276,10 +254,8 @@ model Estudiante {
   // Apodo del estudiante (opcional)
   apodo          String? @db.VarChar(30)
 
-  // Relación 1-1 con Usuario (usuarios)
+  // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
-
-  @@map("estudiantes")
 }
 
 // Tabla que almacena las fotos de perfil de los usuarios
@@ -291,10 +267,8 @@ model FotoPerfil {
   // URL de la foto de perfil
   foto       String? @unique @db.VarChar(255)
 
-  // Relación 1-1 con Usuario (usuarios)
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict)
-
-  @@map("fotos_perfil_usuario")
+  // Relación 1-1 con Usuario
+  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 }
 
 // Tabla que almacena los mensajes de contacto
@@ -309,8 +283,6 @@ model Contacto {
   telefono        String @db.VarChar(10)
   // Asunto del mensaje
   mensaje         String @db.LongText
-
-  @@map("contactos")
 }
 
 // Tabla que almacena los mensajes de soporte
@@ -325,6 +297,4 @@ model Soporte {
   asunto          String @db.MediumText
   // Mensaje
   mensaje         String @db.LongText
-
-  @@map("soporte-contacto")
 }

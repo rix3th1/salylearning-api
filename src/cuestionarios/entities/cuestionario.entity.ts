@@ -3,8 +3,9 @@ import {
   EstadoCuestionario,
   Cuestionario as TCuestionario,
 } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 
-export class Cuestionario implements TCuestionario {
+export class Cuestionario implements Partial<TCuestionario> {
   @ApiProperty({
     title: 'Id cuestionario',
     description: 'Id del cuestionario',
@@ -51,4 +52,15 @@ export class Cuestionario implements TCuestionario {
     format: 'date-time',
   })
   fecha_entrega: Date;
+
+  @ApiPropertyOptional({
+    title: 'Calificación',
+    description: 'Calificación del cuestionario de 0.0 a 5.0',
+    example: 5.0,
+    type: 'number',
+    format: 'decimal',
+    minimum: 0.0,
+    maximum: 5.0,
+  })
+  calificacion?: Decimal;
 }
