@@ -137,7 +137,7 @@ model MiLibro {
   // ID del libro
   id_libro       Int     @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
-  terminado      Boolean
+  terminado      Boolean @default(false)
   // Tiempo de lectura del libro (en minutos)
   tiempo_lectura Int     @default(0) @db.UnsignedInt
 
