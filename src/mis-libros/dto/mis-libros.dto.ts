@@ -29,9 +29,10 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
+  @IsOptional()
   @IsNotEmpty({ message: 'El estado del libro es requerido' })
   @IsBoolean({ message: 'El estado del libro debe ser un valor booleano' })
-  terminado: boolean;
+  terminado?: boolean;
 
   @IsOptional()
   @IsNotEmpty({
@@ -58,8 +59,4 @@ export class ActualizarMiLibroDto extends PartialType(CrearMiLibroDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_usuario?: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  terminado?: boolean;
 }

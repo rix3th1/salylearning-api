@@ -75,7 +75,7 @@ CREATE TABLE `MiLibro` (
     `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     `id_usuario` INTEGER UNSIGNED NOT NULL,
     `id_libro` INTEGER UNSIGNED NOT NULL,
-    `terminado` BOOLEAN NOT NULL,
+    `terminado` BOOLEAN NOT NULL DEFAULT false,
     `tiempo_lectura` INTEGER UNSIGNED NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id`)

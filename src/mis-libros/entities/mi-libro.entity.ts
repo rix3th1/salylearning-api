@@ -31,12 +31,12 @@ export class MiLibro implements Partial<TMiLibro> {
   })
   id_usuario: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     title: 'Terminado',
     description: 'El estado del libro en la lista de libros',
     example: false,
   })
-  terminado: boolean;
+  terminado?: boolean;
 
   @ApiPropertyOptional({
     title: 'Tiempo de lectura',
