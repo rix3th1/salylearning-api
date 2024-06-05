@@ -55,3 +55,13 @@ export class Cuestionario implements Partial<TCuestionario> {
   })
   calificacion?: Decimal;
 }
+
+export class CuestionarioConPreguntas extends Cuestionario {
+  @ApiProperty({
+    title: 'Preguntas',
+    description: 'Preguntas del cuestionario',
+    example: [0, 3, 4],
+    type: Array<number>,
+  })
+  preguntas: number[];
+}

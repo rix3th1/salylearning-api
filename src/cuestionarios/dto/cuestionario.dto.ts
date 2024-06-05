@@ -1,8 +1,15 @@
-import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  IntersectionType,
+  OmitType,
+  PartialType,
+} from '@nestjs/swagger';
 import { EstadoCuestionario } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { Transform } from 'class-transformer';
 import {
+  IsArray,
   IsDate,
   IsIn,
   IsNotEmpty,
@@ -13,8 +20,12 @@ import {
   MaxLength,
   Min,
   MinLength,
+  isArray,
 } from 'class-validator';
-import { Cuestionario } from '../entities/cuestionario.entity';
+import {
+  Cuestionario,
+  CuestionarioConPreguntas,
+} from '../entities/cuestionario.entity';
 
 export class CrearCuestionarioDto extends OmitType(Cuestionario, [
   'id',
@@ -71,6 +82,23 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
   @Max(5.0, { message: 'La calificación debe ser menor o igual a 5.0' })
   @Transform(({ value: calificacion }) => Number(calificacion) || null)
   calificacion?: Decimal;
+}
+
+export class crearCuestionarioConPreguntasDto extends IntersectionType(
+  CrearCuestionarioDto,
+  CuestionarioConPreguntas,
+) {
+  @IsArray({
+    message: 'Las preguntas del cuestionario deben ser un arreglo de números',
+  })
+  @IsNotEmpty({
+    message: 'Las preguntas del cuestionario no pueden estar vacías',
+  })
+  @IsNumber(
+    { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 0 },
+    { each: true, message: 'Las preguntas deben ser números enteros' },
+  )
+  declare preguntas: number[];
 }
 
 export class ActualizarCuestionarioDto extends PartialType(

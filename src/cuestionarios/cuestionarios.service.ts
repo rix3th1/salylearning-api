@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarCuestionarioDto,
   CrearCuestionarioDto,
+  crearCuestionarioConPreguntasDto,
 } from './dto/cuestionario.dto';
 import { Cuestionario } from './entities/cuestionario.entity';
 
@@ -67,6 +68,19 @@ export class CuestionariosService {
     cuestionario: CrearCuestionarioDto,
   ): Promise<Cuestionario> {
     return this.prisma.cuestionario.create({ data: cuestionario });
+  }
+
+  async crearCuestionarioConPreguntas(
+    cuestionario: crearCuestionarioConPreguntasDto,
+  ): Promise<Cuestionario> {
+    return this.prisma.cuestionario.create({
+      data: {
+        ...cuestionario,
+        preguntas: {
+          connect: cuestionario.preguntas.map((id) => ({ id })),
+        },
+      },
+    });
   }
 
   async actualizarCuestionario(
