@@ -1,5 +1,4 @@
 import {
-  ApiProperty,
   ApiPropertyOptional,
   IntersectionType,
   OmitType,
@@ -20,7 +19,6 @@ import {
   MaxLength,
   Min,
   MinLength,
-  isArray,
 } from 'class-validator';
 import {
   Cuestionario,
