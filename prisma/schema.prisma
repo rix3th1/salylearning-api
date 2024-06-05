@@ -92,8 +92,8 @@ model Libro {
   editorial           String   @db.VarChar(50)
   // Fecha de publicación del libro
   fecha_pub           DateTime @db.DateTime()
-  // Url para más información del libro
-  url_info            String   @unique @db.VarChar(255)
+  // Descripción del libro
+  descripcion         String   @db.LongText
   // ID del género literario al que pertenece el libro
   id_genero_literario Int      @db.UnsignedInt
   // Cantidad de libros leídos
@@ -149,21 +149,19 @@ model MiLibro {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id           Int    @id @default(autoincrement()) @db.UnsignedInt
-  // Número de la pregunta
-  num_pregunta Int    @db.UnsignedTinyInt
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
   // Contenido de la pregunta
-  pregunta     String @unique @db.VarChar(200)
+  pregunta String @unique @db.VarChar(200)
   // Respuesta A
-  resA         String @db.VarChar(100)
+  resA     String @db.VarChar(100)
   // Respuesta B
-  resB         String @db.VarChar(100)
+  resB     String @db.VarChar(100)
   // Respuesta C
-  resC         String @db.VarChar(100)
+  resC     String @db.VarChar(100)
   // Respuesta D
-  resD         String @db.VarChar(100)
+  resD     String @db.VarChar(100)
   // ID del libro al que pertenece la pregunta
-  id_libro     Int    @db.UnsignedInt
+  id_libro Int    @db.UnsignedInt
 
   // Relación 1-1 con Libro
   libros        Libro          @relation(fields: [id_libro], references: [id], onUpdate: Restrict)

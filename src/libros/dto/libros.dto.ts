@@ -52,28 +52,17 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   })
   editorial: string;
 
-  @IsNotEmpty({ message: 'La url de más información del libro es requerida' })
+  @IsNotEmpty({ message: 'La descripción del libro es requerida' })
   @IsString({
-    message: 'La url de más información del libro debe ser una cadena de texto',
+    message: 'La descripción del libro debe ser una cadena de texto',
   })
-  @IsUrl(
-    {
-      require_protocol: true,
-      require_host: true,
-      require_valid_protocol: true,
-      protocols: ['https'],
-    },
-    { message: 'La url de más información del libro debe ser una URL válida' },
-  )
   @MinLength(3, {
-    message:
-      'La url de más información del libro debe tener al menos 3 caracteres',
+    message: 'La descripción del libro debe tener al menos 3 caracteres',
   })
-  @MaxLength(255, {
-    message:
-      'La url de más información del libro debe tener menos de 255 caracteres',
+  @MaxLength(500, {
+    message: 'La descripción del libro debe tener menos de 500 caracteres',
   })
-  url_info: string;
+  descripcion: string;
 
   @IsNotEmpty({ message: 'La fecha de publicación del libro es requerida' })
   @IsDate({ message: 'La fecha de publicación del libro debe ser una fecha' })
@@ -149,7 +138,7 @@ export class ActualizarLibroDto extends PartialType(CrearLibroDto) {
 
   @ApiPropertyOptional()
   @IsOptional()
-  url_info?: string;
+  descripcion?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

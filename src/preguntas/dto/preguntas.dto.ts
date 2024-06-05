@@ -13,13 +13,6 @@ import {
 import { Pregunta } from '../entities/pregunta.entity';
 
 export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
-  @IsNotEmpty({ message: 'El número de pregunta es requerido' })
-  @IsInt({ message: 'El número de pregunta debe ser un número entero' })
-  @Min(1, { message: 'El número de pregunta debe ser mayor o igual a 1' })
-  @Max(255, { message: 'El número de pregunta debe ser menor o igual a 255' })
-  @Transform(({ value: num_pregunta }) => parseInt(num_pregunta))
-  num_pregunta: number;
-
   @IsNotEmpty({ message: 'La pregunta es requerida' })
   @IsString({ message: 'La pregunta debe ser una cadena de texto' })
   @MinLength(10, { message: 'La pregunta debe tener al menos 10 caracteres' })
@@ -69,10 +62,6 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
 }
 
 export class ActualizarPreguntaDto extends PartialType(CrearPreguntaDto) {
-  @ApiPropertyOptional()
-  @IsOptional()
-  num_pregunta?: number;
-
   @ApiPropertyOptional()
   @IsOptional()
   pregunta?: string;

@@ -4,7 +4,6 @@ import { Decimal } from '@prisma/client/runtime/library';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
-  IsDecimal,
   IsIn,
   IsInt,
   IsNotEmpty,

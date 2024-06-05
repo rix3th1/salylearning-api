@@ -48,14 +48,13 @@ export class Libro implements Partial<TLibro> {
   editorial: string;
 
   @ApiProperty({
-    title: 'Más información del libro',
-    description: 'Más información del libro',
-    example: 'https://wwww.wikipedia.org/xxxxx',
+    title: 'Descripción del libro',
+    description: 'Descripción del libro',
+    example: 'Libro de aventura emocionante sobre fantasía infantil',
     minLength: 3,
-    maxLength: 255,
-    format: 'url',
+    maxLength: 500,
   })
-  url_info: string;
+  descripcion: string;
 
   @ApiProperty({
     title: 'Fecha de publicación',

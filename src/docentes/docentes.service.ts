@@ -5,34 +5,34 @@ import { Docente } from './entities/docente.entity';
 
 @Injectable()
 export class DocentesService {
-  constructor(private prismaservice: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   async obtenerDocentes(): Promise<Docente[]> {
-    return this.prismaservice.docente.findMany();
+    return this.prisma.docente.findMany();
   }
 
   async obtenerDocente(id: number): Promise<Docente> {
-    return this.prismaservice.docente.findUniqueOrThrow({ where: { id } });
+    return this.prisma.docente.findUniqueOrThrow({ where: { id } });
   }
 
   async obtenerDocentePorIdUsuario(id_usuario: number): Promise<Docente> {
-    return this.prismaservice.docente.findUniqueOrThrow({
+    return this.prisma.docente.findUniqueOrThrow({
       where: { id_usuario },
     });
   }
 
   async crearDocente(docente: CrearDocenteDto): Promise<Docente> {
-    return this.prismaservice.docente.create({ data: docente });
+    return this.prisma.docente.create({ data: docente });
   }
 
   async actualizarDocente(
     id: number,
     docente: ActualizarDocenteDto,
   ): Promise<Docente> {
-    return this.prismaservice.docente.update({ where: { id }, data: docente });
+    return this.prisma.docente.update({ where: { id }, data: docente });
   }
 
   async eliminarDocente(id: number): Promise<Docente> {
-    return this.prismaservice.docente.delete({ where: { id } });
+    return this.prisma.docente.delete({ where: { id } });
   }
 }

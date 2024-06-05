@@ -12,15 +12,6 @@ export class Pregunta implements TPregunta {
   id: number;
 
   @ApiProperty({
-    title: 'Número de pregunta',
-    description: 'Número de pregunta sobre el libro leído',
-    example: 1,
-    minimum: 1,
-    maximum: 255,
-  })
-  num_pregunta: number;
-
-  @ApiProperty({
     title: 'Pregunta',
     description: 'Pregunta sobre el libro leído',
     example: '¿Qué es la programación?',
