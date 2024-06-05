@@ -5,7 +5,6 @@ import { Transform } from 'class-transformer';
 import {
   IsDate,
   IsIn,
-  IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -20,15 +19,6 @@ import { Cuestionario } from '../entities/cuestionario.entity';
 export class CrearCuestionarioDto extends OmitType(Cuestionario, [
   'id',
 ] as const) {
-  @IsNotEmpty({ message: 'El id de la pregunta es requerido' })
-  @IsInt({ message: 'El id de la pregunta debe ser un número entero' })
-  @Min(1, { message: 'El id de la pregunta debe ser mayor o igual a 1' })
-  @Max(4294967295, {
-    message: 'El id de la pregunta debe ser menor o igual a 4294967295',
-  })
-  @Transform(({ value: id_pregunta }) => parseInt(id_pregunta))
-  id_pregunta: number;
-
   @IsOptional()
   @IsNotEmpty({ message: 'El estado del cuestionario no puede estar vacío' })
   @IsString({
@@ -86,10 +76,6 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
 export class ActualizarCuestionarioDto extends PartialType(
   CrearCuestionarioDto,
 ) {
-  @ApiPropertyOptional()
-  @IsOptional()
-  id_pregunta?: number;
-
   @ApiPropertyOptional()
   @IsOptional()
   fecha_entrega?: Date;

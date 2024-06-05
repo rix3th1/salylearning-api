@@ -20,7 +20,11 @@ export class PreguntasService {
   }
 
   async crearPregunta(pregunta: CrearPreguntaDto): Promise<Pregunta> {
-    return this.prisma.pregunta.create({ data: pregunta });
+    return this.prisma.pregunta.create({
+      data: {
+        ...pregunta,
+      },
+    });
   }
 
   async actualizarPregunta(

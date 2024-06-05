@@ -149,24 +149,26 @@ model MiLibro {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  id              Int    @id @default(autoincrement()) @db.UnsignedInt
   // Contenido de la pregunta
-  pregunta String @unique @db.VarChar(200)
+  pregunta        String @unique @db.VarChar(200)
   // Respuesta A
-  resA     String @db.VarChar(100)
+  resA            String @db.VarChar(100)
   // Respuesta B
-  resB     String @db.VarChar(100)
+  resB            String @db.VarChar(100)
   // Respuesta C
-  resC     String @db.VarChar(100)
+  resC            String @db.VarChar(100)
   // Respuesta D
-  resD     String @db.VarChar(100)
+  resD            String @db.VarChar(100)
   // ID del libro al que pertenece la pregunta
-  id_libro Int    @db.UnsignedInt
+  id_libro        Int    @db.UnsignedInt
+  // ID cuestionario al que pertenece la pregunta
+  id_cuestionario Int?   @db.UnsignedInt
 
   // Relación 1-1 con Libro
-  libros        Libro          @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros       Libro         @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   // Relación 1-N con Cuestionario
-  cuestionarios Cuestionario[]
+  cuestionario Cuestionario? @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
 }
 
 // Tabla que almacena los cuestionarios de los libros
@@ -175,8 +177,6 @@ model Cuestionario {
   id             Int                @id @default(autoincrement()) @db.UnsignedInt
   // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
   estado         EstadoCuestionario @default(PENDIENTE)
-  // ID de la pregunta a la que pertenece el cuestionario
-  id_pregunta    Int                @db.UnsignedInt
   // Fecha de asignación del cuestionario
   fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
   // Fecha de entrega del cuestionario
@@ -184,8 +184,8 @@ model Cuestionario {
   // Calificación del cuestionario (de 0.0 a 5.0)
   calificacion   Decimal?           @db.Decimal(2, 1)
 
-  // Relación 1-1 con Pregunta
-  preguntas Pregunta @relation(fields: [id_pregunta], references: [id], onUpdate: Restrict)
+  // Relación 1-N con Pregunta
+  preguntas Pregunta[]
 }
 
 // Tabla que almacena los usuarios

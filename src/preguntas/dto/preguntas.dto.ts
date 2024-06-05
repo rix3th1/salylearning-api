@@ -59,6 +59,16 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
   })
   @Transform(({ value: id_libro }) => parseInt(id_libro))
   id_libro: number;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'El id del cuestionario es requerido' })
+  @IsInt({ message: 'El id del cuestionario debe ser un número entero' })
+  @Min(1, { message: 'El id del cuestionario debe ser mayor o igual a 1' })
+  @Max(4294967295, {
+    message: 'El id del cuestionario debe ser menor o igual a 4294967295',
+  })
+  @Transform(({ value: id_cuestionario }) => parseInt(id_cuestionario))
+  id_cuestionario: number;
 }
 
 export class ActualizarPreguntaDto extends PartialType(CrearPreguntaDto) {

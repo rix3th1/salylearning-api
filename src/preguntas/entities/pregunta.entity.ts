@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Pregunta as TPregunta } from '@prisma/client';
 
-export class Pregunta implements TPregunta {
+export class Pregunta implements Partial<TPregunta> {
   @ApiProperty({
     title: 'Id pregunta',
     description: 'Id de la pregunta',
@@ -64,4 +64,13 @@ export class Pregunta implements TPregunta {
     maximum: 4294967295, // 2^32 - 1 = 4.294.967.295
   })
   id_libro: number;
+
+  @ApiPropertyOptional({
+    title: 'Id cuestionario',
+    description: 'Id del cuestionario asociado a la pregunta',
+    example: 1,
+    minimum: 1,
+    maximum: 4294967295,
+  })
+  id_cuestionario?: number;
 }

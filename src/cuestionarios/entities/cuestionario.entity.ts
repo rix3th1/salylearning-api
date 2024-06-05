@@ -15,15 +15,6 @@ export class Cuestionario implements Partial<TCuestionario> {
   })
   id: number;
 
-  @ApiProperty({
-    title: 'Id pregunta',
-    description: 'Id de la pregunta asociada al cuestionario',
-    example: 1,
-    minimum: 1,
-    maximum: 4294967295,
-  })
-  id_pregunta: number;
-
   @ApiPropertyOptional({
     title: 'Estado del cuestionario',
     description: `Estado del cuestionario (Opcional, por defecto: ${EstadoCuestionario.PENDIENTE})`,
