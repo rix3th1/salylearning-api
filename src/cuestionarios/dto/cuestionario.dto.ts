@@ -20,6 +20,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { Pregunta } from 'src/preguntas/entities/pregunta.entity';
 import {
   Cuestionario,
   CuestionarioConPreguntas,
@@ -92,11 +93,7 @@ export class crearCuestionarioConPreguntasDto extends IntersectionType(
   @IsNotEmpty({
     message: 'Las preguntas del cuestionario no pueden estar vacías',
   })
-  @IsNumber(
-    { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 0 },
-    { each: true, message: 'Las preguntas deben ser números enteros' },
-  )
-  declare preguntas: number[];
+  declare preguntas: Pregunta[];
 }
 
 export class ActualizarCuestionarioDto extends PartialType(

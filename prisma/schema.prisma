@@ -163,12 +163,12 @@ model Pregunta {
   // ID del libro al que pertenece la pregunta
   id_libro        Int    @db.UnsignedInt
   // ID cuestionario al que pertenece la pregunta
-  id_cuestionario Int?   @db.UnsignedInt
+  id_cuestionario Int    @db.UnsignedInt
 
   // Relación 1-1 con Libro
-  libros       Libro         @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   // Relación 1-N con Cuestionario
-  cuestionario Cuestionario? @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
+  cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
 }
 
 // Tabla que almacena los cuestionarios de los libros

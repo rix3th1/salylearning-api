@@ -73,13 +73,9 @@ export class CuestionariosService {
   async crearCuestionarioConPreguntas(
     cuestionario: crearCuestionarioConPreguntasDto,
   ): Promise<Cuestionario> {
+    const { preguntas, ...rest } = cuestionario;
     return this.prisma.cuestionario.create({
-      data: {
-        ...cuestionario,
-        preguntas: {
-          connect: cuestionario.preguntas.map((id) => ({ id })),
-        },
-      },
+      data: { ...rest, preguntas: { create: preguntas } },
     });
   }
 

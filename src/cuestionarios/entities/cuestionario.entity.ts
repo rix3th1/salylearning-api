@@ -4,6 +4,7 @@ import {
   Cuestionario as TCuestionario,
 } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
+import { Pregunta } from 'src/preguntas/entities/pregunta.entity';
 
 export class Cuestionario implements Partial<TCuestionario> {
   @ApiProperty({
@@ -60,8 +61,7 @@ export class CuestionarioConPreguntas extends Cuestionario {
   @ApiProperty({
     title: 'Preguntas',
     description: 'Preguntas del cuestionario',
-    example: [0, 3, 4],
-    type: Array<number>,
+    type: [Pregunta],
   })
-  preguntas: number[];
+  preguntas: Pregunta[];
 }
