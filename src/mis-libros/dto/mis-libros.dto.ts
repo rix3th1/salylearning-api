@@ -47,7 +47,7 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   @Max(1440, {
     message: 'El tiempo de lectura del libro debe ser menor o igual a 1440',
   })
-  @Transform(({ value: tiempo_lectura }) => parseInt(tiempo_lectura) || null)
+  @Transform(({ value: tiempo_lectura }) => parseInt(tiempo_lectura))
   tiempo_lectura?: number;
 }
 

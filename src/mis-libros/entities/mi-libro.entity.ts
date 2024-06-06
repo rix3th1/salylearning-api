@@ -41,7 +41,7 @@ export class MiLibro implements Partial<TMiLibro> {
   @ApiPropertyOptional({
     title: 'Tiempo de lectura',
     description: 'El tiempo de lectura del libro en minutos',
-    example: 0,
+    example: 60,
     minimum: 0,
     maximum: 1440,
   })
