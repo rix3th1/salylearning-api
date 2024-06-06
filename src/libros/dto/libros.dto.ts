@@ -12,6 +12,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { embedCanvaUrl } from 'src/libs';
 import { Libro } from '../entities/libro.entity';
 
 export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
@@ -107,6 +108,7 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
   @MaxLength(255, {
     message: 'La url del libro debe tener menos de 255 caracteres',
   })
+  @Transform(({ value: url_libro }) => embedCanvaUrl(url_libro))
   url_libro: string;
 
   @IsNotEmpty({ message: 'El id de grado es requerido' })
