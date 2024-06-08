@@ -185,7 +185,40 @@ model Cuestionario {
   calificacion   Decimal?           @db.Decimal(2, 1)
 
   // Relación 1-N con Pregunta
-  preguntas Pregunta[]
+  preguntas               Pregunta[]
+  // Relación 1-N con CuestionarioEstudiante
+  cuestionario_estudiante CuestionarioEstudiante[]
+}
+
+model CuestionarioEstudiante {
+  // ID del cuestionario estudiante
+  id              Int @id @default(autoincrement()) @db.UnsignedInt
+  // ID del cuestionario
+  id_cuestionario Int @db.UnsignedInt
+  // ID del estudiante
+  id_estudiante   Int @db.UnsignedInt
+
+  // Relación 1-N con Cuestionario
+  cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id])
+  // Relación 1-N con Estudiante
+  estudiante   Estudiante   @relation(fields: [id_estudiante], references: [id])
+}
+
+// Tabla que almacena los estudiantes
+model Estudiante {
+  // ID del estudiante
+  id             Int     @id @default(autoincrement()) @db.UnsignedInt
+  // ID del usuario
+  id_usuario     Int     @unique @db.UnsignedInt
+  // Código del estudiante
+  cod_estudiante String? @unique @db.VarChar(10)
+  // Apodo del estudiante (opcional)
+  apodo          String? @db.VarChar(30)
+
+  // Relación 1-1 con Usuario
+  usuario                 Usuario                  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
+  // Relación 1-N con CuestionarioEstudiante
+  cuestionario_estudiante CuestionarioEstudiante[]
 }
 
 // Tabla que almacena los usuarios
@@ -236,21 +269,6 @@ model Docente {
   id_usuario  Int     @unique @db.UnsignedInt
   // Código del docente
   cod_docente String? @unique @db.VarChar(6)
-
-  // Relación 1-1 con Usuario
-  usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
-}
-
-// Tabla que almacena los estudiantes
-model Estudiante {
-  // ID del estudiante
-  id             Int     @id @default(autoincrement()) @db.UnsignedInt
-  // ID del usuario
-  id_usuario     Int     @unique @db.UnsignedInt
-  // Código del estudiante
-  cod_estudiante String? @unique @db.VarChar(10)
-  // Apodo del estudiante (opcional)
-  apodo          String? @db.VarChar(30)
 
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)

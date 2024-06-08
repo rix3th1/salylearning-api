@@ -20,7 +20,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { Pregunta } from 'src/preguntas/entities/pregunta.entity';
+import { Pregunta } from '../../preguntas/entities/pregunta.entity';
 import {
   Cuestionario,
   CuestionarioConPreguntas,

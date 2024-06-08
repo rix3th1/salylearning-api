@@ -4,7 +4,7 @@ import {
   Cuestionario as TCuestionario,
 } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
-import { Pregunta } from 'src/preguntas/entities/pregunta.entity';
+import { Pregunta } from '../../preguntas/entities/pregunta.entity';
 
 export class Cuestionario implements Partial<TCuestionario> {
   @ApiProperty({

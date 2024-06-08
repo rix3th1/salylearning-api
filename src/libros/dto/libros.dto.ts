@@ -12,7 +12,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { embedCanvaUrl } from 'src/libs';
+import { embedCanvaUrl } from '../../libs';
 import { Libro } from '../entities/libro.entity';
 
 export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {

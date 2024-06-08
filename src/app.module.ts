@@ -9,6 +9,7 @@ import { AvatarModule } from './avatar/avatar.module';
 import { CambiarClaveModule } from './cambiar-clave/cambiar-clave.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ContactosModule } from './contactos/contactos.module';
+import { CuestionarioEstudianteModule } from './cuestionario-estudiante/cuestionario-estudiante.module';
 import { CuestionariosModule } from './cuestionarios/cuestionarios.module';
 import { DocentesModule } from './docentes/docentes.module';
 import { EstudiantesModule } from './estudiantes/estudiantes.module';
@@ -55,6 +56,7 @@ const AppGuard = {
     CuestionariosModule,
     CambiarClaveModule,
     PerfilModule,
+    CuestionarioEstudianteModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
