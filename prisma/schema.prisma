@@ -38,7 +38,8 @@ model Avatar {
 // Tabla que almacena la relación entre los avatares y los usuarios
 model AvatarUsuario {
   // ID de la relación avatar-usuario
-  id         Int  @id @default(autoincrement()) @db.UnsignedInt
+  id Int @id @default(autoincrement()) @db.UnsignedInt
+
   // ID del avatar
   id_avatar  Int? @db.UnsignedInt
   // ID del usuario
@@ -66,7 +67,8 @@ model Grado {
 // Tabla que almacena la relación entre los grados y los usuarios
 model GradoUsuario {
   // ID de la relación grado-usuario
-  id         Int @id @default(autoincrement()) @db.UnsignedInt
+  id Int @id @default(autoincrement()) @db.UnsignedInt
+
   // ID del grado
   id_grado   Int @db.UnsignedInt
   // ID del usuario
@@ -81,29 +83,30 @@ model GradoUsuario {
 // Tabla que almacena los libros disponibles
 model Libro {
   // ID del libro
-  id                  Int      @id @default(autoincrement()) @db.UnsignedInt
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
   // Nombre del libro
-  nom_libro           String   @unique @db.VarChar(100)
+  nom_libro      String   @unique @db.VarChar(100)
   // Número de páginas del libro
-  num_pag             Int      @db.UnsignedTinyInt
+  num_pag        Int      @db.UnsignedTinyInt
   // Nombre del autor del libro
-  autor               String   @db.VarChar(100)
+  autor          String   @db.VarChar(100)
   // Editorial del libro
-  editorial           String   @db.VarChar(50)
+  editorial      String   @db.VarChar(50)
   // Fecha de publicación del libro
-  fecha_pub           DateTime @db.DateTime()
+  fecha_pub      DateTime @db.DateTime()
   // Descripción del libro
-  descripcion         String   @db.LongText
-  // ID del género literario al que pertenece el libro
-  id_genero_literario Int      @db.UnsignedInt
+  descripcion    String   @db.LongText
   // Cantidad de libros leídos
-  cant_leido          Int      @default(0) @db.UnsignedInt
+  cant_leido     Int      @default(0) @db.UnsignedInt
   // URL de la imagen de portada del libro
-  imagen_portada      String   @unique @db.VarChar(255)
+  imagen_portada String   @unique @db.VarChar(255)
   // URL del libro
-  url_libro           String   @unique @db.VarChar(255)
+  url_libro      String   @unique @db.VarChar(255)
+
+  // ID del género literario al que pertenece el libro
+  id_genero_literario Int @db.UnsignedInt
   // ID del grado al que pertenece el libro
-  id_grado            Int      @db.UnsignedInt
+  id_grado            Int @db.UnsignedInt
 
   // Relacíon 1-N con GeneroLiterario 
   genero_literario GeneroLiterario @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
@@ -132,14 +135,15 @@ model GeneroLiterario {
 model MiLibro {
   // ID de la relación libro-usuario
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
-  // ID del usuario
-  id_usuario     Int     @db.UnsignedInt
-  // ID del libro
-  id_libro       Int     @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
   terminado      Boolean @default(false)
   // Tiempo de lectura del libro (en minutos)
   tiempo_lectura Int     @default(0) @db.UnsignedInt
+
+  // ID del usuario
+  id_usuario Int @db.UnsignedInt
+  // ID del libro
+  id_libro   Int @db.UnsignedInt
 
   // Relaciones 1-1 con Usuario y Libro
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -149,21 +153,22 @@ model MiLibro {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id              Int    @id @default(autoincrement()) @db.UnsignedInt
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
   // Contenido de la pregunta
-  pregunta        String @unique @db.VarChar(200)
+  pregunta String @unique @db.VarChar(200)
   // Respuesta A
-  resA            String @db.VarChar(100)
+  resA     String @db.VarChar(100)
   // Respuesta B
-  resB            String @db.VarChar(100)
+  resB     String @db.VarChar(100)
   // Respuesta C
-  resC            String @db.VarChar(100)
+  resC     String @db.VarChar(100)
   // Respuesta D
-  resD            String @db.VarChar(100)
+  resD     String @db.VarChar(100)
+
   // ID del libro al que pertenece la pregunta
-  id_libro        Int    @db.UnsignedInt
+  id_libro        Int @db.UnsignedInt
   // ID cuestionario al que pertenece la pregunta
-  id_cuestionario Int    @db.UnsignedInt
+  id_cuestionario Int @db.UnsignedInt
 
   // Relación 1-1 con Libro
   libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -192,7 +197,8 @@ model Cuestionario {
 
 model CuestionarioEstudiante {
   // ID del cuestionario estudiante
-  id              Int @id @default(autoincrement()) @db.UnsignedInt
+  id Int @id @default(autoincrement()) @db.UnsignedInt
+
   // ID del cuestionario
   id_cuestionario Int @db.UnsignedInt
   // ID del estudiante
@@ -208,12 +214,13 @@ model CuestionarioEstudiante {
 model Estudiante {
   // ID del estudiante
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
-  // ID del usuario
-  id_usuario     Int     @unique @db.UnsignedInt
   // Código del estudiante
   cod_estudiante String? @unique @db.VarChar(10)
   // Apodo del estudiante (opcional)
   apodo          String? @db.VarChar(30)
+
+  // ID del usuario
+  id_usuario Int @unique @db.UnsignedInt
 
   // Relación 1-1 con Usuario
   usuario                 Usuario                  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
@@ -265,10 +272,11 @@ model Usuario {
 model Docente {
   // ID del docente
   id          Int     @id @default(autoincrement()) @db.UnsignedInt
-  // ID del usuario
-  id_usuario  Int     @unique @db.UnsignedInt
   // Código del docente
   cod_docente String? @unique @db.VarChar(6)
+
+  // ID del usuario
+  id_usuario Int @unique @db.UnsignedInt
 
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
@@ -277,11 +285,12 @@ model Docente {
 // Tabla que almacena las fotos de perfil de los usuarios
 model FotoPerfil {
   // ID de la foto de perfil
-  id         Int     @id @default(autoincrement()) @db.UnsignedInt
-  // ID del usuario
-  id_usuario Int     @unique @db.UnsignedInt
+  id   Int     @id @default(autoincrement()) @db.UnsignedInt
   // URL de la foto de perfil
-  foto       String? @unique @db.VarChar(255)
+  foto String? @unique @db.VarChar(255)
+
+  // ID del usuario
+  id_usuario Int @unique @db.UnsignedInt
 
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)

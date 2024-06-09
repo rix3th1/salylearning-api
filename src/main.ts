@@ -57,7 +57,7 @@ async function bootstrap() {
     .addTag('mis-libros')
     .addTag('preguntas')
     .addTag('cuestionarios')
-    .addTag('cuestionarios-estudiante')
+    .addTag('cuestionario-estudiante')
     .addTag('usuarios')
     .addTag('contactos')
     .addTag('soporte')
