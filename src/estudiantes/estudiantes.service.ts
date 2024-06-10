@@ -11,7 +11,12 @@ export class EstudiantesService {
   constructor(private prisma: PrismaService) {}
 
   async obtenerEstudiantes(): Promise<Estudiante[]> {
-    return this.prisma.estudiante.findMany();
+    return this.prisma.estudiante.findMany({
+      include: {
+        usuario: true,
+        cuestionario_estudiante: true,
+      },
+    });
   }
 
   async obtenerEstudiante(id: number): Promise<Estudiante> {
