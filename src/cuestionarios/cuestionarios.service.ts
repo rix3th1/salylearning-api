@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EstadoCuestionario } from '@prisma/client';
-import { OpcionRespuesta } from 'src/opciones-respuesta/entities/opcion-respuesta.entity';
+import { OpcionRespuesta } from '../opciones-respuesta/entities/opcion-respuesta.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarCuestionarioDto,
