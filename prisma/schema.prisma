@@ -156,14 +156,6 @@ model Pregunta {
   id       Int    @id @default(autoincrement()) @db.UnsignedInt
   // Contenido de la pregunta
   pregunta String @unique @db.VarChar(200)
-  // Respuesta A
-  resA     String @db.VarChar(100)
-  // Respuesta B
-  resB     String @db.VarChar(100)
-  // Respuesta C
-  resC     String @db.VarChar(100)
-  // Respuesta D
-  resD     String @db.VarChar(100)
 
   // ID del libro al que pertenece la pregunta
   id_libro        Int @db.UnsignedInt
@@ -173,6 +165,36 @@ model Pregunta {
   // Relación 1-1 con Libro
   libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   // Relación 1-N con Cuestionario
+  cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
+}
+
+// Tabla que almacena las opciones de respuestas de las preguntas
+model OpcionRespuesta {
+  // ID de la opción de respuesta
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Opción
+  opcion    String @db.Char(1) // A, B, C, D
+  // Respuesta
+  respuesta String @db.VarChar(100)
+
+  // ID cuestionario al que pertenece la respuesta de la pregunta
+  id_cuestionario Int @db.UnsignedInt
+
+  // Relación 1-N con Cuestionario 
+  cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id])
+}
+
+// Tabla que almacena las respuestas de las preguntas
+model Respuesta {
+  // ID de la respuesta
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  // Respuesta (A, B, C, D)
+  respuesta String @db.Char(1) // A, B, C, D
+
+  // ID del cuestionario al que pertenece la respuesta de la pregunta
+  id_cuestionario Int @db.UnsignedInt
+
+  // Relación 1-N con Cuestionario 
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
 }
 
@@ -190,7 +212,11 @@ model Cuestionario {
   calificacion   Decimal?           @db.Decimal(2, 1)
 
   // Relación 1-N con Pregunta
-  preguntas               Pregunta[]
+  preguntas          Pregunta[]
+  // Relación 1-N con Respuesta
+  respuestas         Respuesta[]
+  opciones_respuesta OpcionRespuesta[]
+
   // Relación 1-N con CuestionarioEstudiante
   cuestionario_estudiante CuestionarioEstudiante[]
 }

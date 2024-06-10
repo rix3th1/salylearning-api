@@ -121,6 +121,8 @@ export class CuestionariosController {
         estadoCuestionario,
       );
     } catch (error) {
+      console.error(error.message);
+
       if (error instanceof BadRequestException) {
         throw error;
       }

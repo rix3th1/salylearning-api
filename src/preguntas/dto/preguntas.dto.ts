@@ -19,38 +19,6 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
   @MaxLength(200, { message: 'La pregunta debe tener menos de 200 caracteres' })
   pregunta: string;
 
-  @IsNotEmpty({ message: 'La respuesta A es requerida' })
-  @IsString({ message: 'La respuesta A debe ser una cadena de texto' })
-  @MinLength(3, { message: 'La respuesta A debe tener al menos 3 caracteres' })
-  @MaxLength(100, {
-    message: 'La respuesta A debe tener menos de 100 caracteres',
-  })
-  resA: string;
-
-  @IsNotEmpty({ message: 'La respuesta B es requerida' })
-  @IsString({ message: 'La respuesta B debe ser una cadena de texto' })
-  @MinLength(3, { message: 'La respuesta B debe tener al menos 3 caracteres' })
-  @MaxLength(100, {
-    message: 'La respuesta B debe tener menos de 100 caracteres',
-  })
-  resB: string;
-
-  @IsNotEmpty({ message: 'La respuesta C es requerida' })
-  @IsString({ message: 'La respuesta C debe ser una cadena de texto' })
-  @MinLength(3, { message: 'La respuesta C debe tener al menos 3 caracteres' })
-  @MaxLength(100, {
-    message: 'La respuesta C debe tener menos de 100 caracteres',
-  })
-  resC: string;
-
-  @IsNotEmpty({ message: 'La respuesta D es requerida' })
-  @IsString({ message: 'La respuesta D debe ser una cadena de texto' })
-  @MinLength(3, { message: 'La respuesta D debe tener al menos 3 caracteres' })
-  @MaxLength(100, {
-    message: 'La respuesta D debe tener menos de 100 caracteres',
-  })
-  resD: string;
-
   @IsNotEmpty({ message: 'El id de libro es requerido' })
   @IsInt({ message: 'El id de libro debe ser un número entero' })
   @Min(1, { message: 'El id de libro debe ser mayor o igual a 1' })
@@ -75,22 +43,6 @@ export class ActualizarPreguntaDto extends PartialType(CrearPreguntaDto) {
   @ApiPropertyOptional()
   @IsOptional()
   pregunta?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  resA?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  resB?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  resC?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  resD?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

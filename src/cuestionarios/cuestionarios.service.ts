@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EstadoCuestionario } from '@prisma/client';
+import { OpcionRespuesta } from 'src/opciones-respuesta/entities/opcion-respuesta.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarCuestionarioDto,
@@ -30,11 +31,13 @@ export class CuestionariosService {
     return this.prisma.cuestionario.findMany({
       where: { estado },
       select: {
+        id: true,
         fecha_asignado: true,
         fecha_entrega: true,
         estado: true,
         preguntas: {
           select: {
+            pregunta: true,
             libros: {
               select: {
                 nom_libro: true,
@@ -56,6 +59,12 @@ export class CuestionariosService {
             },
           },
         },
+        opciones_respuesta: {
+          select: {
+            opcion: true,
+            respuesta: true,
+          },
+        },
       },
     });
   }
@@ -73,10 +82,29 @@ export class CuestionariosService {
   async crearCuestionarioConPreguntas(
     cuestionario: crearCuestionarioConPreguntasDto,
   ): Promise<Cuestionario> {
-    const { preguntas, ...rest } = cuestionario;
-    return this.prisma.cuestionario.create({
-      data: { ...rest, preguntas: { create: preguntas } },
+    const { preguntas, opciones_respuesta, ...rest } = cuestionario;
+    const cuestionarioCreado = await this.prisma.cuestionario.create({
+      data: {
+        ...rest,
+        preguntas: {
+          create: preguntas,
+        },
+      },
     });
+
+    const id_cuestionario = cuestionarioCreado.id;
+
+    for (const opcionRespuesta of opciones_respuesta) {
+      for (const opcion of opcionRespuesta as unknown as OpcionRespuesta[]) {
+        opcion.id_cuestionario = id_cuestionario;
+      }
+
+      await this.prisma.opcionRespuesta.createMany({
+        data: opcionRespuesta,
+      });
+    }
+
+    return cuestionarioCreado;
   }
 
   async actualizarCuestionario(

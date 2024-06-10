@@ -20,10 +20,11 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { OpcionRespuesta } from '../../opciones-respuesta/entities/opcion-respuesta.entity';
 import { Pregunta } from '../../preguntas/entities/pregunta.entity';
 import {
   Cuestionario,
-  CuestionarioConPreguntas,
+  CuestionarioAsignacion,
 } from '../entities/cuestionario.entity';
 
 export class CrearCuestionarioDto extends OmitType(Cuestionario, [
@@ -85,7 +86,7 @@ export class CrearCuestionarioDto extends OmitType(Cuestionario, [
 
 export class crearCuestionarioConPreguntasDto extends IntersectionType(
   CrearCuestionarioDto,
-  CuestionarioConPreguntas,
+  CuestionarioAsignacion,
 ) {
   @IsArray({
     message: 'Las preguntas del cuestionario deben ser un arreglo de números',
@@ -94,6 +95,16 @@ export class crearCuestionarioConPreguntasDto extends IntersectionType(
     message: 'Las preguntas del cuestionario no pueden estar vacías',
   })
   declare preguntas: Pregunta[];
+
+  @IsArray({
+    message:
+      'Las opciones de respuesta del cuestionario deben ser un arreglo de objetos',
+  })
+  @IsNotEmpty({
+    message:
+      'Las opciones de respuesta del cuestionario no pueden estar vacías',
+  })
+  declare opciones_respuesta: OpcionRespuesta[];
 }
 
 export class ActualizarCuestionarioDto extends PartialType(

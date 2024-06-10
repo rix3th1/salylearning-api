@@ -21,42 +21,6 @@ export class Pregunta implements Partial<TPregunta> {
   pregunta: string;
 
   @ApiProperty({
-    title: 'Respuesta A',
-    description: 'Respuesta A sobre la pregunta',
-    example: 'La programación es un lenguaje de programación',
-    minLength: 3,
-    maxLength: 100,
-  })
-  resA: string;
-
-  @ApiProperty({
-    title: 'Respuesta B',
-    description: 'Respuesta B sobre la pregunta',
-    example: 'La programación es un proceso de creación de software',
-    minLength: 3,
-    maxLength: 100,
-  })
-  resB: string;
-
-  @ApiProperty({
-    title: 'Respuesta C',
-    description: 'Respuesta C sobre la pregunta',
-    example: 'La programación es un conjunto de instrucciones',
-    minLength: 3,
-    maxLength: 100,
-  })
-  resC: string;
-
-  @ApiProperty({
-    title: 'Respuesta D',
-    description: 'Respuesta D sobre la pregunta',
-    example: 'La programación es una técnica de diseño',
-    minLength: 3,
-    maxLength: 100,
-  })
-  resD: string;
-
-  @ApiProperty({
     title: 'Id del libro',
     description: 'Id del libro al que corresponde las preguntas',
     example: 1,

@@ -25,7 +25,7 @@ export class CuestionarioEstudianteService {
             fecha_entrega: true,
             estado: true,
             preguntas: {
-              select: {
+              include: {
                 libros: {
                   select: {
                     nom_libro: true,
