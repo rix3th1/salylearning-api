@@ -19,6 +19,17 @@ export class LibrosService {
     return this.prisma.libro.findMany();
   }
 
+  async obtenerLibrosPopulares(): Promise<Libro[]> {
+    return this.prisma.libro.findMany({
+      take: 2,
+      orderBy: {
+        mis_libros: {
+          _count: 'asc',
+        },
+      },
+    });
+  }
+
   async obtenerLibrosPorNombre(nom_libro: string): Promise<Libro[]> {
     return this.prisma.libro.findMany({
       where: { nom_libro: { contains: nom_libro } },

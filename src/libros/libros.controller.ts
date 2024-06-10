@@ -61,6 +61,19 @@ export class LibrosController {
     return await this.librosService.obtenerLibros();
   }
 
+  @Get('populares')
+  @ApiOperation({
+    summary: 'Obtener los libros más populares',
+    description: 'Obtener los libros más populares',
+  })
+  @ApiOkResponse({
+    description: 'Lista de libros populares',
+    type: [Libro],
+  })
+  async obtenerLibrosPopulares() {
+    return await this.librosService.obtenerLibrosPopulares();
+  }
+
   @Get('nombre')
   @ApiOperation({
     summary: 'Buscar libros por nombre',
