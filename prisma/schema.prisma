@@ -109,13 +109,15 @@ model Libro {
   id_grado            Int @db.UnsignedInt
 
   // Relacíon 1-N con GeneroLiterario 
-  genero_literario GeneroLiterario @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
+  genero_literario GeneroLiterario   @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
   // Relación 1-1 con Grado
-  grados           Grado           @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
+  grados           Grado             @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
   // Relación 1-N con MiLibro 
   mis_libros       MiLibro[]
   // Relación 1-N con Pregunta
   preguntas        Pregunta[]
+  // Relación 1-N con LibroEstudiante
+  LibroEstudiante  LibroEstudiante[]
 }
 
 // Tabla que almacena los géneros literarios disponibles para los libros
@@ -131,19 +133,35 @@ model GeneroLiterario {
   libros Libro[]
 }
 
-// Tabla que almacena los libros que el usuario ha leído
-model MiLibro {
-  // ID de la relación libro-usuario
+// Tabla que almacena los libros que los estudiantes han leído
+model LibroEstudiante {
+  // ID del libro estudiante
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
   terminado      Boolean @default(false)
   // Tiempo de lectura del libro (en minutos)
   tiempo_lectura Int     @default(0) @db.UnsignedInt
 
-  // ID del usuario
-  id_usuario Int @db.UnsignedInt
+  // ID del libro
+  id_libro      Int @db.UnsignedInt
+  // ID del estudiante
+  id_estudiante Int @db.UnsignedInt
+
+  // Relación 1-N con Libro
+  libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  // Relación 1-N con Estudiante
+  estudiante Estudiante @relation(fields: [id_estudiante], references: [id], onUpdate: Restrict)
+}
+
+// Tabla que almacena los libros favoritos de los estudiantes
+model MiLibro {
+  // ID de la relación libro-usuario
+  id Int @id @default(autoincrement()) @db.UnsignedInt
+
   // ID del libro
   id_libro   Int @db.UnsignedInt
+  // ID del usuario
+  id_usuario Int @db.UnsignedInt
 
   // Relaciones 1-1 con Usuario y Libro
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -252,6 +270,8 @@ model Estudiante {
   usuario                 Usuario                  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
   // Relación 1-N con CuestionarioEstudiante
   cuestionario_estudiante CuestionarioEstudiante[]
+  // Relación 1-N con LibroEstudiante
+  LibroEstudiante         LibroEstudiante[]
 }
 
 // Tabla que almacena los usuarios

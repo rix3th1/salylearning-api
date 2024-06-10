@@ -1,13 +1,6 @@
 import { ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 import { MiLibro } from '../entities/mi-libro.entity';
 
 export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
@@ -28,27 +21,6 @@ export class CrearMiLibroDto extends OmitType(MiLibro, ['id'] as const) {
   })
   @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
-
-  @IsOptional()
-  @IsNotEmpty({ message: 'El estado del libro es requerido' })
-  @IsBoolean({ message: 'El estado del libro debe ser un valor booleano' })
-  terminado?: boolean;
-
-  @IsOptional()
-  @IsNotEmpty({
-    message: 'El tiempo de lectura del libro no puede estar vacío',
-  })
-  @IsInt({
-    message: 'El tiempo de lectura del libro debe ser un número entero',
-  })
-  @Min(0, {
-    message: 'El tiempo de lectura del libro debe ser mayor o igual a 0',
-  })
-  @Max(1440, {
-    message: 'El tiempo de lectura del libro debe ser menor o igual a 1440',
-  })
-  @Transform(({ value: tiempo_lectura }) => parseInt(tiempo_lectura))
-  tiempo_lectura?: number;
 }
 
 export class ActualizarMiLibroDto extends PartialType(CrearMiLibroDto) {
