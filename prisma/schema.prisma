@@ -109,15 +109,15 @@ model Libro {
   id_grado            Int @db.UnsignedInt
 
   // Relacíon 1-N con GeneroLiterario 
-  genero_literario GeneroLiterario   @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
+  genero_literario  GeneroLiterario   @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
   // Relación 1-1 con Grado
-  grados           Grado             @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
+  grados            Grado             @relation(fields: [id_grado], references: [id], onUpdate: Restrict)
   // Relación 1-N con MiLibro 
-  mis_libros       MiLibro[]
+  mis_libros        MiLibro[]
   // Relación 1-N con Pregunta
-  preguntas        Pregunta[]
+  preguntas         Pregunta[]
   // Relación 1-N con LibroEstudiante
-  LibroEstudiante  LibroEstudiante[]
+  libros_estudiante LibroEstudiante[]
 }
 
 // Tabla que almacena los géneros literarios disponibles para los libros
@@ -145,7 +145,7 @@ model LibroEstudiante {
   // ID del libro
   id_libro      Int @db.UnsignedInt
   // ID del estudiante
-  id_estudiante Int @db.UnsignedInt
+  id_estudiante Int @unique @db.UnsignedInt
 
   // Relación 1-N con Libro
   libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -271,7 +271,7 @@ model Estudiante {
   // Relación 1-N con CuestionarioEstudiante
   cuestionario_estudiante CuestionarioEstudiante[]
   // Relación 1-N con LibroEstudiante
-  LibroEstudiante         LibroEstudiante[]
+  libros_estudiante       LibroEstudiante[]
 }
 
 // Tabla que almacena los usuarios

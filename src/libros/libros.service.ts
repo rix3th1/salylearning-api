@@ -59,7 +59,12 @@ export class LibrosService {
   }
 
   async obtenerLibro(id: number): Promise<Libro> {
-    return this.prisma.libro.findUniqueOrThrow({ where: { id } });
+    return this.prisma.libro.findUniqueOrThrow({
+      where: { id },
+      include: {
+        libros_estudiante: true,
+      },
+    });
   }
 
   async crearLibro(libro: CrearLibroDto): Promise<Libro> {

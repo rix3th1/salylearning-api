@@ -14,6 +14,16 @@ export class LibrosEstudianteService {
     return this.prisma.libroEstudiante.count();
   }
 
+  async obtenerLibrosPorIdEstudiante(
+    id_estudiante: number,
+  ): Promise<LibroEstudiante> {
+    return this.prisma.libroEstudiante.findUniqueOrThrow({
+      where: {
+        id_estudiante,
+      },
+    });
+  }
+
   async obtenerLibrosEstudiante(): Promise<LibroEstudiante[]> {
     return this.prisma.libroEstudiante.findMany();
   }
