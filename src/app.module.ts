@@ -17,6 +17,7 @@ import { FotoPerfilModule } from './foto-perfil/foto-perfil.module';
 import { GenerosLiterariosModule } from './generos-literarios/generos-literarios.module';
 import { GradoUsuarioModule } from './grado-usuario/grado-usuario.module';
 import { GradosModule } from './grados/grados.module';
+import { LibrosEstudianteModule } from './libros-estudiante/libros-estudiante.module';
 import { LibrosModule } from './libros/libros.module';
 import { MisLibrosModule } from './mis-libros/mis-libros.module';
 import { OpcionesRespuestaModule } from './opciones-respuesta/opciones-respuesta.module';
@@ -61,6 +62,7 @@ const AppGuard = {
     CuestionarioEstudianteModule,
     OpcionesRespuestaModule,
     RespuestasModule,
+    LibrosEstudianteModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
