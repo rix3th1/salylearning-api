@@ -21,7 +21,5 @@ export const newImgValidator = (
     });
 };
 
-export const portadaImgValidators = (required: boolean = true) =>
-  newImgValidator(new RegExp('image/(jpeg|png)'), 5000 * oneKb, required);
 export const fotoPerfilValidators = (required: boolean = true) =>
   newImgValidator(new RegExp('image/(jpeg|png)'), 500 * oneKb, required);

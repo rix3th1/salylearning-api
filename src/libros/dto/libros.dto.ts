@@ -6,13 +6,11 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUrl,
   Max,
   MaxLength,
   Min,
   MinLength,
 } from 'class-validator';
-import { embedCanvaUrl } from '../../libs';
 import { Libro } from '../entities/libro.entity';
 
 export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
@@ -25,13 +23,6 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
     message: 'El nombre del libro debe tener menos de 100 caracteres',
   })
   nom_libro: string;
-
-  @IsNotEmpty({ message: 'El número de páginas es requerido' })
-  @IsInt({ message: 'El número de páginas debe ser un número entero' })
-  @Min(1, { message: 'El número de páginas debe ser mayor o igual a 1' })
-  @Max(255, { message: 'El número de páginas debe ser menor o igual a 255' })
-  @Transform(({ value: num_pag }) => parseInt(num_pag))
-  num_pag: number;
 
   @IsNotEmpty({ message: 'El autor del libro es requerido' })
   @IsString({ message: 'El autor del libro debe ser una cadena de texto' })
@@ -91,25 +82,7 @@ export class CrearLibroDto extends OmitType(Libro, ['id'] as const) {
 
   imagen_portada: string;
 
-  @IsNotEmpty({ message: 'La url del libro es requerida' })
-  @IsString({ message: 'La url del libro debe ser una cadena de texto' })
-  @IsUrl(
-    {
-      require_protocol: true,
-      require_host: true,
-      require_valid_protocol: true,
-      protocols: ['https'],
-    },
-    { message: 'La url del libro debe ser una URL válida' },
-  )
-  @MinLength(3, {
-    message: 'La url del libro debe tener al menos 3 caracteres',
-  })
-  @MaxLength(255, {
-    message: 'La url del libro debe tener menos de 255 caracteres',
-  })
-  @Transform(({ value: url_libro }) => embedCanvaUrl(url_libro))
-  url_libro: string;
+  video_libro: string;
 
   @IsNotEmpty({ message: 'El id de grado es requerido' })
   @IsInt({ message: 'El id de grado debe ser un número entero' })
@@ -125,10 +98,6 @@ export class ActualizarLibroDto extends PartialType(CrearLibroDto) {
   @ApiPropertyOptional()
   @IsOptional()
   nom_libro?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  num_pag?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -156,7 +125,7 @@ export class ActualizarLibroDto extends PartialType(CrearLibroDto) {
 
   @ApiPropertyOptional()
   @IsOptional()
-  url_libro?: string;
+  video_libro?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

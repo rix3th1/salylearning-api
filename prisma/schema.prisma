@@ -86,8 +86,6 @@ model Libro {
   id             Int      @id @default(autoincrement()) @db.UnsignedInt
   // Nombre del libro
   nom_libro      String   @unique @db.VarChar(100)
-  // Número de páginas del libro
-  num_pag        Int      @db.UnsignedTinyInt
   // Nombre del autor del libro
   autor          String   @db.VarChar(100)
   // Editorial del libro
@@ -100,8 +98,8 @@ model Libro {
   cant_leido     Int      @default(0) @db.UnsignedInt
   // URL de la imagen de portada del libro
   imagen_portada String   @unique @db.VarChar(255)
-  // URL del libro
-  url_libro      String   @unique @db.VarChar(255)
+  // URL del libro (video mp4)
+  video_libro    String   @unique @db.VarChar(255)
 
   // ID del género literario al que pertenece el libro
   id_genero_literario Int @db.UnsignedInt
@@ -136,11 +134,15 @@ model GeneroLiterario {
 // Tabla que almacena los libros que los estudiantes han leído
 model LibroEstudiante {
   // ID del libro estudiante
-  id             Int     @id @default(autoincrement()) @db.UnsignedInt
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
-  terminado      Boolean @default(false)
+  terminado      Boolean  @default(false)
   // Tiempo de lectura del libro (en minutos)
-  tiempo_lectura Int     @default(0) @db.UnsignedInt
+  tiempo_lectura Int      @default(0) @db.UnsignedInt
+  // Fecha de creación del libro
+  createdAt      DateTime @default(now())
+  // Fecha de actualización del libro 
+  updatedAt      DateTime @updatedAt
 
   // ID del libro
   id_libro      Int @db.UnsignedInt
@@ -228,6 +230,10 @@ model Cuestionario {
   fecha_entrega  DateTime           @db.DateTime()
   // Calificación del cuestionario (de 0.0 a 5.0)
   calificacion   Decimal?           @db.Decimal(2, 1)
+  // Fecha de creación del cuestionario
+  createdAt      DateTime           @default(now())
+  // Fecha de actualización del cuestionario 
+  updatedAt      DateTime           @updatedAt
 
   // Relación 1-N con Pregunta
   preguntas          Pregunta[]
@@ -247,6 +253,8 @@ model CuestionarioEstudiante {
   id_cuestionario Int @db.UnsignedInt
   // ID del estudiante
   id_estudiante   Int @db.UnsignedInt
+  // Puntaje del estudiante para rankearlo en los reportes
+  puntaje_total   Int @default(0) @db.UnsignedInt
 
   // Relación 1-N con Cuestionario
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id])

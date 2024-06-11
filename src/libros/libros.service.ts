@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
 
 @Injectable()
 export class LibrosService {
-  constructor(
-    private prisma: PrismaService,
-    private cloudinary: CloudinaryService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async contarLibros(): Promise<number> {
     return this.prisma.libro.count();
@@ -69,14 +65,6 @@ export class LibrosService {
 
   async crearLibro(libro: CrearLibroDto): Promise<Libro> {
     return this.prisma.libro.create({ data: libro });
-  }
-
-  async subirPortadaLibroCloudinary(imagen_portada: Express.Multer.File) {
-    return this.cloudinary.subirImagen(imagen_portada);
-  }
-
-  async eliminarPortadaLibroCloudinary(public_id: string) {
-    return this.cloudinary.eliminarImagen(public_id);
   }
 
   async actualizarLibro(id: number, libro: ActualizarLibroDto): Promise<Libro> {

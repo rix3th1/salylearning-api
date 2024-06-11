@@ -21,15 +21,6 @@ export class Libro implements Partial<TLibro> {
   nom_libro: string;
 
   @ApiProperty({
-    title: 'Número de páginas',
-    description: 'El número de páginas del libro',
-    example: 100,
-    minLength: 1,
-    maxLength: 255,
-  })
-  num_pag: number;
-
-  @ApiProperty({
     title: 'Autor del libro',
     description: 'El autor del libro',
     example: 'Juan Pérez',
@@ -94,14 +85,14 @@ export class Libro implements Partial<TLibro> {
   imagen_portada: string;
 
   @ApiProperty({
-    title: 'URL del libro',
-    description: 'La URL del libro en la librería (Canva, Google Books, etc.)',
-    example: 'https://www.canva.com/xxxxx/xxxxx-xxxxx-xxxxx-xxxxx/',
-    minLength: 3,
-    maxLength: 255,
-    format: 'url',
+    title: 'URL del libro (video)',
+    description: 'La URL del libro (video)',
+    type: 'string',
+    example:
+      'https://res.cloudinary.com/xxxxx/image/upload/v1630000000/xxxxx.mp4',
+    format: 'binary',
   })
-  url_libro: string;
+  video_libro: string;
 
   @ApiProperty({
     title: 'Id de grado',

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarFotoPerfilDto,
@@ -9,10 +8,7 @@ import { FotoPerfil } from './entities/foto-perfil.entity';
 
 @Injectable()
 export class FotoPerfilService {
-  constructor(
-    private prisma: PrismaService,
-    private cloudinary: CloudinaryService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async obtenerFotosPerfil(): Promise<FotoPerfil[]> {
     return this.prisma.fotoPerfil.findMany();
@@ -24,14 +20,6 @@ export class FotoPerfilService {
 
   async crearFotoPerfil(fotoPerfil: CrearFotoPerfilDto): Promise<FotoPerfil> {
     return this.prisma.fotoPerfil.create({ data: fotoPerfil });
-  }
-
-  async subirFotoCloudinary(foto: Express.Multer.File) {
-    return this.cloudinary.subirImagen(foto);
-  }
-
-  async eliminarFotoCloudinary(public_id: string) {
-    return this.cloudinary.eliminarImagen(public_id);
   }
 
   async actualizarFotoPerfil(

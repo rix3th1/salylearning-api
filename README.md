@@ -186,7 +186,6 @@ const uploadImage = async () => {
 
   // Aquí puedes agregar más campos al formData si es necesario, por ejemplo:
   // formData.append('nom_libro', 'El principito');
-  // formData.append('num_pag', '100');
 
   const response = await fetch('https://salylearning.vercel.app/<endpoint>', {
     method: 'POST',

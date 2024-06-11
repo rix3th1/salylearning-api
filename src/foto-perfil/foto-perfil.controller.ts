@@ -23,6 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { fotoPerfilValidators } from '../fileValidators';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import {
@@ -37,6 +38,7 @@ import { FotoPerfilService } from './foto-perfil.service';
 @Controller('foto-perfil')
 export class FotoPerfilController {
   constructor(
+    private cloudinary: CloudinaryService,
     private readonly fotoPerfilService: FotoPerfilService,
     private readonly usuariosService: UsuariosService,
   ) {}
@@ -97,8 +99,7 @@ export class FotoPerfilController {
     let public_id = '';
 
     try {
-      const resCloudinary =
-        await this.fotoPerfilService.subirFotoCloudinary(foto);
+      const resCloudinary = await this.cloudinary.uploadImage(foto);
 
       if (!resCloudinary) {
         throw new BadGatewayException('Error al subir la imagen de perfil');
@@ -115,7 +116,7 @@ export class FotoPerfilController {
       console.error(error.message);
 
       if (foto && public_id) {
-        await this.fotoPerfilService.eliminarFotoCloudinary(public_id);
+        await this.cloudinary.deleteRes(public_id);
       }
 
       if (error instanceof BadGatewayException) {
@@ -158,8 +159,7 @@ export class FotoPerfilController {
 
     try {
       if (foto) {
-        const resCloudinary =
-          await this.fotoPerfilService.subirFotoCloudinary(foto);
+        const resCloudinary = await this.cloudinary.uploadImage(foto);
 
         if (!resCloudinary) {
           throw new BadGatewayException('Error al subir la imagen de perfil');
@@ -180,9 +180,7 @@ export class FotoPerfilController {
           ?.split('.')[0];
 
         if (public_id_anterior) {
-          await this.fotoPerfilService.eliminarFotoCloudinary(
-            public_id_anterior,
-          );
+          await this.cloudinary.deleteRes(public_id_anterior);
         }
 
         await this.usuariosService.actualizarUsuario(
@@ -196,7 +194,7 @@ export class FotoPerfilController {
       console.error(error.message);
 
       if (foto && public_id) {
-        await this.fotoPerfilService.eliminarFotoCloudinary(public_id);
+        await this.cloudinary.deleteRes(public_id);
       }
 
       if (error instanceof BadGatewayException) {

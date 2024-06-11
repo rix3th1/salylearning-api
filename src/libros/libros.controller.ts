@@ -4,17 +4,24 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
+  HttpException,
   InternalServerErrorException,
+  MaxFileSizeValidator,
   NotFoundException,
   Param,
   Patch,
   Post,
   Query,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -24,7 +31,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { portadaImgValidators } from '../fileValidators';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
 import { LibrosService } from './libros.service';
@@ -33,7 +40,10 @@ import { LibrosService } from './libros.service';
 @ApiTags('libros')
 @Controller('libros')
 export class LibrosController {
-  constructor(private readonly librosService: LibrosService) {}
+  constructor(
+    private cloudinary: CloudinaryService,
+    private readonly librosService: LibrosService,
+  ) {}
 
   @Get('contar')
   @ApiOperation({
@@ -154,7 +164,12 @@ export class LibrosController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('imagen_portada'))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'imagen_portada', maxCount: 1 },
+      { name: 'video_libro', maxCount: 1 },
+    ]),
+  )
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Crear un libro',
@@ -166,31 +181,103 @@ export class LibrosController {
   })
   async crearLibro(
     @Body() libro: CrearLibroDto,
-    @UploadedFile(portadaImgValidators(true))
-    imagen_portada: Express.Multer.File,
+    @UploadedFiles({
+      transform: (fileRequest: {
+        video_libro: Express.Multer.File[];
+        imagen_portada: Express.Multer.File[];
+      }) => {
+        const imagenPortadaValidators = [
+          new FileTypeValidator({
+            fileType: new RegExp('image/(jpeg|png)'),
+          }),
+          new MaxFileSizeValidator({
+            maxSize: 5000 * 1024,
+            message(maxSize) {
+              return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
+            },
+          }),
+        ];
+
+        for (const validator of imagenPortadaValidators) {
+          if (!validator.isValid(fileRequest.imagen_portada[0])) {
+            throw new HttpException(validator.buildErrorMessage(), 400);
+          }
+        }
+
+        const videoLibroValidators = [
+          new FileTypeValidator({
+            fileType: new RegExp('video/mp4'),
+          }),
+          new MaxFileSizeValidator({
+            maxSize: 50000 * 1024,
+            message(maxSize) {
+              return `El tamaño del video no debe ser mayor a ${maxSize / 1024}kb`;
+            },
+          }),
+        ];
+
+        for (const validator of videoLibroValidators) {
+          if (!validator.isValid(fileRequest.video_libro[0])) {
+            throw new HttpException(validator.buildErrorMessage(), 400);
+          }
+        }
+
+        return fileRequest;
+      },
+    })
+    files: {
+      video_libro: Express.Multer.File[];
+      imagen_portada: Express.Multer.File[];
+    },
   ) {
-    let public_id = '';
+    const { video_libro, imagen_portada } = files;
+
+    let video_libro_public_id = '';
+    let imagen_portada_public_id = '';
 
     try {
-      const resCloudinary =
-        await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
+      const resCloudinaryVideoLibro = await this.cloudinary.uploadVideo(
+        video_libro[0],
+      );
 
-      if (!resCloudinary) {
+      if (!resCloudinaryVideoLibro) {
+        throw new BadGatewayException('Error al subir el video del libro');
+      }
+
+      const resCloudinaryImagenPortada = await this.cloudinary.uploadImage(
+        imagen_portada[0],
+      );
+
+      if (!resCloudinaryImagenPortada) {
         throw new BadGatewayException('Error al subir la imagen de portada');
       }
 
-      const { secure_url: imagen_portada_url, public_id: cloudinaryPublicId } =
-        resCloudinary;
+      const {
+        secure_url: video_libro_url,
+        public_id: cloudinaryPublicIdVideoLibro,
+      } = resCloudinaryVideoLibro;
 
-      public_id = cloudinaryPublicId;
+      video_libro_public_id = cloudinaryPublicIdVideoLibro;
+      libro.video_libro = video_libro_url;
+
+      const {
+        secure_url: imagen_portada_url,
+        public_id: cloudinaryPublicIdImagenPortada,
+      } = resCloudinaryImagenPortada;
+
+      imagen_portada_public_id = cloudinaryPublicIdImagenPortada;
       libro.imagen_portada = imagen_portada_url;
 
       return await this.librosService.crearLibro(libro);
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada && public_id) {
-        await this.librosService.eliminarPortadaLibroCloudinary(public_id);
+      if (video_libro && video_libro_public_id) {
+        await this.cloudinary.deleteRes(video_libro_public_id);
+      }
+
+      if (imagen_portada && imagen_portada_public_id) {
+        await this.cloudinary.deleteRes(imagen_portada_public_id);
       }
 
       if (error instanceof BadGatewayException) {
@@ -198,7 +285,7 @@ export class LibrosController {
       } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'El nombre, la portada o la url del libro ya existe',
+            'El nombre o la portada del libro ya existe',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
@@ -212,7 +299,12 @@ export class LibrosController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('imagen_portada'))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'imagen_portada', maxCount: 1 },
+      { name: 'video_libro', maxCount: 1 },
+    ]),
+  )
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Actualizar un libro',
@@ -225,26 +317,105 @@ export class LibrosController {
   async actualizarLibro(
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
-    @UploadedFile(portadaImgValidators(false))
-    imagen_portada: Express.Multer.File,
+    @UploadedFiles({
+      transform: (fileRequest: {
+        video_libro: Express.Multer.File[];
+        imagen_portada: Express.Multer.File[];
+      }) => {
+        const imagenPortadaValidators = [
+          new FileTypeValidator({
+            fileType: new RegExp('image/(jpeg|png)'),
+          }),
+          new MaxFileSizeValidator({
+            maxSize: 5000 * 1024,
+            message(maxSize) {
+              return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
+            },
+          }),
+        ];
+
+        for (const validator of imagenPortadaValidators) {
+          if (!validator.isValid(fileRequest.imagen_portada[0])) {
+            throw new HttpException(validator.buildErrorMessage(), 400);
+          }
+        }
+
+        const videoLibroValidators = [
+          new FileTypeValidator({
+            fileType: new RegExp('video/mp4'),
+          }),
+          new MaxFileSizeValidator({
+            maxSize: 50000 * 1024,
+            message(maxSize) {
+              return `El tamaño del video no debe ser mayor a ${maxSize / 1024}kb`;
+            },
+          }),
+        ];
+
+        for (const validator of videoLibroValidators) {
+          if (!validator.isValid(fileRequest.video_libro[0])) {
+            throw new HttpException(validator.buildErrorMessage(), 400);
+          }
+        }
+
+        return fileRequest;
+      },
+    })
+    files: {
+      video_libro: Express.Multer.File[];
+      imagen_portada: Express.Multer.File[];
+    },
   ) {
-    let public_id = '';
+    const { video_libro, imagen_portada } = files;
+
+    let video_libro_public_id = '';
+    let imagen_portada_public_id = '';
 
     try {
-      if (imagen_portada) {
-        const resCloudinary =
-          await this.librosService.subirPortadaLibroCloudinary(imagen_portada);
+      if (video_libro) {
+        const resCloudinaryVideoLibro = await this.cloudinary.uploadImage(
+          video_libro[0],
+        );
 
-        if (!resCloudinary) {
+        if (!resCloudinaryVideoLibro) {
+          throw new BadGatewayException('Error al subir el video del libro');
+        }
+
+        const {
+          secure_url: video_libro_url,
+          public_id: cloudinaryPublicIdVideoLibro,
+        } = resCloudinaryVideoLibro;
+
+        video_libro_public_id = cloudinaryPublicIdVideoLibro;
+        libro.video_libro = video_libro_url;
+
+        const libroAnterior = await this.librosService.obtenerLibro(+id);
+
+        const public_id_anterior = libroAnterior.video_libro
+          ?.split('/')
+          ?.pop()
+          ?.split('.')[0];
+
+        if (public_id_anterior) {
+          await this.cloudinary.deleteRes(public_id_anterior);
+        }
+      }
+
+      if (imagen_portada) {
+        const resCloudinaryImagenPortada = await this.cloudinary.uploadImage(
+          imagen_portada[0],
+        );
+
+        if (!resCloudinaryImagenPortada) {
           throw new BadGatewayException('Error al subir la imagen de portada');
         }
 
         const {
           secure_url: imagen_portada_url,
-          public_id: cloudinaryPublicId,
-        } = resCloudinary;
+          public_id: cloudinaryPublicIdImagenPortada,
+        } = resCloudinaryImagenPortada;
 
-        public_id = cloudinaryPublicId;
+        imagen_portada_public_id = cloudinaryPublicIdImagenPortada;
         libro.imagen_portada = imagen_portada_url;
 
         const libroAnterior = await this.librosService.obtenerLibro(+id);
@@ -255,9 +426,7 @@ export class LibrosController {
           ?.split('.')[0];
 
         if (public_id_anterior) {
-          await this.librosService.eliminarPortadaLibroCloudinary(
-            public_id_anterior,
-          );
+          await this.cloudinary.deleteRes(public_id_anterior);
         }
       }
 
@@ -265,8 +434,12 @@ export class LibrosController {
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada && public_id) {
-        await this.librosService.eliminarPortadaLibroCloudinary(public_id);
+      if (video_libro && video_libro_public_id) {
+        await this.cloudinary.deleteRes(video_libro_public_id);
+      }
+
+      if (imagen_portada && imagen_portada_public_id) {
+        await this.cloudinary.deleteRes(imagen_portada_public_id);
       }
 
       if (error instanceof BadGatewayException) {
@@ -274,7 +447,7 @@ export class LibrosController {
       } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException(
-            'El nombre, la portada o la url del libro ya existe',
+            'El nombre o la portada del libro ya existe',
           );
         } else if (error.code === 'P2003') {
           throw new BadRequestException(
