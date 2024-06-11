@@ -50,6 +50,23 @@ export class CuestionarioEstudianteController {
     return await this.cuestionarioEstudianteService.obtenerCuestionariosEstudiante();
   }
 
+  @Get('contar/preguntas-correctas/:id_estudiante')
+  @ApiOperation({
+    summary: 'Contar preguntas correctas',
+    description: 'Devuelve el número de preguntas correctas de estudiante',
+  })
+  @ApiOkResponse({
+    description: 'Número de preguntas correctas de estudiante',
+    type: Number,
+  })
+  async contarPreguntasCorrectas(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.cuestionarioEstudianteService.contarPreguntasCorrectas(
+      +id_estudiante,
+    );
+  }
+
   @Get('estado')
   @ApiOperation({
     summary: `Obtener cuestionarios de estudiantes por estado: ${Object.values(

@@ -47,6 +47,41 @@ export class LibrosEstudianteController {
     return await this.librosEstudianteService.contarLibrosEstudiante();
   }
 
+  @Get('tiempo-lectura/:id_estudiante')
+  @ApiOperation({
+    summary: 'Obtener tiempo de lectura total',
+    description:
+      'Obtiene el tiempo de lectura total de todos los libros de estudiante',
+  })
+  @ApiOkResponse({
+    description: 'Tiempo de lectura total',
+    type: Number,
+  })
+  async obtenerTiempoDeLecturaTotal(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.librosEstudianteService.obtenerTiempoDeLecturaTotal(
+      +id_estudiante,
+    );
+  }
+
+  @Get('contar/terminados/:id_estudiante')
+  @ApiOperation({
+    summary: 'Contar libros terminados de estudiante',
+    description: 'Devuelve el número de libros terminados de estudiante',
+  })
+  @ApiOkResponse({
+    description: 'Número de libros terminados de estudiante',
+    type: Number,
+  })
+  async contarLibrosTerminadosEstudiante(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.librosEstudianteService.contarLibrosTerminadosEstudiante(
+      +id_estudiante,
+    );
+  }
+
   @Get('estudiante/:id')
   @ApiOperation({
     summary: 'Obtener libros de estudiante por ID de estudiante',

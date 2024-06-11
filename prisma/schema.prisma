@@ -191,11 +191,13 @@ model Pregunta {
 // Tabla que almacena las opciones de respuestas de las preguntas
 model OpcionRespuesta {
   // ID de la opción de respuesta
-  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  id              Int    @id @default(autoincrement()) @db.UnsignedInt
   // Opción
-  opcion    String @db.Char(1) // A, B, C, D
+  opcion          String @db.Char(1) // A, B, C, D
   // Respuesta
-  respuesta String @db.VarChar(100)
+  respuesta       String @db.VarChar(100)
+  // Opcion de respuesta correcta
+  opcion_correcta String @db.Char(1) // A, B, C, D
 
   // ID cuestionario al que pertenece la respuesta de la pregunta
   id_cuestionario Int @db.UnsignedInt

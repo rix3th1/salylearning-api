@@ -14,6 +14,36 @@ export class LibrosEstudianteService {
     return this.prisma.libroEstudiante.count();
   }
 
+  async contarLibrosTerminadosEstudiante(
+    id_estudiante: number,
+  ): Promise<number> {
+    return this.prisma.libroEstudiante.count({
+      where: { terminado: true, id_estudiante },
+    });
+  }
+
+  async obtenerTiempoDeLecturaTotal(id_estudiante: number): Promise<number> {
+    /**
+     * Quiero obtener el tiempo de lectura total de todos los libros del estudiante.
+     * Para ello, primero debo obtener todos los libros del estudiante, no solo los terminados.
+     * Luego, cada libro tiene una propiedad que indica el tiempo de lectura de ese libro.
+     * Con esto, puedo sumar todos los tiempos de lectura de todos los libros del estudiante.
+     * Finalmente, devuelvo el resultado.
+     * Ejemplo de resultado:  20.
+     */
+    const libros = await this.prisma.libroEstudiante.findMany({
+      where: { id_estudiante },
+      select: { tiempo_lectura: true },
+    });
+
+    const tiempoLecturaTotal = libros.reduce(
+      (acc, libro) => acc + libro.tiempo_lectura,
+      0,
+    );
+
+    return tiempoLecturaTotal;
+  }
+
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
     terminado: boolean,
   ) {

@@ -15,6 +15,54 @@ export class CuestionarioEstudianteService {
     return this.prisma.cuestionarioEstudiante.findMany();
   }
 
+  async contarPreguntasCorrectas(id_estudiante: number): Promise<number> {
+    /**
+     * Quiero obtener el número de preguntas correctas de todos los cuestionarios de estudiantes.
+     * En este caso, primero debo obtener todos los cuestionarios de estudiantes
+     * incluyendo en la consulta opciones de respuesta y respuestas.
+     * Luego, lo que debo hacer sumar cuantas de esas preguntas son correctas.
+     * La clave es que en opciones de respuesta está la propiedad opcion_correcta.
+     * Entonces lo que debo hacer es sumar todas las que respuesta sea igual a opcion_correcta.
+     * Finalmente, devuelvo el resultado.
+     * Ejemplo de resultado:  10.
+     */
+    const cuestionarios = await this.prisma.cuestionarioEstudiante.findMany({
+      where: { id_estudiante },
+      select: {
+        cuestionario: {
+          select: {
+            respuestas: {
+              select: {
+                respuesta: true,
+              },
+            },
+            opciones_respuesta: {
+              select: {
+                opcion_correcta: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const preguntasCorrectas = cuestionarios.reduce(
+      (acc, cuestionario) =>
+        acc +
+        cuestionario.cuestionario.respuestas.reduce(
+          (acc, respuesta) =>
+            acc +
+            cuestionario.cuestionario.opciones_respuesta.filter(
+              (opcion) => opcion.opcion_correcta === respuesta.respuesta,
+            ).length,
+          0,
+        ),
+      0,
+    );
+
+    return preguntasCorrectas;
+  }
+
   async obtenerCuestionariosEstudiantesPorEstado(estado: EstadoCuestionario) {
     return this.prisma.cuestionarioEstudiante.findMany({
       where: { cuestionario: { estado } },

@@ -31,6 +31,15 @@ export class OpcionRespuesta implements TOpcionRespuesta {
   respuesta: string;
 
   @ApiProperty({
+    title: 'Opción correcta',
+    description: 'La opción correcta',
+    example: 'A',
+    minLength: 1,
+    maxLength: 1,
+  })
+  opcion_correcta: string;
+
+  @ApiProperty({
     title: 'Id del cuestionario',
     description: 'El id del cuestionario',
     example: 1,
