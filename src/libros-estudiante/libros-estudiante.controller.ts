@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -58,6 +59,23 @@ export class LibrosEstudianteController {
   async obtenerLibroPorIdEstudiante(@Param('id') id_libro: string) {
     return await this.librosEstudianteService.obtenerLibrosPorIdEstudiante(
       +id_libro,
+    );
+  }
+
+  @Get('estadisticas-semanales')
+  @ApiOperation({
+    summary: 'Obtener estadísticas semanales de libros de estudiantes',
+    description: 'Obtiene estadísticas semanales de libros de estudiantes',
+  })
+  @ApiOkResponse({
+    description: 'Lista de estadísticas semanales de libros de estudiantes',
+    type: [LibroEstudiante],
+  })
+  async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
+    @Query('terminado') terminado: boolean,
+  ) {
+    return await this.librosEstudianteService.obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
+      terminado,
     );
   }
 

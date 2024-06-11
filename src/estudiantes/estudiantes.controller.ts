@@ -44,6 +44,19 @@ export class EstudiantesController {
     return await this.estudiantesService.obtenerEstudiantes();
   }
 
+  @Get('mejor-puntaje')
+  @ApiOperation({
+    summary: 'Obtener todos los estudiantes con mejor puntaje',
+    description: 'Obtiene todos los estudiantes con mejor puntaje.',
+  })
+  @ApiOkResponse({
+    description: 'Estudiantes con mejor puntaje encontrados',
+    type: [Estudiante],
+  })
+  async obtenerEstudiantesConMejorPuntaje() {
+    return await this.estudiantesService.obtenerEstudiantesConMejorPuntaje();
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un estudiante por su ID',

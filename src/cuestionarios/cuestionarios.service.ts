@@ -27,6 +27,42 @@ export class CuestionariosService {
     return this.prisma.cuestionario.findMany();
   }
 
+  async obtenerEstadisticasSemanalesPorEstado(estado: EstadoCuestionario) {
+    /**
+     * Quiero obtener el número de cuestionarios completados
+     * por semana segun el estado de cuestionario que me manden (COMPLETADO, PENDIENTE) en un array numérico de 7 elementos que
+     * representen los 7 días de la semana.
+     * tiene que ser de la semana actual mas reciente.
+     * Si no hay cuestionarios completados en un dia entonces es 0.
+     * Ejemplo de resultado de estad: [12, 23, 2, 6, 0, 2, 5]
+     */
+    const cuestionarios = await this.prisma.cuestionario.findMany({
+      where: {
+        estado: estado,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 7,
+    });
+
+    const estadisticasSemanales = [];
+
+    for (let i = 0; i < 7; i++) {
+      const cuestionariosDia = cuestionarios.filter(
+        (cuestionario) => cuestionario.fecha_asignado.getDay() === i,
+      );
+
+      const cuestionariosDiaCompletados = cuestionariosDia.filter(
+        (cuestionario) => cuestionario.estado === estado,
+      );
+
+      estadisticasSemanales.push(cuestionariosDiaCompletados.length);
+    }
+
+    return estadisticasSemanales;
+  }
+
   async obtenerCuestionariosPorEstado(estado: EstadoCuestionario) {
     return this.prisma.cuestionario.findMany({
       where: { estado },

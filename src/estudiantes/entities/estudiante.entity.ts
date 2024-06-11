@@ -37,4 +37,13 @@ export class Estudiante implements Partial<TEstudiante> {
     maxLength: 30,
   })
   apodo?: string;
+
+  @ApiProperty({
+    title: 'Puntaje total',
+    description: 'Puntaje total del estudiante',
+    example: 0,
+    minimum: 0,
+    maximum: 4294967295,
+  })
+  puntaje_total: number;
 }

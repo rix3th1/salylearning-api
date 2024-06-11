@@ -43,10 +43,24 @@ export class CrearEstudianteDto extends OmitType(Estudiante, ['id'] as const) {
     message: 'El apodo del estudiante debe tener como máximo 30 caracteres',
   })
   apodo?: string;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'El puntaje total no puede estar vacío' })
+  @IsInt({ message: 'El puntaje total debe ser un número entero' })
+  @Min(0, { message: 'El puntaje total debe ser mayor o igual a 0' })
+  @Max(4294967295, {
+    message: 'El puntaje total debe ser menor o igual a 4294967295', // 2^32 - 1 = 4.294.967.295
+  })
+  @Transform(({ value: puntaje_total }) => parseInt(puntaje_total))
+  puntaje_total: number;
 }
 
 export class ActualizarEstudianteDto extends PartialType(CrearEstudianteDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_usuario?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  puntaje_total?: number;
 }

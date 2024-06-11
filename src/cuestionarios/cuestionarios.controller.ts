@@ -131,6 +131,43 @@ export class CuestionariosController {
     }
   }
 
+  @Get('estadisticas-semanales')
+  @ApiOperation({
+    summary: `Obtener estadísticas semanales de cuestionarios por estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+    description: `Obtiene estadísticas semanales de cuestionarios de la base de datos por su estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+  })
+  @ApiOkResponse({
+    description: 'Lista de estadísticas semanales de cuestionarios por estado',
+    type: [Cuestionario],
+  })
+  async obtenerEstadisticasSemanalesPorEstado(
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
+
+      return await this.cuestionariosService.obtenerEstadisticasSemanalesPorEstado(
+        estadoCuestionario,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un cuestionario por su ID',
