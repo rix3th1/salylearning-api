@@ -63,6 +63,117 @@ export class CuestionarioEstudianteService {
     return preguntasCorrectas;
   }
 
+  async obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
+    id_estudiante: number,
+  ) {
+    /**
+     * Quiero obtener el número de preguntas correctas de todos los cuestionarios de estudiantes por semana sin importar si están terminados o no y sumarlos para obtener el número de preguntas correctas por dia. Esto me
+     * permitirá calcular el progreso de las preguntas correctas semanal. Quiero obtenerlos en un array
+     * de objetos con el siguiente formato:
+     * [
+     *   {
+     *     name: "Lunes",
+     *     value: 2,
+     *   },
+     *   {
+     *     name: "Martes",
+     *     value: 3,
+     *   },
+     *   {
+     *     name: "Miércoles",
+     *     value: 4,
+     *   },
+     *   {
+     *     name: "Jueves",
+     *     value: 5,
+     *   },
+     *   {
+     *     name: "Viernes",
+     *     value: 6,
+     *   },
+     *   {
+     *     name: "Sábado",
+     *     value: 7,
+     *   },
+     *   {
+     *     name: "Domingo",
+     *     value: 8,
+     *   },
+     * ]
+     * Tienen que ser de la semana actual mas reciente.
+     * Si no hay preguntas correctas en un dia entonces el resultado es 0 para ese dia
+     * pero debe devolver un array con todos los dias de la semana.
+     * Recuerda que si hay mas cuestionarios de estudiantes en un dia el número de preguntas correctas se suma por dia.
+     * Y el resultado es el número de preguntas correctas total por dia (Osea semanal).
+     */
+    const cuestionarios = await this.prisma.cuestionarioEstudiante.findMany({
+      where: {
+        id_estudiante,
+      },
+      select: {
+        cuestionario: {
+          select: {
+            createdAt: true,
+            respuestas: {
+              select: {
+                respuesta: true,
+              },
+            },
+            opciones_respuesta: {
+              select: {
+                opcion_correcta: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        cuestionario: {
+          createdAt: 'desc',
+        },
+      },
+      take: 7,
+    });
+
+    const preguntasCorrectas = cuestionarios.reduce(
+      (acc, cuestionario) =>
+        acc +
+        cuestionario.cuestionario.respuestas.reduce(
+          (acc, respuesta) =>
+            acc +
+            cuestionario.cuestionario.opciones_respuesta.filter(
+              (opcion) => opcion.opcion_correcta === respuesta.respuesta,
+            ).length,
+          0,
+        ),
+      0,
+    );
+
+    const semanalPreguntasCorrectas = [];
+
+    for (let i = 0; i < 7; i++) {
+      const dia = new Date(new Date().setDate(new Date().getDate() - i));
+      const diaSemana = dia.getDay();
+      const diaSemanaTexto = [
+        'Lunes',
+        'Martes',
+        'Miércoles',
+        'Jueves',
+        'Viernes',
+        'Sábado',
+        'Domingo',
+      ][diaSemana];
+      const diaSemanaPreguntasCorrectas =
+        preguntasCorrectas > 0 ? preguntasCorrectas : 0;
+      semanalPreguntasCorrectas.push({
+        name: diaSemanaTexto,
+        value: diaSemanaPreguntasCorrectas,
+      });
+    }
+
+    return semanalPreguntasCorrectas;
+  }
+
   async obtenerCuestionariosEstudiantesPorEstado(estado: EstadoCuestionario) {
     return this.prisma.cuestionarioEstudiante.findMany({
       where: { cuestionario: { estado } },

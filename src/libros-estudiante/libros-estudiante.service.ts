@@ -44,6 +44,106 @@ export class LibrosEstudianteService {
     return tiempoLecturaTotal;
   }
 
+  async obtenerEstadisticasSemanalesProgresoEnLecturaPorEstudiante(
+    id_estudiante: number,
+  ) {
+    /**
+     * Quiero obtener el número de tiempo_leido de todos los libros del estudiante
+     * por semana sin importar si están terminados o no y sumarlos para obtener el tiempo de lectura total por dia. Esto me
+     * permitirá calcular el progreso de lectura semanal. Quiero obtenerlos en un array
+     * de objetos con el siguiente formato:
+     * [
+     *   {
+     *     name: "Lunes",
+     *     value: 2,
+     *   },
+     *   {
+     *     name: "Martes",
+     *     value: 3,
+     *   },
+     *   {
+     *     name: "Miércoles",
+     *     value: 4,
+     *   },
+     *   {
+     *     name: "Jueves",
+     *     value: 5,
+     *   },
+     *   {
+     *     name: "Viernes",
+     *     value: 6,
+     *   },
+     *   {
+     *     name: "Sábado",
+     *     value: 7,
+     *   },
+     *   {
+     *     name: "Domingo",
+     *     value: 8,
+     *   },
+     * ]
+     * Tienen que ser de la semana actual mas reciente.
+     * Si no hay minutos de lectura en un dia entonces el resultado es 0 para ese dia
+     * pero debe devolver un array con todos los dias de la semana.
+     * Recuerda que si hay mas libros de estudiante en un dia el tiempo de lectura se suma por dia.
+     * Y el resultado es el tiempo de lectura total por dia (Osea semanal).
+     */
+    const libros = await this.prisma.libroEstudiante.findMany({
+      where: {
+        id_estudiante,
+      },
+      select: {
+        createdAt: true,
+        tiempo_lectura: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 7,
+    });
+
+    const estadisticasSemanales = [];
+
+    for (let i = 0; i < 7; i++) {
+      const librosDia = libros.filter(
+        (libro) => libro.createdAt.getDay() === i,
+      );
+
+      librosDia.forEach((libro) => {
+        const tiempoLectura = libro.tiempo_lectura;
+        if (tiempoLectura) {
+          estadisticasSemanales.push({
+            name: this.getDayName(i),
+            value: tiempoLectura,
+          });
+        }
+      });
+
+      // Si no hay libros de estudiantes terminados en un dia entonces es 0
+      if (librosDia.length === 0) {
+        estadisticasSemanales.push({
+          name: this.getDayName(i),
+          value: 0,
+        });
+      }
+    }
+
+    return estadisticasSemanales;
+  }
+
+  getDayName(day: number) {
+    const days = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo',
+    ];
+    return days[day];
+  }
+
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
     terminado: boolean,
   ) {

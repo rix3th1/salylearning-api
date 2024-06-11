@@ -27,6 +27,7 @@ import {
   asignarCuestionarioEstudianteATodosLosEstudiantesDto,
 } from './dto/cuestionario-estudiante.dto';
 import { isIn } from 'class-validator';
+import { CuestionarioEstudiante } from './entities/cuestionario-estudiante.entity';
 
 @ApiBearerAuth('access-token')
 @ApiTags('cuestionario-estudiante')
@@ -44,7 +45,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiOkResponse({
     description: 'Cuestionarios de estudiantes encontrados',
-    type: [CuestionarioEstudianteService],
+    type: [CuestionarioEstudiante],
   })
   async obtenerCuestionariosEstudiantes() {
     return await this.cuestionarioEstudianteService.obtenerCuestionariosEstudiante();
@@ -67,6 +68,26 @@ export class CuestionarioEstudianteController {
     );
   }
 
+  @Get('estadisticas-semanales/preguntas-correctas/:id_estudiante')
+  @ApiOperation({
+    summary:
+      'Obtener estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+    description:
+      'Devuelve estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+  })
+  @ApiOkResponse({
+    description:
+      'Lista de estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+    type: [CuestionarioEstudiante],
+  })
+  async obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
+      +id_estudiante,
+    );
+  }
+
   @Get('estado')
   @ApiOperation({
     summary: `Obtener cuestionarios de estudiantes por estado: ${Object.values(
@@ -78,7 +99,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiOkResponse({
     description: 'Lista de cuestionarios de estudiantes por estado',
-    type: [CuestionarioEstudianteService],
+    type: [CuestionarioEstudiante],
   })
   async obtenerCuestionariosEstudiantesPorEstado(
     @Query('estado_cuestionario_estudiante') estado: EstadoCuestionario,
@@ -109,7 +130,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiOkResponse({
     description: 'Cuestionario de estudiante encontrado',
-    type: CuestionarioEstudianteService,
+    type: CuestionarioEstudiante,
   })
   async obtenerCuestionarioEstudiante(@Param('id') id: string) {
     try {
@@ -137,7 +158,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiCreatedResponse({
     description: 'Cuestionario de estudiante asignado',
-    type: CuestionarioEstudianteService,
+    type: CuestionarioEstudiante,
   })
   async asignarCuestionarioEstudianteATodosLosEstudiantes(
     @Body()
@@ -182,7 +203,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiCreatedResponse({
     description: 'Cuestionario de estudiante creado',
-    type: CuestionarioEstudianteService,
+    type: CuestionarioEstudiante,
   })
   async crearCuestionarioEstudiante(
     @Body() cuestionarioEstudiante: CrearCuestionarioEstudianteDto,
@@ -215,7 +236,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiOkResponse({
     description: 'Cuestionario de estudiante actualizado',
-    type: CuestionarioEstudianteService,
+    type: CuestionarioEstudiante,
   })
   async actualizarCuestionarioEstudiante(
     @Param('id') id: string,
@@ -250,7 +271,7 @@ export class CuestionarioEstudianteController {
   })
   @ApiOkResponse({
     description: 'Cuestionario de estudiante eliminado',
-    type: CuestionarioEstudianteService,
+    type: CuestionarioEstudiante,
   })
   async eliminarCuestionarioEstudiante(@Param('id') id: string) {
     try {

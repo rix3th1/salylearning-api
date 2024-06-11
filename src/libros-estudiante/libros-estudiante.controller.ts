@@ -114,6 +114,26 @@ export class LibrosEstudianteController {
     );
   }
 
+  @Get('estadisticas-semanales/lectura/:id_estudiante')
+  @ApiOperation({
+    summary:
+      'Obtener estadísticas semanales de lectura de libros de estudiante',
+    description:
+      'Devuelve estadísticas semanales de lectura de libros de estudiante',
+  })
+  @ApiOkResponse({
+    description:
+      'Lista de estadísticas semanales de lectura de libros de estudiante',
+    type: [LibroEstudiante],
+  })
+  async obtenerEstadisticasSemanalesProgresoEnLecturaPorEstudiante(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.librosEstudianteService.obtenerEstadisticasSemanalesProgresoEnLecturaPorEstudiante(
+      +id_estudiante,
+    );
+  }
+
   @Get()
   @ApiOperation({
     summary: 'Obtener todos los libros de estudiante',
