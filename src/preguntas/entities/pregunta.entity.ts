@@ -21,6 +21,15 @@ export class Pregunta implements Partial<TPregunta> {
   pregunta: string;
 
   @ApiProperty({
+    title: 'Opción correcta',
+    description: 'La opción correcta',
+    example: 'A',
+    minLength: 1,
+    maxLength: 1,
+  })
+  opcion_correcta: string;
+
+  @ApiProperty({
     title: 'Id del libro',
     description: 'Id del libro al que corresponde las preguntas',
     example: 1,

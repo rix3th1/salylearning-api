@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Length,
   Max,
   MaxLength,
   Min,
@@ -18,6 +19,11 @@ export class CrearPreguntaDto extends OmitType(Pregunta, ['id'] as const) {
   @MinLength(10, { message: 'La pregunta debe tener al menos 10 caracteres' })
   @MaxLength(200, { message: 'La pregunta debe tener menos de 200 caracteres' })
   pregunta: string;
+
+  @IsNotEmpty({ message: 'La opción correcta es requerida' })
+  @IsString({ message: 'La opción correcta debe ser una cadena de texto' })
+  @Length(1, 1, { message: 'La opción correcta debe tener 1 caracter' })
+  opcion_correcta: string;
 
   @IsNotEmpty({ message: 'El id de libro es requerido' })
   @IsInt({ message: 'El id de libro debe ser un número entero' })
@@ -43,6 +49,10 @@ export class ActualizarPreguntaDto extends PartialType(CrearPreguntaDto) {
   @ApiPropertyOptional()
   @IsOptional()
   pregunta?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  opcion_correcta?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

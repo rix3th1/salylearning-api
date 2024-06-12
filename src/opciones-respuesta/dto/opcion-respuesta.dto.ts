@@ -29,11 +29,6 @@ export class CrearOpcionRespuestaDto extends OmitType(OpcionRespuesta, [
   })
   respuesta: string;
 
-  @IsNotEmpty({ message: 'La opción correcta es requerida' })
-  @IsString({ message: 'La opción correcta debe ser una cadena de texto' })
-  @Length(1, 1, { message: 'La opción correcta debe tener 1 caracter' })
-  opcion_correcta: string;
-
   @IsNotEmpty({ message: 'El id del cuestionario es requerido' })
   @IsInt({ message: 'El id del cuestionario debe ser un número entero' })
   @Min(1, { message: 'El id del cuestionario debe ser mayor o igual a 1' })
@@ -54,10 +49,6 @@ export class ActualizarOpcionRespuestaDto extends PartialType(
   @ApiPropertyOptional()
   @IsOptional()
   respuesta?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  opcion_correcta?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

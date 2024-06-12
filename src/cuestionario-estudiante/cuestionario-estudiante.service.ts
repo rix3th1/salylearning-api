@@ -36,7 +36,7 @@ export class CuestionarioEstudianteService {
                 respuesta: true,
               },
             },
-            opciones_respuesta: {
+            preguntas: {
               select: {
                 opcion_correcta: true,
               },
@@ -52,7 +52,7 @@ export class CuestionarioEstudianteService {
         cuestionario.cuestionario.respuestas.reduce(
           (acc, respuesta) =>
             acc +
-            cuestionario.cuestionario.opciones_respuesta.filter(
+            cuestionario.cuestionario.preguntas.filter(
               (opcion) => opcion.opcion_correcta === respuesta.respuesta,
             ).length,
           0,
@@ -119,7 +119,7 @@ export class CuestionarioEstudianteService {
                 respuesta: true,
               },
             },
-            opciones_respuesta: {
+            preguntas: {
               select: {
                 opcion_correcta: true,
               },
@@ -141,7 +141,7 @@ export class CuestionarioEstudianteService {
         cuestionario.cuestionario.respuestas.reduce(
           (acc, respuesta) =>
             acc +
-            cuestionario.cuestionario.opciones_respuesta.filter(
+            cuestionario.cuestionario.preguntas.filter(
               (opcion) => opcion.opcion_correcta === respuesta.respuesta,
             ).length,
           0,

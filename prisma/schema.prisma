@@ -173,9 +173,11 @@ model MiLibro {
 // Tabla que almacena las preguntas de los libros
 model Pregunta {
   // ID de la pregunta
-  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  id              Int    @id @default(autoincrement()) @db.UnsignedInt
   // Contenido de la pregunta
-  pregunta String @unique @db.VarChar(200)
+  pregunta        String @unique @db.VarChar(200)
+  // Opcion de respuesta correcta
+  opcion_correcta String @db.Char(1) // A, B, C, D
 
   // ID del libro al que pertenece la pregunta
   id_libro        Int @db.UnsignedInt
@@ -191,13 +193,11 @@ model Pregunta {
 // Tabla que almacena las opciones de respuestas de las preguntas
 model OpcionRespuesta {
   // ID de la opción de respuesta
-  id              Int    @id @default(autoincrement()) @db.UnsignedInt
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
   // Opción
-  opcion          String @db.Char(1) // A, B, C, D
+  opcion    String @db.Char(1) // A, B, C, D
   // Respuesta
-  respuesta       String @db.VarChar(100)
-  // Opcion de respuesta correcta
-  opcion_correcta String @db.Char(1) // A, B, C, D
+  respuesta String @db.VarChar(100)
 
   // ID cuestionario al que pertenece la respuesta de la pregunta
   id_cuestionario Int @db.UnsignedInt
