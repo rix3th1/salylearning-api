@@ -187,7 +187,7 @@ export class LibrosController {
             fileType: new RegExp('image/(jpeg|png)'),
           }),
           new MaxFileSizeValidator({
-            maxSize: 5000 * 1024,
+            maxSize: 5000 * 1024, // 5 MB
             message(maxSize) {
               return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
             },
@@ -205,7 +205,7 @@ export class LibrosController {
             fileType: new RegExp('video/mp4'),
           }),
           new MaxFileSizeValidator({
-            maxSize: 50000 * 1024,
+            maxSize: 200000 * 1024, // 200 MB
             message(maxSize) {
               return `El tamaño del video no debe ser mayor a ${maxSize / 1024}kb`;
             },
