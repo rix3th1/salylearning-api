@@ -188,6 +188,7 @@ model Pregunta {
   libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   // Relación 1-N con Cuestionario
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
+  Respuesta    Respuesta[]
 }
 
 // Tabla que almacena las opciones de respuestas de las preguntas
@@ -213,11 +214,15 @@ model Respuesta {
   // Respuesta (A, B, C, D)
   respuesta String @db.Char(1) // A, B, C, D
 
+  // ID de la pregunta al que pertenece la respuesta
+  id_pregunta     Int @db.UnsignedInt
   // ID del cuestionario al que pertenece la respuesta de la pregunta
   id_cuestionario Int @db.UnsignedInt
 
   // Relación 1-N con Cuestionario 
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
+  // Relación 1-N con Pregunta
+  pregunta     Pregunta     @relation(fields: [id_pregunta], references: [id], onUpdate: Restrict)
 }
 
 // Tabla que almacena los cuestionarios de los libros
@@ -241,6 +246,7 @@ model Cuestionario {
   preguntas          Pregunta[]
   // Relación 1-N con Respuesta
   respuestas         Respuesta[]
+  // Relación 1-N con OpcionRespuesta
   opciones_respuesta OpcionRespuesta[]
 
   // Relación 1-N con CuestionarioEstudiante

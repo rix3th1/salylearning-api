@@ -59,6 +59,7 @@ async function bootstrap() {
     .addTag('generos-literarios')
     .addTag('mis-libros')
     .addTag('preguntas')
+    .addTag('respuestas')
     .addTag('cuestionarios')
     .addTag('cuestionario-estudiante')
     .addTag('usuarios')

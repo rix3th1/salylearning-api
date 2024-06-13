@@ -21,6 +21,15 @@ export class Respuesta implements TRespuesta {
   respuesta: string;
 
   @ApiProperty({
+    title: 'Id de la pregunta',
+    description: 'El id de la pregunta',
+    example: 1,
+    minLength: 1,
+    maxLength: 4294967295,
+  })
+  id_pregunta: number;
+
+  @ApiProperty({
     title: 'Id del cuestionario',
     description: 'El id del cuestionario',
     example: 1,

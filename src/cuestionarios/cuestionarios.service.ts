@@ -73,6 +73,7 @@ export class CuestionariosService {
         estado: true,
         preguntas: {
           select: {
+            id: true,
             pregunta: true,
             libros: {
               select: {
