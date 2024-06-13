@@ -2,12 +2,16 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { urlencoded, json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
     logger: ['error', 'warn'],
   });
+
+  app.use(json({ limit: '200mb' }));
+  app.use(urlencoded({ extended: true, limit: '200mb' }));
 
   app.useGlobalPipes(
     new ValidationPipe({
