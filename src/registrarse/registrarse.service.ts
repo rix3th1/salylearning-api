@@ -25,6 +25,14 @@ export class RegistrarseService {
     });
   }
 
+  async verificarCodigoDocente(codigo: string): Promise<boolean> {
+    const codigoDocente = await this.prisma.codigoDocente.findUnique({
+      where: { cod: codigo },
+    });
+
+    return !!codigoDocente;
+  }
+
   async enviarEmailDeVerificacion(origin: string, token: string, to: string) {
     const url = `${origin}/verify-account?token=${token}`;
     const html = `

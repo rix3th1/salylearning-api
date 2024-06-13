@@ -48,6 +48,21 @@ export class RegistrarseController {
         const hash = await argon2.hash(nuevoUsuario.password);
         nuevoUsuario.password = hash;
 
+        if (nuevoUsuario.rol === 'DOCENTE') {
+          if (
+            !(await this.registrarseService.verificarCodigoDocente(
+              nuevoUsuario.cod_docente,
+            ))
+          ) {
+            throw new BadRequestException(
+              'Código de docente proporcionado no válido. No podemos registrarte como docente. Por favor, revise su código de docente.',
+            );
+          }
+        }
+
+        // Delete the cod_docente property because it is not needed in the database
+        delete nuevoUsuario.cod_docente;
+
         // Delete confirmar_password property because it is not needed in the database
         delete nuevoUsuario.confirmar_password;
         usuario = await this.registrarseService.registrarUsuario(nuevoUsuario);
@@ -70,13 +85,18 @@ export class RegistrarseController {
           tokenDeActivacion,
           usuario.email,
         );
-      } else {
+      } else if (!isNewUser && !usuario.verificado) {
         response =
           await this.registrarseService.reenviarEmailDeVerificacionPorqueElUsuarioEsDespistado(
             headers.origin,
             tokenDeActivacion,
             usuario.email,
           );
+      } else {
+        return {
+          message: `Cuenta de ${usuario.rol} "${usuario.p_nombre} ${usuario.p_apellido}" ya existe. Por favor, inicie sesión con tu cuenta.`,
+          usuario,
+        };
       }
 
       if (response.error) {
@@ -99,7 +119,10 @@ export class RegistrarseController {
     } catch (error) {
       console.error(error.message);
 
-      if (error instanceof BadGatewayException) {
+      if (
+        error instanceof BadGatewayException ||
+        error instanceof BadRequestException
+      ) {
         throw error;
       } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {

@@ -3,6 +3,22 @@ import { $Enums, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  const codigoDocente = await prisma.codigoDocente.createMany({
+    skipDuplicates: true,
+    data: [
+      { cod: 'P3K7HG' },
+      { cod: 'A6L9D8' },
+      { cod: 'V4N8X1' },
+      { cod: 'F2H7C6' },
+      { cod: 'P9B3J4' },
+      { cod: 'M1K8R2' },
+      { cod: 'X3V9F6' },
+      { cod: 'D7T4Z1' },
+      { cod: 'J5Q8H2' },
+      { cod: 'L4M1C7' },
+    ],
+  });
+
   const grados = await prisma.grado.createMany({
     skipDuplicates: true,
     data: [
@@ -117,6 +133,7 @@ async function main() {
   });
 
   console.info({
+    codigoDocente,
     grados,
     generosLiterarios,
     avatars,

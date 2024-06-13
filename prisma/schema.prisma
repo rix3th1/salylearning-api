@@ -344,6 +344,12 @@ model Docente {
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 }
 
+model CodigoDocente {
+  // ID del codigo docente
+  id  Int    @id @default(autoincrement()) @db.UnsignedInt
+  cod String @unique @db.VarChar(6)
+}
+
 // Tabla que almacena las fotos de perfil de los usuarios
 model FotoPerfil {
   // ID de la foto de perfil
