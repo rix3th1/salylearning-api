@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { EstadoCuestionario, Prisma } from '@prisma/client';
+import { isIn } from 'class-validator';
 import { EstudiantesService } from '../estudiantes/estudiantes.service';
 import { CuestionarioEstudianteService } from './cuestionario-estudiante.service';
 import {
@@ -26,7 +27,6 @@ import {
   CrearCuestionarioEstudianteDto,
   asignarCuestionarioEstudianteATodosLosEstudiantesDto,
 } from './dto/cuestionario-estudiante.dto';
-import { isIn } from 'class-validator';
 import { CuestionarioEstudiante } from './entities/cuestionario-estudiante.entity';
 
 @ApiBearerAuth('access-token')
@@ -49,6 +49,81 @@ export class CuestionarioEstudianteController {
   })
   async obtenerCuestionariosEstudiantes() {
     return await this.cuestionarioEstudianteService.obtenerCuestionariosEstudiante();
+  }
+
+  @Get('contar/estado')
+  @ApiOperation({
+    summary: `Contar cuestionarios de estudiantes por estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+    description: `Cuenta cuestionarios de estudiantes por su estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+  })
+  @ApiOkResponse({
+    description: 'Número de cuestionarios de estudiantes por estado',
+    type: Number,
+  })
+  async contarCuestionariosEstudiantesPorEstado(
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
+
+      return await this.cuestionarioEstudianteService.contarCuestionariosEstudiantesPorEstado(
+        estadoCuestionario,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
+  }
+
+  @Get('estadisticas-semanales')
+  @ApiOperation({
+    summary: `Obtener estadísticas semanales de cuestionarios de estudiantes por estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+    description: `Obtiene estadísticas semanales de cuestionarios de estudiantes por su estado: ${Object.values(
+      EstadoCuestionario,
+    ).join(', ')}`,
+  })
+  @ApiOkResponse({
+    description:
+      'Lista de estadísticas semanales de cuestionarios de estudiantes por estado',
+    type: [CuestionarioEstudiante],
+  })
+  async obtenerEstadisticasSemanalesPorEstado(
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
+
+      return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPorEstado(
+        estadoCuestionario,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
   }
 
   @Get('contar/preguntas-correctas/:id_estudiante')
@@ -102,7 +177,7 @@ export class CuestionarioEstudianteController {
     type: [CuestionarioEstudiante],
   })
   async obtenerCuestionariosEstudiantesPorEstado(
-    @Query('estado_cuestionario_estudiante') estado: EstadoCuestionario,
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
     try {
       const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
@@ -115,6 +190,44 @@ export class CuestionarioEstudianteController {
         estadoCuestionario,
       );
     } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
+      throw new BadRequestException('Estado de cuestionario no válido');
+    }
+  }
+
+  @Get('estado/:id_estudiante')
+  @ApiOperation({
+    summary: `Obtener cuestionarios de estudiantes por estado y id de estudiante`,
+    description: `Obtiene cuestionarios de estudiantes por su estado y id de estudiante`,
+  })
+  @ApiOkResponse({
+    description:
+      'Lista de cuestionarios de estudiantes por estado y id de estudiante',
+    type: [CuestionarioEstudiante],
+  })
+  async obtenerCuestionarioEstudiantePorEstado(
+    @Param('id_estudiante') id_estudiante: string,
+    @Query('estado_cuestionario') estado: EstadoCuestionario,
+  ) {
+    try {
+      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+
+      if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
+        throw new BadRequestException('Estado de cuestionario no válido');
+      }
+
+      return await this.cuestionarioEstudianteService.obtenerCuestionarioEstudiantePorEstado(
+        +id_estudiante,
+        estadoCuestionario,
+      );
+    } catch (error) {
+      console.error(error.message);
+
       if (error instanceof BadRequestException) {
         throw error;
       }
@@ -170,6 +283,7 @@ export class CuestionarioEstudianteController {
       for (const estudiante of estudiantes) {
         await this.cuestionarioEstudianteService.asignarCuestionarioEstudianteATodosLosEstudiantes(
           {
+            fecha_entrega: new Date(), // ts-revisar
             id_cuestionario: cuestionarioEstudiante.id_cuestionario,
             id_estudiante: estudiante.id,
           },

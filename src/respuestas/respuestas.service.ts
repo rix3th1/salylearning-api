@@ -22,15 +22,18 @@ export class RespuestasService {
 
   async responderPreguntasCuestionario(respuestas: CrearRespuestaDto[]) {
     for (const respuesta of respuestas) {
-      await this.prisma.cuestionario.update({
-        where: {
-          id: respuesta.id_cuestionario,
-        },
-        data: {
-          estado: EstadoCuestionario.COMPLETADO,
-          fecha_entrega: new Date(),
-        },
-      });
+      const cuestionarioCompletado =
+        await this.prisma.cuestionarioEstudiante.update({
+          where: {
+            id: respuesta.id_cuestionario,
+          },
+          data: {
+            estado: EstadoCuestionario.COMPLETADO,
+            fecha_entrega: new Date(),
+          },
+        });
+
+      respuesta.id_cuestionario = cuestionarioCompletado.id;
     }
 
     return this.prisma.respuesta.createMany({ data: respuestas });

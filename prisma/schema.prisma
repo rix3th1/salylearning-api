@@ -228,19 +228,11 @@ model Respuesta {
 // Tabla que almacena los cuestionarios de los libros
 model Cuestionario {
   // ID del cuestionario
-  id             Int                @id @default(autoincrement()) @db.UnsignedInt
-  // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
-  estado         EstadoCuestionario @default(PENDIENTE)
-  // Fecha de asignación del cuestionario
-  fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
-  // Fecha de entrega del cuestionario
-  fecha_entrega  DateTime           @db.DateTime()
-  // Calificación del cuestionario (de 0.0 a 5.0)
-  calificacion   Decimal?           @db.Decimal(2, 1)
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
   // Fecha de creación del cuestionario
-  createdAt      DateTime           @default(now())
+  createdAt DateTime @default(now())
   // Fecha de actualización del cuestionario 
-  updatedAt      DateTime           @updatedAt
+  updatedAt DateTime @updatedAt
 
   // Relación 1-N con Pregunta
   preguntas          Pregunta[]
@@ -255,7 +247,15 @@ model Cuestionario {
 
 model CuestionarioEstudiante {
   // ID del cuestionario estudiante
-  id Int @id @default(autoincrement()) @db.UnsignedInt
+  id             Int                @id @default(autoincrement()) @db.UnsignedInt
+  // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
+  estado         EstadoCuestionario @default(PENDIENTE)
+  // Fecha de asignación del cuestionario
+  fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
+  // Fecha de entrega del cuestionario
+  fecha_entrega  DateTime           @db.DateTime()
+  // Calificación del cuestionario (de 0.0 a 5.0)
+  calificacion   Decimal?           @db.Decimal(2, 1)
 
   // ID del cuestionario
   id_cuestionario Int @db.UnsignedInt
