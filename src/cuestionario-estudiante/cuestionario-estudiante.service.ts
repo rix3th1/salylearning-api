@@ -247,6 +247,8 @@ export class CuestionarioEstudianteService {
       where: { estado, id_estudiante },
       select: {
         id: true,
+        calificacion: true,
+        estado: true,
         cuestionario: {
           select: {
             id: true,
@@ -262,6 +264,12 @@ export class CuestionarioEstudianteService {
             opciones_respuesta: {
               select: {
                 opcion: true,
+                respuesta: true,
+              },
+            },
+            respuestas: {
+              select: {
+                id: true,
                 respuesta: true,
               },
             },
