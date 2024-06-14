@@ -283,7 +283,7 @@ export class CuestionarioEstudianteController {
       for (const estudiante of estudiantes) {
         await this.cuestionarioEstudianteService.asignarCuestionarioEstudianteATodosLosEstudiantes(
           {
-            fecha_entrega: new Date(), // ts-revisar
+            fecha_entrega: cuestionarioEstudiante.fecha_entrega,
             id_cuestionario: cuestionarioEstudiante.id_cuestionario,
             id_estudiante: estudiante.id,
           },

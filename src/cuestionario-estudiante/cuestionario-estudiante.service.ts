@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { EstadoCuestionario } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -11,56 +12,27 @@ import { CuestionarioEstudiante } from './entities/cuestionario-estudiante.entit
 export class CuestionarioEstudianteService {
   constructor(private prisma: PrismaService) {}
 
+  @Cron(CronExpression.EVERY_MINUTE)
+  async actualizarEstadoCuestionarioEstudiante() {
+    const now = new Date();
+    await this.prisma.cuestionarioEstudiante.updateMany({
+      where: {
+        fecha_entrega: {
+          lte: now,
+        },
+        estado: {
+          equals: EstadoCuestionario.PENDIENTE,
+        },
+      },
+      data: {
+        estado: EstadoCuestionario.NO_LOGRADO,
+      },
+    });
+  }
+
   async obtenerCuestionariosEstudiante(): Promise<CuestionarioEstudiante[]> {
     return this.prisma.cuestionarioEstudiante.findMany();
   }
-
-  // async obtenerCuestionariosEstudiantesPorEstado(estado: EstadoCuestionario) {
-  //   return this.prisma.cuestionarioEstudiante.findMany({
-  //     where: { estado },
-  //     select: {
-  //       id: true,
-  //       fecha_asignado: true,
-  //       fecha_entrega: true,
-  //       estado: true,
-  //     cuestionario:{
-  //       select: {
-  //         preguntas: {
-  //           select: {
-  //             id: true,
-  //             pregunta: true,
-  //             libros: {
-  //               select: {
-  //                 nom_libro: true,
-  //                 mis_libros: {
-  //                   select: {
-  //                     usuario: {
-  //                       select: {
-  //                         p_nombre: true,
-  //                         p_apellido: true,
-  //                         username: true,
-  //                         grado_usuario: {
-  //                           select: { grados: { select: { nom_grado: true } } },
-  //                         },
-  //                       },
-  //                     },
-  //                   },
-  //                 },
-  //               },
-  //             },
-  //           },
-  //         },
-  //         opciones_respuesta: {
-  //           select: {
-  //             opcion: true,
-  //             respuesta: true,
-  //           },
-  //         },
-  //       }
-  //     }
-  //     },
-  //   });
-  // }
 
   async contarCuestionariosEstudiantesPorEstado(
     estado: EstadoCuestionario,
@@ -317,9 +289,11 @@ export class CuestionarioEstudianteService {
     return this.prisma.cuestionarioEstudiante.findMany({
       where: { estado },
       select: {
+        id: true,
         fecha_asignado: true,
         fecha_entrega: true,
         estado: true,
+        calificacion: true,
         cuestionario: {
           select: {
             id: true,
@@ -335,6 +309,12 @@ export class CuestionarioEstudianteService {
             opciones_respuesta: {
               select: {
                 opcion: true,
+                respuesta: true,
+              },
+            },
+            respuestas: {
+              select: {
+                pregunta: true,
                 respuesta: true,
               },
             },

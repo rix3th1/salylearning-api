@@ -251,7 +251,7 @@ model CuestionarioEstudiante {
   // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
   estado         EstadoCuestionario @default(PENDIENTE)
   // Fecha de asignación del cuestionario
-  fecha_asignado DateTime           @default(dbgenerated("CURRENT_TIMESTAMP")) @db.DateTime()
+  fecha_asignado DateTime           @default(now())
   // Fecha de entrega del cuestionario
   fecha_entrega  DateTime           @db.DateTime()
   // Calificación del cuestionario (de 0.0 a 5.0)

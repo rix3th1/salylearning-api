@@ -71,7 +71,10 @@ export class CrearCuestionarioEstudianteDto extends OmitType(
   )
   @Min(0.0, { message: 'La calificación debe ser mayor o igual a 0.0' })
   @Max(5.0, { message: 'La calificación debe ser menor o igual a 5.0' })
-  @Transform(({ value: calificacion }) => Number(calificacion) || null)
+  @Transform(({ value: calificacion }) => {
+    const cal = Number(calificacion);
+    return cal || cal === 0 ? cal : null;
+  })
   calificacion?: Decimal;
 
   @IsNotEmpty({ message: 'El id de cuestionario estudiante es requerido' })
