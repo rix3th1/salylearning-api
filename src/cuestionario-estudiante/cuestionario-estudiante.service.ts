@@ -200,43 +200,55 @@ export class CuestionarioEstudianteService {
       take: 7,
     });
 
-    const preguntasCorrectas = cuestionarios.reduce(
-      (acc, cuestionario) =>
-        acc +
-        cuestionario.cuestionario.respuestas.reduce(
-          (acc, respuesta) =>
-            acc +
-            cuestionario.cuestionario.preguntas.filter(
-              (opcion) => opcion.opcion_correcta === respuesta.respuesta,
-            ).length,
-          0,
-        ),
-      0,
-    );
+    // Obtener el inicio y fin de la semana actual
+    const now = new Date();
+    const startOfWeekDate = new Date(
+      now.setDate(now.getDate() - now.getDay() + 1),
+    ); // Suponiendo que la semana empieza el lunes
+    const endOfWeekDate = new Date(now.setDate(startOfWeekDate.getDate() + 6));
 
-    const semanalPreguntasCorrectas = [];
+    const daysOfWeek = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo',
+    ];
+    const results = Array(7)
+      .fill(0)
+      .map((_, index) => ({ name: daysOfWeek[index], value: 0 }));
 
-    for (let i = 0; i < 7; i++) {
-      const dia = new Date(new Date().setDate(new Date().getDate() - i));
-      const diaSemana = dia.getDay();
-      const diaSemanaTexto = [
-        'Lunes',
-        'Martes',
-        'Miércoles',
-        'Jueves',
-        'Viernes',
-        'Sábado',
-        'Domingo',
-      ][diaSemana];
-      const diaSemanaPreguntasCorrectas =
-        preguntasCorrectas > 0 ? preguntasCorrectas : 0;
-      semanalPreguntasCorrectas.push({
-        name: diaSemanaTexto,
-        value: diaSemanaPreguntasCorrectas,
-      });
-    }
+    // Calcular el número de respuestas correctas por día
+    cuestionarios.forEach((cuestionarioEstudiante) => {
+      const { cuestionario } = cuestionarioEstudiante;
+      const { createdAt, respuestas, preguntas } = cuestionario;
 
-    return semanalPreguntasCorrectas;
+      // Convertir createdAt a fecha sin hora
+      const createdAtDate = new Date(
+        createdAt.getFullYear(),
+        createdAt.getMonth(),
+        createdAt.getDate(),
+      );
+
+      // Filtrar cuestionarios de la semana actual
+      if (createdAtDate >= startOfWeekDate && createdAtDate <= endOfWeekDate) {
+        // Ajustar índice para empezar con Lunes = 0
+        const dayIndex = (createdAtDate.getDay() + 6) % 7;
+        let correctAnswers = 0;
+
+        respuestas.forEach((respuesta, index) => {
+          if (respuesta.respuesta === preguntas[index].opcion_correcta) {
+            correctAnswers += 1;
+          }
+        });
+
+        results[dayIndex].value += correctAnswers;
+      }
+    });
+
+    return results;
   }
 
   async obtenerCuestionarioEstudiantePorEstado(
@@ -368,6 +380,41 @@ export class CuestionarioEstudianteService {
     return this.prisma.cuestionarioEstudiante.create({
       data: cuestionarioEstudiante,
     });
+  }
+
+  async calificarCuestionarioEstudiante(
+    id: number,
+    cuestionarioEstudiante: ActualizarCuestionarioEstudianteDto,
+  ): Promise<CuestionarioEstudiante> {
+    const cuestionarioCalificado =
+      await this.prisma.cuestionarioEstudiante.update({
+        where: { id },
+        data: cuestionarioEstudiante,
+        include: {
+          estudiante: {
+            select: {
+              puntaje_total: true,
+            },
+          },
+        },
+      });
+
+    const id_estudiante = cuestionarioCalificado.id_estudiante;
+    await this.prisma.estudiante.update({
+      where: { id: id_estudiante },
+      data: {
+        puntaje_total: this.sumarPuntajes(
+          cuestionarioCalificado.estudiante.puntaje_total,
+          cuestionarioEstudiante.calificacion,
+        ),
+      },
+    });
+
+    return cuestionarioCalificado;
+  }
+
+  sumarPuntajes(a: any, b: any) {
+    return Number(a) + Number(b);
   }
 
   async actualizarCuestionarioEstudiante(

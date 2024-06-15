@@ -343,6 +343,37 @@ export class CuestionarioEstudianteController {
     }
   }
 
+  @Patch('calificar/:id')
+  @ApiOperation({
+    summary: 'Calificar un cuestionario de estudiante',
+    description: 'Califica un cuestionario de estudiante',
+  })
+  @ApiOkResponse({
+    description: 'Cuestionario de estudiante calificado',
+    type: CuestionarioEstudiante,
+  })
+  async calificarCuestionarioEstudiante(
+    @Param('id') id: string,
+    @Body() cuestionarioEstudiante: ActualizarCuestionarioEstudianteDto,
+  ) {
+    try {
+      return await this.cuestionarioEstudianteService.calificarCuestionarioEstudiante(
+        +id,
+        cuestionarioEstudiante,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'Cuestionario de estudiante no encontrado',
+          );
+        }
+      }
+    }
+  }
+
   @Patch(':id')
   @ApiOperation({
     summary: 'Actualizar un cuestionario de estudiante',

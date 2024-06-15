@@ -145,9 +145,9 @@ model LibroEstudiante {
   updatedAt      DateTime @updatedAt
 
   // ID del libro
-  id_libro      Int @db.UnsignedInt
+  id_libro      Int @unique @db.UnsignedInt
   // ID del estudiante
-  id_estudiante Int @unique @db.UnsignedInt
+  id_estudiante Int @db.UnsignedInt
 
   // Relación 1-N con Libro
   libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict)

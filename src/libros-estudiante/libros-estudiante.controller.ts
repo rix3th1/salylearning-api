@@ -82,17 +82,17 @@ export class LibrosEstudianteController {
     );
   }
 
-  @Get('estudiante/:id')
+  @Get('libro/:id')
   @ApiOperation({
-    summary: 'Obtener libros de estudiante por ID de estudiante',
-    description: 'Obtiene libros de estudiante por ID de estudiante',
+    summary: 'Obtener libros de estudiante por ID de libro',
+    description: 'Obtiene libros de estudiante por ID de libro',
   })
   @ApiOkResponse({
     description: 'Libros de estudiante encontrados',
     type: [LibroEstudiante],
   })
   async obtenerLibroPorIdEstudiante(@Param('id') id_libro: string) {
-    return await this.librosEstudianteService.obtenerLibrosPorIdEstudiante(
+    return await this.librosEstudianteService.obtenerLibrosPorIdLibro(
       +id_libro,
     );
   }

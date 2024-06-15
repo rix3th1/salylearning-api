@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { days } from '../constants';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarLibroEstudianteDto,
@@ -132,15 +133,6 @@ export class LibrosEstudianteService {
   }
 
   getDayName(day: number) {
-    const days = [
-      'Lunes',
-      'Martes',
-      'Miércoles',
-      'Jueves',
-      'Viernes',
-      'Sábado',
-      'Domingo',
-    ];
     return days[day];
   }
 
@@ -180,12 +172,10 @@ export class LibrosEstudianteService {
     return estadisticasSemanales;
   }
 
-  async obtenerLibrosPorIdEstudiante(
-    id_estudiante: number,
-  ): Promise<LibroEstudiante> {
+  async obtenerLibrosPorIdLibro(id_libro: number): Promise<LibroEstudiante> {
     return this.prisma.libroEstudiante.findUniqueOrThrow({
       where: {
-        id_estudiante,
+        id_libro,
       },
     });
   }
