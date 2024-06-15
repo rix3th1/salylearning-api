@@ -31,6 +31,11 @@ model Avatar {
   // rol del avatar (DOCENTE o ESTUDIANTE)
   rol         Rol
 
+  // Fecha de creación del avatar
+  createdAt DateTime @default(now())
+  // Fecha de actualización del avatar
+  updatedAt DateTime @updatedAt
+
   // Relación 1-N con AvatarUsuario
   avatar_usuario AvatarUsuario[] // Relación 1-N con AvatarUsuario
 }
@@ -45,6 +50,11 @@ model AvatarUsuario {
   // ID del usuario
   id_usuario Int  @unique @db.UnsignedInt
 
+  // Fecha de creación de la relación
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la relación
+  updatedAt DateTime @updatedAt
+
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
   // Relación 1-N con Avatar
@@ -57,6 +67,11 @@ model Grado {
   id        Int    @id @default(autoincrement()) @db.UnsignedInt
   // Nombre del grado
   nom_grado String @unique @db.VarChar(30)
+
+  // Fecha de creación del grado
+  createdAt DateTime @default(now())
+  // Fecha de actualización del grado
+  updatedAt DateTime @updatedAt
 
   // Relación 1-N con GradoUsuario
   grado_usuario GradoUsuario[] // Relación 1-N con GradoUsuario
@@ -73,6 +88,11 @@ model GradoUsuario {
   id_grado   Int @db.UnsignedInt
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
+
+  // Fecha de creación de la relación
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la relación
+  updatedAt DateTime @updatedAt
 
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
@@ -106,6 +126,11 @@ model Libro {
   // ID del grado al que pertenece el libro
   id_grado            Int @db.UnsignedInt
 
+  // Fecha de creación del libro
+  createdAt DateTime @default(now())
+  // Fecha de actualización del libro
+  updatedAt DateTime @updatedAt
+
   // Relacíon 1-N con GeneroLiterario 
   genero_literario  GeneroLiterario   @relation(fields: [id_genero_literario], references: [id], onUpdate: Restrict)
   // Relación 1-1 con Grado
@@ -127,6 +152,11 @@ model GeneroLiterario {
   // Descripción del género literario
   descripcion String @db.LongText
 
+  // Fecha de creación del género literario
+  createdAt DateTime @default(now())
+  // Fecha de actualización del género literario
+  updatedAt DateTime @updatedAt
+
   // Relación 1-N con Libro
   libros Libro[]
 }
@@ -134,20 +164,21 @@ model GeneroLiterario {
 // Tabla que almacena los libros que los estudiantes han leído
 model LibroEstudiante {
   // ID del libro estudiante
-  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  id             Int     @id @default(autoincrement()) @db.UnsignedInt
   // Booleano que indica si el libro ha sido terminado
-  terminado      Boolean  @default(false)
+  terminado      Boolean @default(false)
   // Tiempo de lectura del libro (en minutos)
-  tiempo_lectura Int      @default(0) @db.UnsignedInt
-  // Fecha de creación del libro
-  createdAt      DateTime @default(now())
-  // Fecha de actualización del libro 
-  updatedAt      DateTime @updatedAt
+  tiempo_lectura Int     @default(0) @db.UnsignedInt
 
   // ID del libro
   id_libro      Int @db.UnsignedInt
   // ID del estudiante
   id_estudiante Int @db.UnsignedInt
+
+  // Fecha de creación del libro
+  createdAt DateTime @default(now())
+  // Fecha de actualización del libro 
+  updatedAt DateTime @updatedAt
 
   // Relación 1-N con Libro
   libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -164,6 +195,11 @@ model MiLibro {
   id_libro   Int @unique @db.UnsignedInt
   // ID del usuario
   id_usuario Int @db.UnsignedInt
+
+  // Fecha de creación de la relación
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la relación
+  updatedAt DateTime @updatedAt
 
   // Relaciones 1-1 con Usuario y Libro
   libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
@@ -184,6 +220,11 @@ model Pregunta {
   // ID cuestionario al que pertenece la pregunta
   id_cuestionario Int @db.UnsignedInt
 
+  // Fecha de creación de la pregunta
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la pregunta
+  updatedAt DateTime @updatedAt
+
   // Relación 1-1 con Libro
   libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
   // Relación 1-N con Cuestionario
@@ -203,6 +244,11 @@ model OpcionRespuesta {
   // ID cuestionario al que pertenece la respuesta de la pregunta
   id_cuestionario Int @db.UnsignedInt
 
+  // Fecha de creación de la opción de respuesta
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la opción de respuesta
+  updatedAt DateTime @updatedAt
+
   // Relación 1-N con Cuestionario 
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id])
 }
@@ -219,6 +265,11 @@ model Respuesta {
   // ID del cuestionario al que pertenece la respuesta de la pregunta
   id_cuestionario Int @db.UnsignedInt
 
+  // Fecha de creación de la respuesta
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la respuesta
+  updatedAt DateTime @updatedAt
+
   // Relación 1-N con Cuestionario 
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
   // Relación 1-N con Pregunta
@@ -228,7 +279,8 @@ model Respuesta {
 // Tabla que almacena los cuestionarios de los libros
 model Cuestionario {
   // ID del cuestionario
-  id        Int      @id @default(autoincrement()) @db.UnsignedInt
+  id Int @id @default(autoincrement()) @db.UnsignedInt
+
   // Fecha de creación del cuestionario
   createdAt DateTime @default(now())
   // Fecha de actualización del cuestionario 
@@ -262,6 +314,11 @@ model CuestionarioEstudiante {
   // ID del estudiante
   id_estudiante   Int @db.UnsignedInt
 
+  // Fecha de creación de la relación
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la relación
+  updatedAt DateTime @updatedAt
+
   // Relación 1-N con Cuestionario
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id])
   // Relación 1-N con Estudiante
@@ -281,6 +338,11 @@ model Estudiante {
 
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
+
+  // Fecha de creación del estudiante
+  createdAt DateTime @default(now())
+  // Fecha de actualización del estudiante
+  updatedAt DateTime @updatedAt
 
   // Relación 1-1 con Usuario
   usuario                 Usuario                  @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
@@ -321,6 +383,11 @@ model Usuario {
   // Booleano que indica si el usuario verificó su correo electrónico
   verificado       Boolean   @default(false)
 
+  // Fecha de creación del usuario
+  createdAt DateTime @default(now())
+  // Fecha de actualización del usuario
+  updatedAt DateTime @updatedAt
+
   // Relaciones 1-1 con Docente, Estudiante, FotoPerfil, AvatarUsuario y GradoUsuario
   docente        Docente? // Relación 1-1 con Docente
   estudiante     Estudiante? // Relación 1-1 con Estudiante
@@ -340,6 +407,11 @@ model Docente {
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
 
+  // Fecha de creación del docente
+  createdAt DateTime @default(now())
+  // Fecha de actualización del docente
+  updatedAt DateTime @updatedAt
+
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 }
@@ -348,6 +420,11 @@ model CodigoDocente {
   // ID del codigo docente
   id  Int    @id @default(autoincrement()) @db.UnsignedInt
   cod String @unique @db.VarChar(6)
+
+  // Fecha de creación del codigo de docente
+  createdAt DateTime @default(now())
+  // Fecha de actualización del de codigo docente
+  updatedAt DateTime @updatedAt
 }
 
 // Tabla que almacena las fotos de perfil de los usuarios
@@ -359,6 +436,11 @@ model FotoPerfil {
 
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
+
+  // Fecha de creación de la foto de perfil
+  createdAt DateTime @default(now())
+  // Fecha de actualización de la foto de perfil
+  updatedAt DateTime @updatedAt
 
   // Relación 1-1 con Usuario
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
@@ -376,6 +458,11 @@ model Contacto {
   telefono        String @db.VarChar(10)
   // Asunto del mensaje
   mensaje         String @db.LongText
+
+  // Fecha de creación del contacto
+  createdAt DateTime @default(now())
+  // Fecha de actualización del contacto
+  updatedAt DateTime @updatedAt
 }
 
 // Tabla que almacena los mensajes de soporte
@@ -390,4 +477,9 @@ model Soporte {
   asunto          String @db.MediumText
   // Mensaje
   mensaje         String @db.LongText
+
+  // Fecha de creación del soporte
+  createdAt DateTime @default(now())
+  // Fecha de actualización del soporte
+  updatedAt DateTime @updatedAt
 }
