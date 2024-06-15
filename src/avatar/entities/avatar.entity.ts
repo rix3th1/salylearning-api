@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, Avatar as TAvatar } from '@prisma/client';
 
-export class Avatar implements TAvatar {
+export class Avatar implements Partial<TAvatar> {
   @ApiProperty({
     title: 'Id del avatar',
     description: 'Id del avatar',

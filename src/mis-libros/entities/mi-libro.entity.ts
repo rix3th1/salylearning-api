@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MiLibro as TMiLibro } from '@prisma/client';
 
-export class MiLibro implements TMiLibro {
+export class MiLibro implements Partial<TMiLibro> {
   @ApiProperty({
     title: 'Id de MiLibro',
     description: 'El id de MiLibro',

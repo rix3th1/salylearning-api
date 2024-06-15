@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GeneroLiterario as TGeneroLiterario } from '@prisma/client';
 
-export class GeneroLiterario implements TGeneroLiterario {
+export class GeneroLiterario implements Partial<TGeneroLiterario> {
   @ApiProperty({
     title: 'Id genero literario',
     description: 'El id del genero literario',

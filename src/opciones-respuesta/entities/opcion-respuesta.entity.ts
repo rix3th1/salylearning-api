@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { OpcionRespuesta as TOpcionRespuesta } from '@prisma/client';
 
-export class OpcionRespuesta implements TOpcionRespuesta {
+export class OpcionRespuesta implements Partial<TOpcionRespuesta> {
   @ApiProperty({
     title: 'Id de la opción de respuesta',
     description: 'El id de la opción de respuesta',

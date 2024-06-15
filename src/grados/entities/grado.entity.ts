@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Grado as TGrado } from '@prisma/client';
 
-export class Grado implements TGrado {
+export class Grado implements Partial<TGrado> {
   @ApiProperty({
     title: 'Id del grado',
     description: 'El id del grado',
