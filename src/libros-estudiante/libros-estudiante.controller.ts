@@ -99,7 +99,7 @@ export class LibrosEstudianteController {
     );
   }
 
-  @Get('libro/:id')
+  @Get('libro-estudiante/:id')
   @ApiOperation({
     summary: 'Obtener libros de estudiante por ID de libro',
     description: 'Obtiene libros de estudiante por ID de libro',

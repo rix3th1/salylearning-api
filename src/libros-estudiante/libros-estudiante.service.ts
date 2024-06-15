@@ -180,10 +180,12 @@ export class LibrosEstudianteService {
     return estadisticasSemanales;
   }
 
-  async obtenerLibrosPorIdLibro(id_libro: number): Promise<LibroEstudiante> {
+  async obtenerLibrosPorIdLibro(
+    id_libro_estudiante: number,
+  ): Promise<LibroEstudiante> {
     return this.prisma.libroEstudiante.findUniqueOrThrow({
       where: {
-        id_libro,
+        id: id_libro_estudiante,
       },
     });
   }

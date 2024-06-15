@@ -145,7 +145,7 @@ model LibroEstudiante {
   updatedAt      DateTime @updatedAt
 
   // ID del libro
-  id_libro      Int @unique @db.UnsignedInt
+  id_libro      Int @db.UnsignedInt
   // ID del estudiante
   id_estudiante Int @db.UnsignedInt
 
