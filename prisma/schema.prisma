@@ -161,7 +161,7 @@ model MiLibro {
   id Int @id @default(autoincrement()) @db.UnsignedInt
 
   // ID del libro
-  id_libro   Int @db.UnsignedInt
+  id_libro   Int @unique @db.UnsignedInt
   // ID del usuario
   id_usuario Int @db.UnsignedInt
 

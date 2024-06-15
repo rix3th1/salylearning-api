@@ -59,6 +59,7 @@ export class LibrosService {
       where: { id },
       include: {
         libros_estudiante: true,
+        mis_libros: true,
       },
     });
   }

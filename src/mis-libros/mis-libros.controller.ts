@@ -54,6 +54,30 @@ export class MisLibrosController {
     return await this.misLibrosService.obtenerMisLibros();
   }
 
+  @Get('/libro/:id')
+  @ApiOperation({
+    summary: 'Obtener un libro',
+    description: 'Obtiene un libro del usuario',
+  })
+  @ApiOkResponse({
+    description: 'Libro encontrado',
+    type: MiLibro,
+  })
+  async obtenerMiLibroPorIdLibro(@Param('id') id: string) {
+    try {
+      const miLibro = await this.misLibrosService.obtenerMiLibroPorIdLibro(+id);
+      return miLibro || false;
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Libro no encontrado');
+        }
+      }
+    }
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un libro por su ID',

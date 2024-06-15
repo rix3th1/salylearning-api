@@ -15,6 +15,10 @@ export class MisLibrosService {
     return this.prisma.miLibro.findMany();
   }
 
+  async obtenerMiLibroPorIdLibro(id_libro: number): Promise<MiLibro> {
+    return this.prisma.miLibro.findUnique({ where: { id_libro } });
+  }
+
   async obtenerMiLibro(id: number): Promise<MiLibro> {
     return this.prisma.miLibro.findUniqueOrThrow({ where: { id } });
   }
