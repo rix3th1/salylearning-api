@@ -15,6 +15,14 @@ export class LibrosEstudianteService {
     return this.prisma.libroEstudiante.count();
   }
 
+  async contarLibrosNoTerminadosEstudiante(
+    id_estudiante: number,
+  ): Promise<number> {
+    return this.prisma.libroEstudiante.count({
+      where: { terminado: false, id_estudiante },
+    });
+  }
+
   async contarLibrosTerminadosEstudiante(
     id_estudiante: number,
   ): Promise<number> {

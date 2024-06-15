@@ -65,6 +65,23 @@ export class LibrosEstudianteController {
     );
   }
 
+  @Get('contar/no-terminados/:id_estudiante')
+  @ApiOperation({
+    summary: 'Contar libros no terminados de estudiante',
+    description: 'Devuelve el número de libros no terminados de estudiante',
+  })
+  @ApiOkResponse({
+    description: 'Número de libros no terminados de estudiante',
+    type: Number,
+  })
+  async contarLibrosNoTerminadosEstudiante(
+    @Param('id_estudiante') id_estudiante: string,
+  ) {
+    return await this.librosEstudianteService.contarLibrosNoTerminadosEstudiante(
+      +id_estudiante,
+    );
+  }
+
   @Get('contar/terminados/:id_estudiante')
   @ApiOperation({
     summary: 'Contar libros terminados de estudiante',

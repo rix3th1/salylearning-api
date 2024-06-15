@@ -28,7 +28,7 @@ import { MisLibrosService } from './mis-libros.service';
 export class MisLibrosController {
   constructor(private readonly misLibrosService: MisLibrosService) {}
 
-  @Get('contar')
+  @Get('contar/usuario/:id')
   @ApiOperation({
     summary: 'Contar mis libros',
     description: 'Devuelve el número de libros del usuario',
@@ -37,8 +37,8 @@ export class MisLibrosController {
     description: 'Número de libros del usuario',
     type: Number,
   })
-  async contarMisLibros() {
-    return await this.misLibrosService.contarMisLibros();
+  async contarMisLibros(@Param('id') id: string) {
+    return await this.misLibrosService.contarMisLibros(+id);
   }
 
   @Get()

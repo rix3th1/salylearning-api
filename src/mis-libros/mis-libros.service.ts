@@ -7,8 +7,8 @@ import { MiLibro } from './entities/mi-libro.entity';
 export class MisLibrosService {
   constructor(private prisma: PrismaService) {}
 
-  async contarMisLibros(): Promise<number> {
-    return this.prisma.miLibro.count();
+  async contarMisLibros(id: number): Promise<number> {
+    return this.prisma.miLibro.count({ where: { id_usuario: id } });
   }
 
   async obtenerMisLibros(): Promise<MiLibro[]> {
