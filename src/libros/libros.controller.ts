@@ -161,10 +161,7 @@ export class LibrosController {
 
   @Post()
   @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'imagen_portada', maxCount: 1 },
-      { name: 'video_libro', maxCount: 1 },
-    ]),
+    FileFieldsInterceptor([{ name: 'imagen_portada', maxCount: 1 }]),
   )
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
@@ -178,16 +175,13 @@ export class LibrosController {
   async crearLibro(
     @Body() libro: CrearLibroDto,
     @UploadedFiles({
-      transform: (fileRequest: {
-        video_libro: Express.Multer.File[];
-        imagen_portada: Express.Multer.File[];
-      }) => {
+      transform: (fileRequest: { imagen_portada: Express.Multer.File[] }) => {
         const imagenPortadaValidators = [
           new FileTypeValidator({
             fileType: new RegExp('image/(jpeg|png)'),
           }),
           new MaxFileSizeValidator({
-            maxSize: 5000 * 1024, // 5 MB
+            maxSize: 1000 * 1024, // 1 MB
             message(maxSize) {
               return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
             },
@@ -200,46 +194,18 @@ export class LibrosController {
           }
         }
 
-        const videoLibroValidators = [
-          new FileTypeValidator({
-            fileType: new RegExp('video/mp4'),
-          }),
-          new MaxFileSizeValidator({
-            maxSize: 200000 * 1024, // 200 MB
-            message(maxSize) {
-              return `El tamaño del video no debe ser mayor a ${maxSize / 1024}kb`;
-            },
-          }),
-        ];
-
-        for (const validator of videoLibroValidators) {
-          if (!validator.isValid(fileRequest.video_libro[0])) {
-            throw new HttpException(validator.buildErrorMessage(), 400);
-          }
-        }
-
         return fileRequest;
       },
     })
     files: {
-      video_libro: Express.Multer.File[];
       imagen_portada: Express.Multer.File[];
     },
   ) {
-    const { video_libro, imagen_portada } = files;
+    const { imagen_portada } = files;
 
-    let video_libro_public_id = '';
     let imagen_portada_public_id = '';
 
     try {
-      const resCloudinaryVideoLibro = await this.cloudinary.uploadVideo(
-        video_libro[0],
-      );
-
-      if (!resCloudinaryVideoLibro) {
-        throw new BadGatewayException('Error al subir el video del libro');
-      }
-
       const resCloudinaryImagenPortada = await this.cloudinary.uploadImage(
         imagen_portada[0],
       );
@@ -247,14 +213,6 @@ export class LibrosController {
       if (!resCloudinaryImagenPortada) {
         throw new BadGatewayException('Error al subir la imagen de portada');
       }
-
-      const {
-        secure_url: video_libro_url,
-        public_id: cloudinaryPublicIdVideoLibro,
-      } = resCloudinaryVideoLibro;
-
-      video_libro_public_id = cloudinaryPublicIdVideoLibro;
-      libro.video_libro = video_libro_url;
 
       const {
         secure_url: imagen_portada_url,
@@ -267,10 +225,6 @@ export class LibrosController {
       return await this.librosService.crearLibro(libro);
     } catch (error) {
       console.error(error.message);
-
-      if (video_libro && video_libro_public_id) {
-        await this.cloudinary.deleteRes(video_libro_public_id);
-      }
 
       if (imagen_portada && imagen_portada_public_id) {
         await this.cloudinary.deleteRes(imagen_portada_public_id);
@@ -296,10 +250,7 @@ export class LibrosController {
 
   @Patch(':id')
   @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'imagen_portada', maxCount: 1 },
-      { name: 'video_libro', maxCount: 1 },
-    ]),
+    FileFieldsInterceptor([{ name: 'imagen_portada', maxCount: 1 }]),
   )
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
@@ -314,16 +265,13 @@ export class LibrosController {
     @Param('id') id: string,
     @Body() libro: ActualizarLibroDto,
     @UploadedFiles({
-      transform: (fileRequest: {
-        video_libro: Express.Multer.File[];
-        imagen_portada: Express.Multer.File[];
-      }) => {
+      transform: (fileRequest: { imagen_portada: Express.Multer.File[] }) => {
         const imagenPortadaValidators = [
           new FileTypeValidator({
             fileType: new RegExp('image/(jpeg|png)'),
           }),
           new MaxFileSizeValidator({
-            maxSize: 5000 * 1024,
+            maxSize: 1000 * 1024, // 1 MB
             message(maxSize) {
               return `El tamaño de la imagen no debe ser mayor a ${maxSize / 1024}kb`;
             },
@@ -336,67 +284,18 @@ export class LibrosController {
           }
         }
 
-        const videoLibroValidators = [
-          new FileTypeValidator({
-            fileType: new RegExp('video/mp4'),
-          }),
-          new MaxFileSizeValidator({
-            maxSize: 50000 * 1024,
-            message(maxSize) {
-              return `El tamaño del video no debe ser mayor a ${maxSize / 1024}kb`;
-            },
-          }),
-        ];
-
-        for (const validator of videoLibroValidators) {
-          if (!validator.isValid(fileRequest.video_libro[0])) {
-            throw new HttpException(validator.buildErrorMessage(), 400);
-          }
-        }
-
         return fileRequest;
       },
     })
     files: {
-      video_libro: Express.Multer.File[];
       imagen_portada: Express.Multer.File[];
     },
   ) {
-    const { video_libro, imagen_portada } = files;
+    const { imagen_portada } = files;
 
-    let video_libro_public_id = '';
     let imagen_portada_public_id = '';
 
     try {
-      if (video_libro) {
-        const resCloudinaryVideoLibro = await this.cloudinary.uploadImage(
-          video_libro[0],
-        );
-
-        if (!resCloudinaryVideoLibro) {
-          throw new BadGatewayException('Error al subir el video del libro');
-        }
-
-        const {
-          secure_url: video_libro_url,
-          public_id: cloudinaryPublicIdVideoLibro,
-        } = resCloudinaryVideoLibro;
-
-        video_libro_public_id = cloudinaryPublicIdVideoLibro;
-        libro.video_libro = video_libro_url;
-
-        const libroAnterior = await this.librosService.obtenerLibro(+id);
-
-        const public_id_anterior = libroAnterior.video_libro
-          ?.split('/')
-          ?.pop()
-          ?.split('.')[0];
-
-        if (public_id_anterior) {
-          await this.cloudinary.deleteRes(public_id_anterior);
-        }
-      }
-
       if (imagen_portada) {
         const resCloudinaryImagenPortada = await this.cloudinary.uploadImage(
           imagen_portada[0],
@@ -429,10 +328,6 @@ export class LibrosController {
       return await this.librosService.actualizarLibro(+id, libro);
     } catch (error) {
       console.error(error.message);
-
-      if (video_libro && video_libro_public_id) {
-        await this.cloudinary.deleteRes(video_libro_public_id);
-      }
 
       if (imagen_portada && imagen_portada_public_id) {
         await this.cloudinary.deleteRes(imagen_portada_public_id);
