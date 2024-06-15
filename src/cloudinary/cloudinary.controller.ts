@@ -7,7 +7,6 @@ import {
 } from '@nestjs/swagger';
 import { CloudinaryService } from './cloudinary.service';
 import { myconfig } from './config';
-import { Public } from 'src/public.decorator';
 
 @ApiBearerAuth('access-token')
 @ApiTags('cloudinary')
@@ -15,7 +14,6 @@ import { Public } from 'src/public.decorator';
 export class CloudinaryController {
   constructor(private readonly cloudinaryService: CloudinaryService) {}
 
-  @Public()
   @Post('sign')
   @ApiOperation({
     summary: 'Sign Cloudinary',
