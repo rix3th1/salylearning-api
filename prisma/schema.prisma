@@ -181,7 +181,7 @@ model LibroEstudiante {
   updatedAt DateTime @updatedAt
 
   // Relación 1-N con Libro
-  libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros     Libro      @relation(fields: [id_libro], references: [id], onUpdate: Restrict, onDelete: Cascade)
   // Relación 1-N con Estudiante
   estudiante Estudiante @relation(fields: [id_estudiante], references: [id], onUpdate: Restrict)
 }
@@ -202,7 +202,7 @@ model MiLibro {
   updatedAt DateTime @updatedAt
 
   // Relaciones 1-1 con Usuario y Libro
-  libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros  Libro   @relation(fields: [id_libro], references: [id], onUpdate: Restrict, onDelete: Cascade)
   usuario Usuario @relation(fields: [id_usuario], references: [id], onUpdate: Restrict, onDelete: Cascade)
 }
 
@@ -226,7 +226,7 @@ model Pregunta {
   updatedAt DateTime @updatedAt
 
   // Relación 1-1 con Libro
-  libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict)
+  libros       Libro        @relation(fields: [id_libro], references: [id], onUpdate: Restrict, onDelete: Cascade)
   // Relación 1-N con Cuestionario
   cuestionario Cuestionario @relation(fields: [id_cuestionario], references: [id], onUpdate: Restrict)
   Respuesta    Respuesta[]
