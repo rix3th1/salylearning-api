@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { database, host, password, port, user } from './constants';
 
 // execute mysqldump command
-const command = `mysql -u ${user} -p${password} -h${host} -P${port} ${database} < backup.sql`;
+const command = `mysql -u ${user} -p${password} -h${host} --ssl=0 -P${port} ${database} < backup.sql`;
 
 exec(command, (error, stdout, stderr) => {
   if (error) {
