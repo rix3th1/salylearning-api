@@ -299,15 +299,17 @@ model Cuestionario {
 
 model CuestionarioEstudiante {
   // ID del cuestionario estudiante
-  id             Int                @id @default(autoincrement()) @db.UnsignedInt
+  id                Int                @id @default(autoincrement()) @db.UnsignedInt
   // Estado del cuestionario (COMPLETADO, PENDIENTE, NO_LOGRADO)
-  estado         EstadoCuestionario @default(PENDIENTE)
+  estado            EstadoCuestionario @default(PENDIENTE)
   // Fecha de asignación del cuestionario
-  fecha_asignado DateTime           @default(now())
+  fecha_asignado    DateTime           @default(now())
   // Fecha de entrega del cuestionario
-  fecha_entrega  DateTime           @db.DateTime()
+  fecha_entrega     DateTime           @db.DateTime()
   // Calificación del cuestionario (de 0.0 a 5.0)
-  calificacion   Decimal?           @db.Decimal(2, 1)
+  calificacion      Decimal?           @db.Decimal(2, 1)
+  // Comentario de la retroalimentación por parte del docente
+  retroalimentacion String?            @db.MediumText
 
   // ID del cuestionario
   id_cuestionario Int @db.UnsignedInt

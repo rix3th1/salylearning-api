@@ -77,6 +77,23 @@ export class CrearCuestionarioEstudianteDto extends OmitType(
   })
   calificacion?: Decimal;
 
+  @IsOptional()
+  @IsNotEmpty({
+    message: 'El comentario de retroalimentación no puede estar vacío',
+  })
+  @IsString({
+    message: 'El comentario de retroalimentación debe ser una cadena de texto',
+  })
+  @MinLength(3, {
+    message:
+      'El comentario de retroalimentación debe tener al menos 3 caracteres',
+  })
+  @MaxLength(500, {
+    message:
+      'El comentario de retroalimentación debe tener menos de 500 caracteres',
+  })
+  retroalimentacion?: string;
+
   @IsNotEmpty({ message: 'El id de cuestionario estudiante es requerido' })
   @IsInt({
     message: 'El id de cuestionario estudiante debe ser un número entero',

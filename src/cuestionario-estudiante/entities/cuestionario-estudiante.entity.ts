@@ -57,6 +57,15 @@ export class CuestionarioEstudiante
   })
   calificacion?: Decimal;
 
+  @ApiPropertyOptional({
+    title: 'Comentario de retroalimentación',
+    description: 'Comentario de retroalimentación por parte del docente',
+    example: 'El cuestionario fue muy bien',
+    minLength: 3,
+    maxLength: 500,
+  })
+  retroalimentacion?: string;
+
   @ApiProperty({
     title: 'Id de cuestionario',
     description: 'El id del cuestionario',
