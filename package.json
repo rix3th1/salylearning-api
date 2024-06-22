@@ -9,8 +9,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build && npm run doc",
-    "deploy": "prisma generate && npm run build && vercel --prod",
+    "build": "nest build && bun run doc",
+    "deploy": "prisma generate && bun run build && vercel --prod",
     "doc": "compodoc -p tsconfig.json -d docs -n \"Salylearning API\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

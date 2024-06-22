@@ -6,7 +6,10 @@ export class AppService {
     return {
       message: 'Bienvenido a la API de Salylearning',
       version: '1.0.0',
-      docs: `${process.env[process.env.NODE_ENV === 'production' ? 'PROD_PROJECT_URL' : 'DEV_PROJECT_URL']}/docs`,
+      documentation: {
+        docs: `${process.env[process.env.NODE_ENV === 'production' ? 'PROD_PROJECT_URL' : 'DEV_PROJECT_URL']}/docs`,
+        swagger: `${process.env[process.env.NODE_ENV === 'production' ? 'PROD_PROJECT_URL' : 'DEV_PROJECT_URL']}/docs/swagger`,
+      },
     };
   }
 }

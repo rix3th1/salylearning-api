@@ -92,5 +92,8 @@ async function bootstrap() {
 
   console.info(`Salylearning API is running on: ${await app.getUrl()}`);
   console.info(`Docs is running on: ${await app.getUrl()}/docs`);
+  console.info(
+    `Swagger docs is running on: ${await app.getUrl()}/docs/swagger`,
+  );
 }
 bootstrap();
