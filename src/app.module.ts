@@ -26,6 +26,7 @@ import { PerfilModule } from './perfil/perfil.module';
 import { PreguntasModule } from './preguntas/preguntas.module';
 import { RecuperarClaveModule } from './recuperar-clave/recuperar-clave.module';
 import { RegistrarseModule } from './registrarse/registrarse.module';
+import { ReportesPdfModule } from './reportes-pdf/reportes-pdf.module';
 import { RespuestasModule } from './respuestas/respuestas.module';
 import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
@@ -66,6 +67,7 @@ const AppGuard = {
     OpcionesRespuestaModule,
     RespuestasModule,
     LibrosEstudianteModule,
+    ReportesPdfModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGuard],
