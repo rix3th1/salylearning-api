@@ -76,7 +76,7 @@ async function bootstrap() {
     operationIdFactory: (_controllerKey: string, methodKey: string) =>
       methodKey,
   });
-  SwaggerModule.setup('docs', app, document, {
+  SwaggerModule.setup('docs/swagger', app, document, {
     customSiteTitle: 'Salylearning API Documentación',
     customfavIcon:
       'https://static1.smartbear.co/swagger/media/assets/swagger_fav.png',

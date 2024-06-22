@@ -14,7 +14,9 @@ La API utiliza una base de datos [MySQL](https://www.mysql.com/) para almacenar 
 
 La API de salylearning proporciona una serie de endpoints que permiten a los usuarios realizar operaciones como registrarse, iniciar sesión, obtener información de libros, agregar comentarios, etc.
 
-La API está alojada en [Vercel](https://vercel.com/) y está disponible en la siguiente URL: [https://salylearning.vercel.app](https://salylearning.vercel.app) y la documentación de la API se genera automáticamente utilizando [Swagger](https://swagger.io/) y está disponible en la ruta `/docs`.
+La API está alojada en [Vercel](https://vercel.com/) y está disponible en la siguiente URL: [https://salylearning.vercel.app](https://salylearning.vercel.app).
+
+La documentación de la API se genera automáticamente utilizando Compodoc. También se utiliza Swagger para una documentación más detallada de los métodos y parámetros de cada endpoint. La documentacíon se encuentra en la ruta `/docs`: [https://salylearning.vercel.app/docs](https://salylearning.vercel.app/docs) y la documentación de Swagger se encuentra en la ruta `/docs/swagger`: [https://salylearning.vercel.app/docs/swagger](https://salylearning.vercel.app/docs/swagger).
 
 <p align="center">
   <a href="https://bun.sh" target="blank"><img src="https://bun.sh/logo.svg" width="100" alt="Bun Logo" style="margin-right: 30;" /></a>
@@ -33,6 +35,7 @@ La API está alojada en [Vercel](https://vercel.com/) y está disponible en la s
 <p align="center">
   <a><img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="150" alt="MySQL Logo" style="margin-right: 30; margin-bottom: 50" /></a>
   <a href="https://swagger.io/" target="blank"><img src="https://static-00.iconduck.com/assets.00/swagger-icon-1024x1024-09037v1r.png" width="100" alt="Swagger Logo" style="margin-bottom: 50;" /></a>
+  <a href="https://compodoc.github.io/" target="blank"><img src="https://compodoc.app/assets/img/compodoc-vectorise-inverted.svg" width="100" alt="Compodoc Logo" style="margin-bottom: 50; margin-left: 30;" /></a>
 </p>
 
 ## Tabla de contenidos

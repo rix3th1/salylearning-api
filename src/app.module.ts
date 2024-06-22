@@ -31,6 +31,8 @@ import { RespuestasModule } from './respuestas/respuestas.module';
 import { SoporteModule } from './soporte/soporte.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { VerificarCuentaModule } from './verificar-cuenta/verificar-cuenta.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const AppGuard = {
   provide: APP_GUARD,
@@ -39,6 +41,9 @@ const AppGuard = {
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'docs'),
+    }),
     // For cron jobs
     ScheduleModule.forRoot(),
     LibrosModule,
