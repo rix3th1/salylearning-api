@@ -1,9 +1,9 @@
 import {
   Controller,
   Get,
-  Header,
   NotFoundException,
   Param,
+  Res,
   StreamableFile,
 } from '@nestjs/common';
 import {
@@ -13,8 +13,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { createReadStream } from 'fs';
-import { join } from 'path';
+import type { Response } from 'express';
 import { Public } from 'src/public.decorator';
 import { ReportesPdfService } from './reportes-pdf.service';
 
@@ -25,14 +24,6 @@ export class ReportesPdfController {
   constructor(private readonly reportesPdfService: ReportesPdfService) {}
 
   @Public()
-  @Get()
-  @Header('Content-Type', 'application/json')
-  @Header('Content-Disposition', 'attachment; filename=package.json')
-  getFile(): StreamableFile {
-    const file = createReadStream(join(process.cwd(), 'package.json'));
-    return new StreamableFile(file);
-  }
-
   @Get('calificaciones/grado/:id_grado')
   @ApiOperation({
     summary: 'Obtener calificaciones de estudiantes por grado en PDF',
@@ -44,11 +35,22 @@ export class ReportesPdfController {
   })
   async obtenerCalificacionesEstudiantesPorGrado(
     @Param('id_grado') id_grado: string,
-  ) {
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
     try {
-      return await this.reportesPdfService.obtenerCalificacionesEstudiantesPorGrado(
-        +id_grado,
-      );
+      const data =
+        await this.reportesPdfService.obtenerCalificacionesEstudiantesPorGrado(
+          +id_grado,
+        );
+
+      const buffer = await this.reportesPdfService.generatePDF(data);
+
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=Salylearning-Reporte-Grado-${id_grado}-Calificaciones-Estudiantes.pdf`,
+        'Content-Length': buffer.length,
+      });
+      return new StreamableFile(buffer);
     } catch (error) {
       console.error(error.message);
 

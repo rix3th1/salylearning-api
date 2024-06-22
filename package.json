@@ -47,6 +47,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pdfkit": "^0.15.0",
+    "pdfkit-table": "^0.1.99",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -66,6 +68,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
+    "@types/pdfkit": "^0.13.4",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
