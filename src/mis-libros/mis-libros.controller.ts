@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import type { Request } from 'express';
 import { ActualizarMiLibroDto, CrearMiLibroDto } from './dto/mis-libros.dto';
 import { MiLibro } from './entities/mi-libro.entity';
 import { MisLibrosService } from './mis-libros.service';
@@ -28,7 +30,7 @@ import { MisLibrosService } from './mis-libros.service';
 export class MisLibrosController {
   constructor(private readonly misLibrosService: MisLibrosService) {}
 
-  @Get('contar/usuario/:id')
+  @Get('contar/usuario')
   @ApiOperation({
     summary: 'Contar mis libros',
     description: 'Devuelve el número de libros del usuario',
@@ -37,8 +39,8 @@ export class MisLibrosController {
     description: 'Número de libros del usuario',
     type: Number,
   })
-  async contarMisLibros(@Param('id') id: string) {
-    return await this.misLibrosService.contarMisLibros(+id);
+  async contarMisLibros(@Req() req: Request) {
+    return await this.misLibrosService.contarMisLibros(req.user.id);
   }
 
   @Get()

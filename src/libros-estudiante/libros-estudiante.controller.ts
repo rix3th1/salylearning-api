@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,6 +20,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import type { Request } from 'express';
+import { EstudiantesService } from '../estudiantes/estudiantes.service';
 import {
   ActualizarLibroEstudianteDto,
   CrearLibroEstudianteDto,
@@ -32,6 +35,7 @@ import { LibrosEstudianteService } from './libros-estudiante.service';
 export class LibrosEstudianteController {
   constructor(
     private readonly librosEstudianteService: LibrosEstudianteService,
+    private readonly estudiantesService: EstudiantesService,
   ) {}
 
   @Get('contar')
@@ -47,7 +51,7 @@ export class LibrosEstudianteController {
     return await this.librosEstudianteService.contarLibrosEstudiante();
   }
 
-  @Get('tiempo-lectura/:id_estudiante')
+  @Get('tiempo-lectura')
   @ApiOperation({
     summary: 'Obtener tiempo de lectura total',
     description:
@@ -57,15 +61,15 @@ export class LibrosEstudianteController {
     description: 'Tiempo de lectura total',
     type: Number,
   })
-  async obtenerTiempoDeLecturaTotal(
-    @Param('id_estudiante') id_estudiante: string,
-  ) {
+  async obtenerTiempoDeLecturaTotal(@Req() req: Request) {
+    const estudiante =
+      await this.estudiantesService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.librosEstudianteService.obtenerTiempoDeLecturaTotal(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 
-  @Get('contar/no-terminados/:id_estudiante')
+  @Get('contar/no-terminados')
   @ApiOperation({
     summary: 'Contar libros no terminados de estudiante',
     description: 'Devuelve el número de libros no terminados de estudiante',
@@ -74,15 +78,15 @@ export class LibrosEstudianteController {
     description: 'Número de libros no terminados de estudiante',
     type: Number,
   })
-  async contarLibrosNoTerminadosEstudiante(
-    @Param('id_estudiante') id_estudiante: string,
-  ) {
+  async contarLibrosNoTerminadosEstudiante(@Req() req: Request) {
+    const estudiante =
+      await this.estudiantesService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.librosEstudianteService.contarLibrosNoTerminadosEstudiante(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 
-  @Get('contar/terminados/:id_estudiante')
+  @Get('contar/terminados')
   @ApiOperation({
     summary: 'Contar libros terminados de estudiante',
     description: 'Devuelve el número de libros terminados de estudiante',
@@ -91,11 +95,11 @@ export class LibrosEstudianteController {
     description: 'Número de libros terminados de estudiante',
     type: Number,
   })
-  async contarLibrosTerminadosEstudiante(
-    @Param('id_estudiante') id_estudiante: string,
-  ) {
+  async contarLibrosTerminadosEstudiante(@Req() req: Request) {
+    const estudiante =
+      await this.estudiantesService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.librosEstudianteService.contarLibrosTerminadosEstudiante(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 
@@ -131,7 +135,7 @@ export class LibrosEstudianteController {
     );
   }
 
-  @Get('estadisticas-semanales/lectura/:id_estudiante')
+  @Get('estadisticas-semanales/lectura')
   @ApiOperation({
     summary:
       'Obtener estadísticas semanales de lectura de libros de estudiante',
@@ -144,10 +148,12 @@ export class LibrosEstudianteController {
     type: [LibroEstudiante],
   })
   async obtenerEstadisticasSemanalesProgresoEnLecturaPorEstudiante(
-    @Param('id_estudiante') id_estudiante: string,
+    @Req() req: Request,
   ) {
+    const estudiante =
+      await this.estudiantesService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.librosEstudianteService.obtenerEstadisticasSemanalesProgresoEnLecturaPorEstudiante(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 

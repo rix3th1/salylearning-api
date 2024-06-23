@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { EstadoCuestionario, Prisma } from '@prisma/client';
 import { isIn } from 'class-validator';
+import type { Request } from 'express';
 import { EstudiantesService } from '../estudiantes/estudiantes.service';
 import { CuestionarioEstudianteService } from './cuestionario-estudiante.service';
 import {
@@ -126,7 +128,7 @@ export class CuestionarioEstudianteController {
     }
   }
 
-  @Get('contar/preguntas-correctas/:id_estudiante')
+  @Get('contar/preguntas-correctas')
   @ApiOperation({
     summary: 'Contar preguntas correctas',
     description: 'Devuelve el número de preguntas correctas de estudiante',
@@ -135,15 +137,15 @@ export class CuestionarioEstudianteController {
     description: 'Número de preguntas correctas de estudiante',
     type: Number,
   })
-  async contarPreguntasCorrectas(
-    @Param('id_estudiante') id_estudiante: string,
-  ) {
+  async contarPreguntasCorrectas(@Req() req: Request) {
+    const estudiante =
+      await this.estudianteService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.cuestionarioEstudianteService.contarPreguntasCorrectas(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 
-  @Get('estadisticas-semanales/preguntas-correctas/:id_estudiante')
+  @Get('estadisticas-semanales/preguntas-correctas')
   @ApiOperation({
     summary:
       'Obtener estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
@@ -156,10 +158,12 @@ export class CuestionarioEstudianteController {
     type: [CuestionarioEstudiante],
   })
   async obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
-    @Param('id_estudiante') id_estudiante: string,
+    @Req() req: Request,
   ) {
+    const estudiante =
+      await this.estudianteService.obtenerEstudiantePorIdUsuario(req.user.id);
     return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
-      +id_estudiante,
+      estudiante.id,
     );
   }
 

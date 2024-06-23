@@ -1,10 +1,11 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBody,
   ApiCreatedResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import type { Request } from 'express';
 import { Public } from '../public.decorator';
 import { AuthService } from './auth.service';
 import { LoginUsuarioDto } from './dto/auth.dto';
@@ -37,7 +38,7 @@ export class AuthController {
     description: 'Login de usuario',
     type: LoginUsuarioDto,
   })
-  async login(@Request() req: Express.Request) {
+  async login(@Req() req: Request) {
     return this.authService.login(req.user);
   }
 }
