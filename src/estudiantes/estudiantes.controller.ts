@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import type { Request } from 'express';
 import {
   ActualizarEstudianteDto,
   CrearEstudianteDto,
@@ -57,6 +59,33 @@ export class EstudiantesController {
     return await this.estudiantesService.obtenerEstudiantesConMejorPuntaje();
   }
 
+  @Get('usuario')
+  @ApiOperation({
+    summary: 'Obtener un estudiante por su ID de usuario',
+    description: 'Obtiene un estudiante por su ID de usuario.',
+  })
+  @ApiOkResponse({
+    description: 'Estudiante encontrado',
+    type: Estudiante,
+  })
+  async obtenerEstudiantePorIdUsuario(@Req() req: Request) {
+    try {
+      return await this.estudiantesService.obtenerEstudiantePorIdUsuario(
+        req.user.id,
+      );
+    } catch (error) {
+      console.error(error.message);
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(
+            'No se encontró el estudiante con el ID de usuario proporcionado',
+          );
+        }
+      }
+    }
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un estudiante por su ID',
@@ -76,33 +105,6 @@ export class EstudiantesController {
         if (error.code === 'P2025') {
           throw new NotFoundException(
             'No se encontró el estudiante con el ID proporcionado',
-          );
-        }
-      }
-    }
-  }
-
-  @Get('usuario/:id_usuario')
-  @ApiOperation({
-    summary: 'Obtener un estudiante por su ID de usuario',
-    description: 'Obtiene un estudiante por su ID de usuario.',
-  })
-  @ApiOkResponse({
-    description: 'Estudiante encontrado',
-    type: Estudiante,
-  })
-  async obtenerEstudiantePorIdUsuario(@Param('id_usuario') id_usuario: string) {
-    try {
-      return await this.estudiantesService.obtenerEstudiantePorIdUsuario(
-        +id_usuario,
-      );
-    } catch (error) {
-      console.error(error.message);
-
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2025') {
-          throw new NotFoundException(
-            'No se encontró el estudiante con el ID de usuario proporcionado',
           );
         }
       }

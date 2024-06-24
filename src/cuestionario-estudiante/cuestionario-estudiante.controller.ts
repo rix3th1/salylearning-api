@@ -204,7 +204,7 @@ export class CuestionarioEstudianteController {
     }
   }
 
-  @Get('estado/:id_estudiante')
+  @Get('estado')
   @ApiOperation({
     summary: `Obtener cuestionarios de estudiantes por estado y id de estudiante`,
     description: `Obtiene cuestionarios de estudiantes por su estado y id de estudiante`,
@@ -215,7 +215,7 @@ export class CuestionarioEstudianteController {
     type: [CuestionarioEstudiante],
   })
   async obtenerCuestionarioEstudiantePorEstado(
-    @Param('id_estudiante') id_estudiante: string,
+    @Req() req: Request,
     @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
     try {
@@ -225,8 +225,11 @@ export class CuestionarioEstudianteController {
         throw new BadRequestException('Estado de cuestionario no válido');
       }
 
+      const estudiante =
+        await this.estudianteService.obtenerEstudiantePorIdUsuario(req.user.id);
+
       return await this.cuestionarioEstudianteService.obtenerCuestionarioEstudiantePorEstado(
-        +id_estudiante,
+        estudiante.id,
         estadoCuestionario,
       );
     } catch (error) {
