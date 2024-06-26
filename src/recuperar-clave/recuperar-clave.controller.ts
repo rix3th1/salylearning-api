@@ -60,8 +60,13 @@ export class RecuperarClaveController {
   ) {
     try {
       // Check if the email exists in the DB
-      const { email, password: oldPassword } =
-        await this.usuariosService.obtenerUsuarioPorEmail(datosUsuario.email);
+      const {
+        email,
+        password: oldPassword,
+        username,
+        p_nombre,
+        p_apellido,
+      } = await this.usuariosService.obtenerUsuarioPorEmail(datosUsuario.email);
 
       // Generate a token for password recovery
       const tokenDeRecuperacion = this.recuperarClaveService.generarToken({
@@ -69,12 +74,18 @@ export class RecuperarClaveController {
         oldPassword,
       });
 
+      const payload = {
+        origin: headers.origin,
+        token: tokenDeRecuperacion,
+        username,
+        p_nombre,
+        p_apellido,
+      };
       // Send the email with the recovery instructions
       const response =
         await this.recuperarClaveService.enviarEmailDeRecuperacion(
-          headers.origin,
-          tokenDeRecuperacion,
           email,
+          payload,
         );
 
       if (response.error) {
@@ -221,9 +232,11 @@ export class RecuperarClaveController {
         cambiarClave.password,
       );
 
+      const payload = { username, p_nombre, p_apellido };
       const response =
         await this.recuperarClaveService.enviarEmailDeAvisoDeCambioDeClave(
           email,
+          payload,
         );
 
       if (response.error) {

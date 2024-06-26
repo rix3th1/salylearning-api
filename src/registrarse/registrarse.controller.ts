@@ -79,19 +79,24 @@ export class RegistrarseController {
       // Send the email to activate account
       let response = null;
 
+      const payload = {
+        origin: headers.origin,
+        token: tokenDeActivacion,
+        username: usuario.username,
+        p_nombre: usuario.p_nombre,
+        p_apellido: usuario.p_apellido,
+      };
+
       if (isNewUser) {
         response = await this.registrarseService.enviarEmailDeVerificacion(
-          headers.origin,
-          tokenDeActivacion,
           usuario.email,
+          payload,
         );
       } else if (!isNewUser && !usuario.verificado) {
-        response =
-          await this.registrarseService.reenviarEmailDeVerificacionPorqueElUsuarioEsDespistado(
-            headers.origin,
-            tokenDeActivacion,
-            usuario.email,
-          );
+        response = await this.registrarseService.enviarEmailDeVerificacion(
+          usuario.email,
+          payload,
+        );
       } else {
         return {
           message: `Cuenta de ${usuario.rol} "${usuario.p_nombre} ${usuario.p_apellido}" ya existe. Por favor, inicie sesión con tu cuenta.`,

@@ -12,11 +12,17 @@ export class VerificarCuentaService {
     };
   }
 
-  async enviarEmailDeVerificacionExitosa(to: string) {
+  async enviarEmailDeVerificacionExitosa(
+    to: string,
+    payload: { username: string; p_nombre: string; p_apellido: string },
+  ) {
+    const { username, p_nombre, p_apellido } = payload;
     const html = `
       <h1>Verificación de cuenta Salylearning</h1>
-      <p>Se ha verificado tu cuenta de Salylearning.</p>
+      <p>Sr. usuario <strong>${username}</strong>, <strong>${p_nombre} ${p_apellido}</strong>, tu cuenta ha sido verificada.</p>
       <p>Ya puedes iniciar sesión en tu cuenta.</p>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
     `;
 
     return sendEmail(to, 'Verificación de cuenta', html);

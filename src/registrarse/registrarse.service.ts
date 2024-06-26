@@ -33,27 +33,24 @@ export class RegistrarseService {
     return !!codigoDocente;
   }
 
-  async enviarEmailDeVerificacion(origin: string, token: string, to: string) {
-    const url = `${origin}/verify-account?token=${token}`;
-    const html = `
-      <h1>Verificación de cuenta Salylearning</h1>
-      <p>Para verificar tu cuenta, haz clic en el siguiente enlace:</p>
-      <a href="${url}">Verificar cuenta</a>
-    `;
-
-    return sendEmail(to, 'Verificar cuenta', html);
-  }
-
-  async reenviarEmailDeVerificacionPorqueElUsuarioEsDespistado(
-    origin: string,
-    token: string,
+  async enviarEmailDeVerificacion(
     to: string,
+    payload: {
+      origin: string;
+      token: string;
+      username: string;
+      p_nombre: string;
+      p_apellido: string;
+    },
   ) {
+    const { origin, token, username, p_nombre, p_apellido } = payload;
     const url = `${origin}/verify-account?token=${token}`;
     const html = `
       <h1>Verificación de cuenta Salylearning</h1>
-      <p>Ser despistado es humano. Haz clic en el siguiente enlace para verificar tu cuenta:</p>
+      <p>Sr. usuario <strong>${username}</strong>, <strong>${p_nombre} ${p_apellido}</strong>, para verificar tu cuenta, haz clic en el siguiente enlace:</p>
       <a href="${url}">Verificar cuenta</a>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
     `;
 
     return sendEmail(to, 'Verificar cuenta', html);

@@ -12,6 +12,8 @@ export class ContactosService {
     const html = `
       <h1>Gracias por contactar a Salylearning</h1>
       <p>En breve nos pondremos en contacto contigo. 🚀</p>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
     `;
 
     return sendEmail(to, 'Gracias por contactar a Salylearning', html);

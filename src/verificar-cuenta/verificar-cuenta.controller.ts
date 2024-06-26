@@ -56,10 +56,16 @@ export class VerificarCuentaController {
       // Verify the account
       await this.usuariosService.verificarUsuario(email);
 
+      const payload = {
+        username: usuario.username,
+        p_nombre: usuario.p_nombre,
+        p_apellido: usuario.p_apellido,
+      };
       // Send the success notification email
       const response =
         await this.verificarCuentaService.enviarEmailDeVerificacionExitosa(
           email,
+          payload,
         );
 
       if (response.error) {

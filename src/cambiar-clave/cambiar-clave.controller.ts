@@ -67,8 +67,12 @@ export class CambiarClaveController {
 
       await this.cambiarClaveService.cambiarClave(email, cambiarClave.password);
 
+      const payload = { username, p_nombre, p_apellido };
       const response =
-        await this.cambiarClaveService.enviarEmailDeAvisoDeCambioDeClave(email);
+        await this.cambiarClaveService.enviarEmailDeAvisoDeCambioDeClave(
+          email,
+          payload,
+        );
 
       if (response.error) {
         throw new BadGatewayException(

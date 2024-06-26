@@ -5,12 +5,24 @@ import { sendEmail } from '../nodemailer';
 
 @Injectable()
 export class RecuperarClaveService extends CambiarClaveService {
-  async enviarEmailDeRecuperacion(origin: string, token: string, to: string) {
+  async enviarEmailDeRecuperacion(
+    to: string,
+    payload: {
+      origin: string;
+      token: string;
+      username: string;
+      p_nombre: string;
+      p_apellido: string;
+    },
+  ) {
+    const { origin, token, username, p_nombre, p_apellido } = payload;
     const url = `${origin}/change-password?token=${token}`;
     const html = `
-      <h1>Recuperación de contraseña Salylearning</h1>
-      <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+      <h1>Recuperación de contraseña Salylearning</h1> 
+      <p>Sr. usuario <strong>${username}</strong>, <strong>${p_nombre} ${p_apellido}</strong>, para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
       <a href="${url}">Restablecer contraseña</a>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
     `;
 
     return sendEmail(to, 'Restablecer contraseña', html);
