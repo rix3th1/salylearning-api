@@ -14,7 +14,6 @@ import {
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import type { Response } from 'express';
-import { Public } from 'src/public.decorator';
 import { ReportesPdfService } from './reportes-pdf.service';
 
 @ApiBearerAuth('access-token')
@@ -23,7 +22,6 @@ import { ReportesPdfService } from './reportes-pdf.service';
 export class ReportesPdfController {
   constructor(private readonly reportesPdfService: ReportesPdfService) {}
 
-  @Public()
   @Get('calificaciones/grado/:id_grado')
   @ApiOperation({
     summary: 'Obtener calificaciones de estudiantes por grado en PDF',

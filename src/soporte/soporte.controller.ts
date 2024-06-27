@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { ContactosService } from '../contactos/contactos.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 import { SoporteService } from './soporte.service';
@@ -28,7 +28,7 @@ import { SoporteService } from './soporte.service';
 export class SoporteController {
   constructor(
     private readonly soporteService: SoporteService,
-    private readonly contactosService: ContactosService,
+    private readonly usuariosService: UsuariosService,
   ) {}
 
   @ApiBearerAuth('access-token')
@@ -80,9 +80,15 @@ export class SoporteController {
   })
   async crearSoporte(@Body() soporte: CrearSoporteDto) {
     try {
-      const response = await this.contactosService.enviarGraciasPorContactar(
-        soporte.email,
-      );
+      const { p_nombre, p_apellido, password, rol, username } =
+        await this.usuariosService.obtenerUsuarioPorEmail(soporte.email);
+
+      const payload = { username, p_nombre, p_apellido };
+      const response =
+        await this.soporteService.enviarGraciasPorContactarSoporte(
+          soporte.email,
+          payload,
+        );
 
       if (response.error) {
         throw new BadGatewayException(
