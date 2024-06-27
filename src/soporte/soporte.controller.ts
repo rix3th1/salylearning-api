@@ -80,7 +80,7 @@ export class SoporteController {
   })
   async crearSoporte(@Body() soporte: CrearSoporteDto) {
     try {
-      const { p_nombre, p_apellido, password, rol, username } =
+      const { p_nombre, p_apellido, username } =
         await this.usuariosService.obtenerUsuarioPorEmail(soporte.email);
 
       const payload = { username, p_nombre, p_apellido };

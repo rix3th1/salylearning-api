@@ -8,10 +8,14 @@ import { Contacto } from './entities/contacto.entity';
 export class ContactosService {
   constructor(private prisma: PrismaService) {}
 
-  async enviarGraciasPorContactar(to: string) {
+  async enviarGraciasPorContactar(
+    to: string,
+    payload: { nombre_completo: string },
+  ) {
+    const { nombre_completo } = payload;
     const html = `
       <h1>Gracias por contactar a Salylearning</h1>
-      <p>En breve nos pondremos en contacto contigo. 🚀</p>
+      <p>Sr. ${nombre_completo}, tu mensaje ha sido enviado. 🚀</p>
       <p>Saludos cordiales,</p>
       <p>El equipo de Salylearning</p>
     `;

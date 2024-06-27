@@ -78,9 +78,12 @@ export class ContactosController {
     type: Contacto,
   })
   async crearContacto(@Body() contacto: CrearContactoDto) {
+    const payload = { nombre_completo: contacto.nombre_completo };
+
     try {
       const response = await this.contactosService.enviarGraciasPorContactar(
         contacto.email,
+        payload,
       );
 
       if (response.error) {
