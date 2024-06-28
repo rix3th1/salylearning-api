@@ -18,12 +18,14 @@ import * as argon2 from 'argon2';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { CambiarClaveService } from './cambiar-clave.service';
 import { CambiarClaveDto } from './dto/cambiar-clave.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiBearerAuth('access-token')
 @ApiTags('cambiar-clave')
 @Controller('cambiar-clave')
 export class CambiarClaveController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private readonly usuariosService: UsuariosService,
     private readonly cambiarClaveService: CambiarClaveService,
   ) {}
@@ -68,18 +70,12 @@ export class CambiarClaveController {
       await this.cambiarClaveService.cambiarClave(email, cambiarClave.password);
 
       const payload = { username, p_nombre, p_apellido };
-      const response =
-        await this.cambiarClaveService.enviarEmailDeAvisoDeCambioDeClave(
-          email,
-          payload,
-        );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          `Error al enviar el email de aviso de cambio de clave a "${email}". Por favor, intenta de nuevo más tarde.`,
-        );
-      }
-
+      // Emit the event to notify to users that a new password has been set
+      this.eventEmitter.emit(
+        'enviar-email-de-aviso-de-cambio-de-clave',
+        email,
+        payload,
+      );
       return {
         message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email} con nombre de usuario ${username}. Por favor, inicia sesión con tu nueva clave.`,
       };

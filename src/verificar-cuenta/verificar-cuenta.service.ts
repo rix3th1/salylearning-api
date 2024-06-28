@@ -1,6 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import * as JWT from 'jsonwebtoken';
 import { sendEmail } from '../nodemailer';
+
+interface emailPayload {
+  username: string;
+  p_nombre: string;
+  p_apellido: string;
+}
 
 @Injectable()
 export class VerificarCuentaService {
@@ -12,11 +19,11 @@ export class VerificarCuentaService {
     };
   }
 
+  @OnEvent('verificacion-exitosa', { async: true })
   async enviarEmailDeVerificacionExitosa(
     to: string,
-    payload: { username: string; p_nombre: string; p_apellido: string },
+    { username, p_nombre, p_apellido }: emailPayload,
   ) {
-    const { username, p_nombre, p_apellido } = payload;
     const html = `
       <h1>Verificación de cuenta Salylearning</h1>
       <p>Sr. usuario <strong>${username}</strong>, <strong>${p_nombre} ${p_apellido}</strong>, tu cuenta ha sido verificada.</p>
@@ -25,6 +32,12 @@ export class VerificarCuentaService {
       <p>El equipo de Salylearning</p>
     `;
 
-    return sendEmail(to, 'Verificación de cuenta', html);
+    const response = await sendEmail(to, 'Verificación de cuenta', html);
+
+    if (response.error) {
+      throw new BadGatewayException(
+        'Hubo un error al enviar el email de verificación de cuenta. Por favor, intenta de nuevo.',
+      );
+    }
   }
 }

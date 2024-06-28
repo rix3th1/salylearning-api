@@ -33,6 +33,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { VerificarCuentaModule } from './verificar-cuenta/verificar-cuenta.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 const AppGuard = {
   provide: APP_GUARD,
@@ -41,11 +42,14 @@ const AppGuard = {
 
 @Module({
   imports: [
+    // For serve docs
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'docs'),
     }),
-    // For cron jobs
+    // For programmatically schedule jobs
     ScheduleModule.forRoot(),
+    // For emit events
+    EventEmitterModule.forRoot(),
     LibrosModule,
     UsuariosModule,
     GradosModule,

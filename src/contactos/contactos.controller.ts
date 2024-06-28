@@ -22,11 +22,15 @@ import { Public } from '../public.decorator';
 import { ContactosService } from './contactos.service';
 import { ActualizarContactoDto, CrearContactoDto } from './dto/contactos.dto';
 import { Contacto } from './entities/contacto.entity';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('contactos')
 @Controller('contactos')
 export class ContactosController {
-  constructor(private readonly contactosService: ContactosService) {}
+  constructor(
+    private eventEmitter: EventEmitter2,
+    private readonly contactosService: ContactosService,
+  ) {}
 
   @ApiBearerAuth('access-token')
   @Get()
@@ -81,17 +85,11 @@ export class ContactosController {
     const payload = { nombre_completo: contacto.nombre_completo };
 
     try {
-      const response = await this.contactosService.enviarGraciasPorContactar(
+      this.eventEmitter.emit(
+        'enviar-email-de-agradecimiento-por-contactar',
         contacto.email,
         payload,
       );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          'Error al enviar el email de agradecimiento por contactar. Por favor, intenta de nuevo más tarde.',
-        );
-      }
-
       return await this.contactosService.crearContacto(contacto);
     } catch (error) {
       console.error(error.message);

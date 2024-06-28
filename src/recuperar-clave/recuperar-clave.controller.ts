@@ -12,6 +12,7 @@ import {
   Query,
   UnauthorizedException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { JsonWebTokenError, TokenExpiredError } from '@nestjs/jwt';
 import {
   ApiBearerAuth,
@@ -33,6 +34,7 @@ import { RecuperarClaveService } from './recuperar-clave.service';
 @Controller('recuperar-clave')
 export class RecuperarClaveController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private readonly usuariosService: UsuariosService,
     private readonly recuperarClaveService: RecuperarClaveService,
   ) {}
@@ -81,19 +83,8 @@ export class RecuperarClaveController {
         p_nombre,
         p_apellido,
       };
-      // Send the email with the recovery instructions
-      const response =
-        await this.recuperarClaveService.enviarEmailDeRecuperacion(
-          email,
-          payload,
-        );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          `Error al enviar el email de recuperación de clave a "${datosUsuario.email}". Por favor, intenta de nuevo más tarde.`,
-        );
-      }
-
+      // Emit the event to send the email with the recovery instructions
+      this.eventEmitter.emit('enviar-email-de-recuperacion', email, payload);
       return {
         message: `Si existe una cuenta asociada a este email: "${datosUsuario.email}", se enviará un email con las instrucciones para recuperar la clave.`,
       };
@@ -233,18 +224,12 @@ export class RecuperarClaveController {
       );
 
       const payload = { username, p_nombre, p_apellido };
-      const response =
-        await this.recuperarClaveService.enviarEmailDeAvisoDeCambioDeClave(
-          email,
-          payload,
-        );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          `Error al enviar el email de aviso de cambio de clave a "${email}". Por favor, intenta de nuevo más tarde.`,
-        );
-      }
-
+      // Emit the event to notify to users that a new password has been set
+      this.eventEmitter.emit(
+        'enviar-email-de-aviso-de-cambio-de-clave',
+        email,
+        payload,
+      );
       return {
         message: `Se ha cambiado la clave del ${rol} "${p_nombre} ${p_apellido}" asociada al email ${email} con nombre de usuario ${username}. Por favor, inicia sesión con tu nueva clave.`,
       };

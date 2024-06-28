@@ -13,11 +13,13 @@ import { Prisma } from '@prisma/client';
 import { Public } from '../public.decorator';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { VerificarCuentaService } from './verificar-cuenta.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('verificar-cuenta')
 @Controller('verificar-cuenta')
 export class VerificarCuentaController {
   constructor(
+    private eventemitter: EventEmitter2,
     private readonly verificarCuentaService: VerificarCuentaService,
     private readonly usuariosService: UsuariosService,
   ) {}
@@ -61,19 +63,8 @@ export class VerificarCuentaController {
         p_nombre: usuario.p_nombre,
         p_apellido: usuario.p_apellido,
       };
-      // Send the success notification email
-      const response =
-        await this.verificarCuentaService.enviarEmailDeVerificacionExitosa(
-          email,
-          payload,
-        );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          'Hubo un error al enviar el email de verificación de cuenta. Por favor, intenta de nuevo.',
-        );
-      }
-
+      // Send the success notification email and emit the event
+      this.eventemitter.emit('verificacion-exitosa', email, payload);
       return {
         verified: true,
         message:

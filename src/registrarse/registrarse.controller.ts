@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
   Post,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
@@ -19,6 +20,7 @@ import { RegistrarseService } from './registrarse.service';
 @Controller('auth/registrarse')
 export class RegistrarseController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private readonly registrarseService: RegistrarseService,
     private readonly usuariosService: UsuariosService,
   ) {}
@@ -76,9 +78,6 @@ export class RegistrarseController {
           email: usuario.email,
         });
 
-      // Send the email to activate account
-      let response = null;
-
       const payload = {
         origin: headers.origin,
         token: tokenDeActivacion,
@@ -87,13 +86,9 @@ export class RegistrarseController {
         p_apellido: usuario.p_apellido,
       };
 
-      if (isNewUser) {
-        response = await this.registrarseService.enviarEmailDeVerificacion(
-          usuario.email,
-          payload,
-        );
-      } else if (!isNewUser && !usuario.verificado) {
-        response = await this.registrarseService.enviarEmailDeVerificacion(
+      if (isNewUser || (!isNewUser && !usuario.verificado)) {
+        this.eventEmitter.emit(
+          'enviar-email-de-verificacion',
           usuario.email,
           payload,
         );
@@ -102,12 +97,6 @@ export class RegistrarseController {
           message: `Cuenta de ${usuario.rol} "${usuario.p_nombre} ${usuario.p_apellido}" ya existe. Por favor, inicie sesión con tu cuenta.`,
           usuario,
         };
-      }
-
-      if (response.error) {
-        throw new BadGatewayException(
-          `Error al enviar el email de verificación a "${usuario.email}". Por favor, intenta de nuevo más tarde.`,
-        );
       }
 
       if (isNewUser) {

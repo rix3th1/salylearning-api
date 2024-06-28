@@ -22,11 +22,13 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 import { SoporteService } from './soporte.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('soporte')
 @Controller('soporte')
 export class SoporteController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private readonly soporteService: SoporteService,
     private readonly usuariosService: UsuariosService,
   ) {}
@@ -84,18 +86,7 @@ export class SoporteController {
         await this.usuariosService.obtenerUsuarioPorEmail(soporte.email);
 
       const payload = { username, p_nombre, p_apellido };
-      const response =
-        await this.soporteService.enviarGraciasPorContactarSoporte(
-          soporte.email,
-          payload,
-        );
-
-      if (response.error) {
-        throw new BadGatewayException(
-          'Error al enviar el email de agradecimiento por contactar. Por favor, intenta de nuevo más tarde.',
-        );
-      }
-
+      this.eventEmitter.emit('enviar-email-de-soporte', soporte.email, payload);
       return await this.soporteService.crearSoporte(soporte);
     } catch (error) {
       console.error(error);

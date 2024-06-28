@@ -1,21 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import * as JWT from 'jsonwebtoken';
 import { CambiarClaveService } from '../cambiar-clave/cambiar-clave.service';
 import { sendEmail } from '../nodemailer';
 
+interface emailPayload {
+  origin: string;
+  token: string;
+  username: string;
+  p_nombre: string;
+  p_apellido: string;
+}
+
 @Injectable()
 export class RecuperarClaveService extends CambiarClaveService {
+  @OnEvent('enviar-email-de-recuperacion', { async: true })
   async enviarEmailDeRecuperacion(
     to: string,
-    payload: {
-      origin: string;
-      token: string;
-      username: string;
-      p_nombre: string;
-      p_apellido: string;
-    },
+    { origin, token, username, p_nombre, p_apellido }: emailPayload,
   ) {
-    const { origin, token, username, p_nombre, p_apellido } = payload;
     const url = `${origin}/change-password?token=${token}`;
     const html = `
       <h1>Recuperación de contraseña Salylearning</h1> 
@@ -25,7 +28,13 @@ export class RecuperarClaveService extends CambiarClaveService {
       <p>El equipo de Salylearning</p>
     `;
 
-    return sendEmail(to, 'Restablecer contraseña', html);
+    const response = await sendEmail(to, 'Restablecer contraseña', html);
+
+    if (response.error) {
+      throw new BadGatewayException(
+        `Error al enviar el email de recuperación de clave a "${to}". Por favor, intenta de nuevo más tarde.`,
+      );
+    }
   }
 
   generarToken(payload: { email: string; oldPassword: string }) {

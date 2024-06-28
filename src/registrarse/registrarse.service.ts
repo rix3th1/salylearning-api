@@ -1,9 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import * as JWT from 'jsonwebtoken';
 import { sendEmail } from '../nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { RegistrarseDto } from './dto/registrarse.dto';
+
+interface emailPayload {
+  origin: string;
+  token: string;
+  username: string;
+  p_nombre: string;
+  p_apellido: string;
+}
 
 @Injectable()
 export class RegistrarseService {
@@ -33,17 +42,11 @@ export class RegistrarseService {
     return !!codigoDocente;
   }
 
+  @OnEvent('enviar-email-de-verificacion', { async: true })
   async enviarEmailDeVerificacion(
     to: string,
-    payload: {
-      origin: string;
-      token: string;
-      username: string;
-      p_nombre: string;
-      p_apellido: string;
-    },
+    { origin, token, username, p_nombre, p_apellido }: emailPayload,
   ) {
-    const { origin, token, username, p_nombre, p_apellido } = payload;
     const url = `${origin}/verify-account?token=${token}`;
     const html = `
       <h1>Verificación de cuenta Salylearning</h1>
@@ -53,7 +56,13 @@ export class RegistrarseService {
       <p>El equipo de Salylearning</p>
     `;
 
-    return sendEmail(to, 'Verificar cuenta', html);
+    const response = await sendEmail(to, 'Verificar cuenta', html);
+
+    if (response.error) {
+      throw new BadGatewayException(
+        `Error al enviar el email de verificación a "${to}". Por favor, intenta de nuevo más tarde.`,
+      );
+    }
   }
 
   generarTokenDeActivacion(payload: { email: string }) {

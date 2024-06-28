@@ -1,18 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { sendEmail } from '../nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarSoporteDto, CrearSoporteDto } from './dto/soporte.dto';
 import { Soporte } from './entities/soporte.entity';
 
+interface emailPayload {
+  username: string;
+  p_nombre: string;
+  p_apellido: string;
+}
+
 @Injectable()
 export class SoporteService {
   constructor(private prisma: PrismaService) {}
 
+  @OnEvent('enviar-email-de-soporte', { async: true })
   async enviarGraciasPorContactarSoporte(
     to: string,
-    payload: { username: string; p_nombre: string; p_apellido: string },
+    { username, p_nombre, p_apellido }: emailPayload,
   ) {
-    const { username, p_nombre, p_apellido } = payload;
     const html = `
       <h1>Gracias por contactar a Salylearning</h1>
       <p>Sr. usuario <strong>${username}</strong>, <strong>${p_nombre} ${p_apellido}</strong>, por contactar con nosotros, nos ha permitido ofrecerte soporte. Por favor, espera un poco más para que te contactemos.</p>
@@ -20,7 +27,17 @@ export class SoporteService {
       <p>El equipo de Salylearning</p>
     `;
 
-    return sendEmail(to, 'Gracias por contactar a Salylearning', html);
+    const response = await sendEmail(
+      to,
+      'Gracias por contactar a Salylearning',
+      html,
+    );
+
+    if (response.error) {
+      throw new BadGatewayException(
+        'Error al enviar el email de agradecimiento por contactar. Por favor, intenta de nuevo más tarde.',
+      );
+    }
   }
 
   async obtenerSoportes(): Promise<Soporte[]> {
