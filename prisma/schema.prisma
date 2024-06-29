@@ -13,6 +13,11 @@ enum Rol {
   ESTUDIANTE
 }
 
+enum Sede {
+  PRINCIPAL
+  AGUA_NEGRA
+}
+
 // Enum que almacena los estados de los cuestionarios de los libros (COMPLETADO, PENDIENTE, NO_LOGRADO)
 enum EstadoCuestionario {
   COMPLETADO
@@ -380,6 +385,8 @@ model Usuario {
   password         String    @db.VarChar(255)
   // Rol del usuario (DOCENTE o ESTUDIANTE)
   rol              Rol       @default(ESTUDIANTE)
+  // Sede del usuario (PRINCIPAL o AGUA_NEGRA)
+  sede             Sede      @default(PRINCIPAL)
   // Booleano que indica si el usuario ha subido una foto de perfil o no
   use_avatar       Boolean   @default(true)
   // Booleano que indica si el usuario verificó su correo electrónico
@@ -421,7 +428,7 @@ model Docente {
 model CodigoDocente {
   // ID del codigo docente
   id  Int    @id @default(autoincrement()) @db.UnsignedInt
-  cod String @unique @db.VarChar(6)
+  cod String @unique @db.VarChar(10)
 
   // Fecha de creación del codigo de docente
   createdAt DateTime @default(now())

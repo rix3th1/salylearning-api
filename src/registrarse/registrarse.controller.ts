@@ -62,12 +62,12 @@ export class RegistrarseController {
           }
         }
 
-        // Delete the cod_docente property because it is not needed in the database
-        delete nuevoUsuario.cod_docente;
-
         // Delete confirmar_password property because it is not needed in the database
         delete nuevoUsuario.confirmar_password;
-        usuario = await this.registrarseService.registrarUsuario(nuevoUsuario);
+        usuario = await this.registrarseService.registrarUsuario(
+          nuevoUsuario,
+          nuevoUsuario.cod_docente || undefined,
+        );
         // Delete password property from the response because it is sensitive
         delete usuario.password;
       }

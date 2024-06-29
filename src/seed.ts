@@ -3,6 +3,7 @@ import { $Enums, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.codigoDocente.deleteMany();
   const codigoDocente = await prisma.codigoDocente.createMany({
     skipDuplicates: true,
     data: [

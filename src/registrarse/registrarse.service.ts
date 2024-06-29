@@ -25,11 +25,13 @@ export class RegistrarseService {
   ): Promise<Usuario> {
     const { id_grado, ...data } = usuario;
     delete data.confirmar_password;
+    // Delete the cod_docente property because it is not needed in the database
+    delete data.cod_docente;
 
     return this.prisma.usuario.create({
       data: {
         ...data,
-        grado_usuario: id_grado ? { create: { id_grado } } : undefined,
+        grado_usuario: { create: { id_grado } },
         estudiante:
           data.rol === 'ESTUDIANTE'
             ? { create: { cod_estudiante: signCode() } }
