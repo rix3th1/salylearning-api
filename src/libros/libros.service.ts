@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
+import { sendEmail } from 'src/nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActualizarLibroDto, CrearLibroDto } from './dto/libros.dto';
 import { Libro } from './entities/libro.entity';
@@ -6,6 +8,48 @@ import { Libro } from './entities/libro.entity';
 @Injectable()
 export class LibrosService {
   constructor(private prisma: PrismaService) {}
+
+  @OnEvent('enviar-email-notificacion-nuevo-libro', { async: true })
+  async enviarEmailNotificacionNuevoLibro({
+    nom_libro,
+    imagen_portada,
+  }: CrearLibroDto) {
+    const estudiantes = await this.prisma.estudiante.findMany({
+      where: {
+        usuario: { verificado: true },
+      },
+      select: {
+        usuario: { select: { email: true } },
+      },
+    });
+
+    // Map the array of estudiantes to an array of emails
+    const destinations = estudiantes.map(
+      (estudiante) => estudiante.usuario.email,
+    );
+
+    const html = `
+      <h1>Nuevo libro disponible</h1>
+      <p>Un nuevo libro ha sido agregado a Salylearning! Corre a disfrutarlo.</p>
+      <h2>Libro:</h2>
+      <p><strong>${nom_libro}</strong></p>
+      <img src="${imagen_portada}" alt="Portada del libro">
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
+    `;
+
+    const response = await sendEmail(
+      destinations,
+      'Nuevo libro disponible',
+      html,
+    );
+
+    if (response.error) {
+      throw new BadGatewayException(
+        'Error al enviar el email de notificación de nuevo libro. Por favor, intenta de nuevo más tarde.',
+      );
+    }
+  }
 
   async contarLibros(): Promise<number> {
     return this.prisma.libro.count();

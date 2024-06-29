@@ -1,5 +1,4 @@
 import {
-  BadGatewayException,
   BadRequestException,
   Controller,
   Get,
@@ -7,13 +6,13 @@ import {
   Query,
   UnauthorizedException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { JsonWebTokenError, TokenExpiredError } from '@nestjs/jwt';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { Public } from '../public.decorator';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { VerificarCuentaService } from './verificar-cuenta.service';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('verificar-cuenta')
 @Controller('verificar-cuenta')

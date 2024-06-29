@@ -17,6 +17,7 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
@@ -37,6 +38,7 @@ import { LibrosService } from './libros.service';
 @Controller('libros')
 export class LibrosController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private cloudinary: CloudinaryService,
     private readonly librosService: LibrosService,
   ) {}
@@ -197,9 +199,7 @@ export class LibrosController {
         return fileRequest;
       },
     })
-    files: {
-      imagen_portada: Express.Multer.File[];
-    },
+    files: { imagen_portada: Express.Multer.File[] },
   ) {
     const { imagen_portada } = files;
 
@@ -222,11 +222,12 @@ export class LibrosController {
       imagen_portada_public_id = cloudinaryPublicIdImagenPortada;
       libro.imagen_portada = imagen_portada_url;
 
+      this.eventEmitter.emit('enviar-email-notificacion-nuevo-libro', libro);
       return await this.librosService.crearLibro(libro);
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada && imagen_portada_public_id) {
+      if (imagen_portada[0] && imagen_portada_public_id) {
         await this.cloudinary.deleteRes(imagen_portada_public_id);
       }
 
@@ -266,6 +267,10 @@ export class LibrosController {
     @Body() libro: ActualizarLibroDto,
     @UploadedFiles({
       transform: (fileRequest: { imagen_portada: Express.Multer.File[] }) => {
+        if (!fileRequest.imagen_portada) {
+          return fileRequest;
+        }
+
         const imagenPortadaValidators = [
           new FileTypeValidator({
             fileType: new RegExp('image/(jpeg|png)'),
@@ -287,16 +292,14 @@ export class LibrosController {
         return fileRequest;
       },
     })
-    files: {
-      imagen_portada: Express.Multer.File[];
-    },
+    files: { imagen_portada: Express.Multer.File[] },
   ) {
     const { imagen_portada } = files;
 
     let imagen_portada_public_id = '';
 
     try {
-      if (imagen_portada) {
+      if (imagen_portada[0]) {
         const resCloudinaryImagenPortada = await this.cloudinary.uploadImage(
           imagen_portada[0],
         );
@@ -329,7 +332,7 @@ export class LibrosController {
     } catch (error) {
       console.error(error.message);
 
-      if (imagen_portada && imagen_portada_public_id) {
+      if (imagen_portada[0] && imagen_portada_public_id) {
         await this.cloudinary.deleteRes(imagen_portada_public_id);
       }
 

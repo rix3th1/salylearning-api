@@ -12,6 +12,7 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -36,6 +37,7 @@ import { CuestionarioEstudiante } from './entities/cuestionario-estudiante.entit
 @Controller('cuestionario-estudiante')
 export class CuestionarioEstudianteController {
   constructor(
+    private eventEmitter: EventEmitter2,
     private readonly cuestionarioEstudianteService: CuestionarioEstudianteService,
     private readonly estudianteService: EstudiantesService,
   ) {}
@@ -285,9 +287,11 @@ export class CuestionarioEstudianteController {
     cuestionarioEstudiante: asignarCuestionarioEstudianteATodosLosEstudiantesDto,
   ) {
     try {
+      const destinations: string[] = [];
       const estudiantes = await this.estudianteService.obtenerEstudiantes();
 
       for (const estudiante of estudiantes) {
+        destinations.push(estudiante.usuario.email);
         await this.cuestionarioEstudianteService.asignarCuestionarioEstudianteATodosLosEstudiantes(
           {
             fecha_entrega: cuestionarioEstudiante.fecha_entrega,
@@ -296,6 +300,12 @@ export class CuestionarioEstudianteController {
           },
         );
       }
+
+      this.eventEmitter.emit(
+        'enviar-email-de-notificacion-nueva-actividad-asignada',
+        destinations,
+        cuestionarioEstudiante,
+      );
 
       return {
         message: 'Cuestionario asignado a todos los estudiantes',
@@ -364,6 +374,12 @@ export class CuestionarioEstudianteController {
     @Body() cuestionarioEstudiante: ActualizarCuestionarioEstudianteDto,
   ) {
     try {
+      this.eventEmitter.emit(
+        'enviar-email-de-publicacion-calificacion-cuestionario-estudiante',
+        +id,
+        cuestionarioEstudiante,
+      );
+
       return await this.cuestionarioEstudianteService.calificarCuestionarioEstudiante(
         +id,
         cuestionarioEstudiante,

@@ -1,16 +1,91 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { EstadoCuestionario } from '@prisma/client';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { sendEmail } from 'src/nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ActualizarCuestionarioEstudianteDto,
   CrearCuestionarioEstudianteDto,
+  asignarCuestionarioEstudianteATodosLosEstudiantesDto,
 } from './dto/cuestionario-estudiante.dto';
 import { CuestionarioEstudiante } from './entities/cuestionario-estudiante.entity';
 
 @Injectable()
 export class CuestionarioEstudianteService {
   constructor(private prisma: PrismaService) {}
+
+  @OnEvent('enviar-email-de-publicacion-calificacion-cuestionario-estudiante', {
+    async: true,
+  })
+  async notificarPublicacionCalificacionCuestionarioEstudiante(
+    id: number,
+    { calificacion, retroalimentacion }: ActualizarCuestionarioEstudianteDto,
+  ) {
+    const cuestionarioEstudianteCalificado =
+      await this.prisma.cuestionarioEstudiante.findUniqueOrThrow({
+        where: { id },
+        select: {
+          estudiante: {
+            select: { usuario: { select: { email: true } } },
+          },
+        },
+      });
+
+    const html = `
+      <h1>Salylearning</h1>
+      <p>Hola, este es un mensaje automático de Salylearning.</p>
+      <p>El equipo de Salylearning te informa que la calificación de tu cuestionario ha sido publicada con un valor de ${calificacion.toFixed(1)}.</p>
+      <p>Tu profesor te ha dejado la siguiente retroalimentación:</p>
+      <p><strong><i>«${retroalimentacion}»</i></strong>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
+    `;
+
+    const response = await sendEmail(
+      cuestionarioEstudianteCalificado.estudiante.usuario.email,
+      'Cuestionario calificado',
+      html,
+    );
+
+    if (response.error) {
+      throw new BadGatewayException(
+        'Error al enviar el email de notificación de cuestionario calificado. Por favor, intenta de nuevo más tarde.',
+      );
+    }
+  }
+
+  @OnEvent('enviar-email-de-notificacion-nueva-actividad-asignada', {
+    async: true,
+  })
+  async enviarEmailDeNotificacionNuevaActividadAsignada(
+    to: string[],
+    { fecha_entrega }: asignarCuestionarioEstudianteATodosLosEstudiantesDto,
+  ) {
+    const fechaEntregaFormateada = format(
+      fecha_entrega,
+      "MMM d, yyyy 'a las' h:mm a",
+      { locale: es },
+    ); // Formatea la fecha de entrega en formato específico para el idioma español
+
+    const html = `
+      <h1>Tu profesor ha asignado una nueva actividad</h1>
+      <p>Se ha asignado una nueva actividad con fecha de entrega: <strong>${fechaEntregaFormateada}</strong>.</p>
+      <p>Para ver la actividad inicia sesión en tu cuenta y revisa la actividad.</p>
+      <p>Cordialmente,</p>
+      <p>El equipo de Salylearning</p>
+    `;
+
+    const response = await sendEmail(to, 'Nueva actividad asignada', html);
+
+    if (response.error) {
+      throw new BadGatewayException(
+        'Error al enviar el email de notificación de nueva actividad asignada. Por favor, intenta de nuevo más tarde.',
+      );
+    }
+  }
 
   @Cron(CronExpression.EVERY_MINUTE)
   async actualizarEstadoCuestionarioEstudiante() {
@@ -28,6 +103,47 @@ export class CuestionarioEstudianteService {
         estado: EstadoCuestionario.NO_LOGRADO,
       },
     });
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async notificarCuestionariosProximosAVencer() {
+    const oneDayFromNow = new Date();
+    oneDayFromNow.setDate(oneDayFromNow.getDate() + 1);
+
+    const cuestionarios = await this.prisma.cuestionarioEstudiante.findMany({
+      where: {
+        fecha_entrega: {
+          gte: new Date(),
+          lte: oneDayFromNow,
+        },
+        estado: {
+          equals: EstadoCuestionario.PENDIENTE,
+        },
+      },
+      select: {
+        estudiante: {
+          select: { usuario: { select: { email: true } } },
+        },
+      },
+    });
+
+    if (cuestionarios.length === 0) {
+      return;
+    }
+
+    const destinations = cuestionarios.map(
+      (cuestionario) => cuestionario.estudiante.usuario.email,
+    );
+
+    const html = `
+      <h1>Salylearning</h1>
+      <p>Hola, este es un mensaje automático de Salylearning.</p>
+      <p>El equipo de Salylearning te informa que tienes cuestionarios pendientes por responder.</p>
+      <p>Saludos cordiales,</p>
+      <p>El equipo de Salylearning</p>
+    `;
+
+    await sendEmail(destinations, 'Vence mañana!', html);
   }
 
   async obtenerCuestionariosEstudiante(): Promise<CuestionarioEstudiante[]> {
