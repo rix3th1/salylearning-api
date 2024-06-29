@@ -24,7 +24,7 @@ export class CrearDocenteDto extends OmitType(Docente, ['id'] as const) {
   @IsOptional()
   @IsNotEmpty({ message: 'El código del docente no puede estar vacío' })
   @IsString({ message: 'El código del docente debe ser una cadena de texto' })
-  @Length(6, 6, { message: 'El código del docente debe tener 6 caracteres' })
+  @Length(10, 10, { message: 'El código del docente debe tener 10 caracteres' })
   cod_docente?: string;
 }
 

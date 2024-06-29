@@ -23,9 +23,9 @@ export class Docente implements Partial<TDocente> {
   @ApiPropertyOptional({
     title: 'Código docente',
     description: 'Código del docente',
-    example: 'DOC001',
-    minLength: 6,
-    maxLength: 6,
+    example: 'DOC0012024',
+    minLength: 10,
+    maxLength: 10,
   })
   cod_docente?: string;
 }

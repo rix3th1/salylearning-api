@@ -6,16 +6,16 @@ async function main() {
   const codigoDocente = await prisma.codigoDocente.createMany({
     skipDuplicates: true,
     data: [
-      { cod: 'P3K7HG' },
-      { cod: 'A6L9D8' },
-      { cod: 'V4N8X1' },
-      { cod: 'F2H7C6' },
-      { cod: 'P9B3J4' },
-      { cod: 'M1K8R2' },
-      { cod: 'X3V9F6' },
-      { cod: 'D7T4Z1' },
-      { cod: 'J5Q8H2' },
-      { cod: 'L4M1C7' },
+      { cod: '72E8046333' },
+      { cod: '150E779A3B' },
+      { cod: 'P3K7HG8V5L' },
+      { cod: 'B4F5E08C3B' },
+      { cod: '0F25512D00' },
+      { cod: 'E377F167B0' },
+      { cod: '14DF0EA5DB' },
+      { cod: '20106021AC' },
+      { cod: 'B1592C145A' },
+      { cod: 'D30BB7BB9E' },
     ],
   });
 

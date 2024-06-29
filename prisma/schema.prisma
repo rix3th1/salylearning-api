@@ -404,7 +404,7 @@ model Docente {
   // ID del docente
   id          Int     @id @default(autoincrement()) @db.UnsignedInt
   // Código del docente
-  cod_docente String? @unique @db.VarChar(6)
+  cod_docente String? @unique @db.VarChar(10)
 
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt
