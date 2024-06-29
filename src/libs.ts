@@ -19,17 +19,20 @@ function generateRandomCode(): string {
   return result;
 }
 
-// Función para firmar un código recibido
-export function signCode(receivedCode: string): string {
-  if (!/^[A-Z0-9]{10}$/.test(receivedCode)) {
+// Función para firmar un código recibido o generar uno si no se proporciona
+export function signCode(receivedCode?: string): string {
+  if (receivedCode && !/^[A-Z0-9]{10}$/.test(receivedCode)) {
     throw new Error('El código recibido no tiene el formato correcto');
   }
+
+  // Si no se recibe un código, se genera uno
+  const codeToSign = receivedCode || generateRandomCode();
 
   // Generar un código aleatorio de 10 caracteres
   const randomCode = generateRandomCode();
 
-  // Concatenar el código recibido y el código aleatorio
-  const combinedCode = receivedCode + randomCode;
+  // Concatenar el código a firmar y el código aleatorio
+  const combinedCode = codeToSign + randomCode;
 
   // Crear un hash del código combinado
   const hash = crypto.createHash('sha256').update(combinedCode).digest('hex');

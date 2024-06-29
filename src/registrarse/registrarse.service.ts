@@ -5,6 +5,7 @@ import { sendEmail } from '../nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { RegistrarseDto } from './dto/registrarse.dto';
+import { signCode } from 'src/libs';
 
 interface emailPayload {
   origin: string;
@@ -18,7 +19,10 @@ interface emailPayload {
 export class RegistrarseService {
   constructor(private prisma: PrismaService) {}
 
-  async registrarUsuario(usuario: RegistrarseDto): Promise<Usuario> {
+  async registrarUsuario(
+    usuario: RegistrarseDto,
+    codeToSign?: string,
+  ): Promise<Usuario> {
     const { id_grado, ...data } = usuario;
     delete data.confirmar_password;
 
@@ -26,8 +30,14 @@ export class RegistrarseService {
       data: {
         ...data,
         grado_usuario: id_grado ? { create: { id_grado } } : undefined,
-        estudiante: data.rol === 'ESTUDIANTE' ? { create: {} } : undefined,
-        docente: data.rol === 'DOCENTE' ? { create: {} } : undefined,
+        estudiante:
+          data.rol === 'ESTUDIANTE'
+            ? { create: { cod_estudiante: signCode() } }
+            : undefined,
+        docente:
+          data.rol === 'DOCENTE'
+            ? { create: { cod_docente: signCode(codeToSign) } }
+            : undefined,
         foto_perfil: { create: {} },
         avatar_usuario: { create: {} },
       },
