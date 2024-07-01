@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
 } from '@nestjs/common';
 import {
@@ -55,8 +56,10 @@ export class EstudiantesController {
     description: 'Estudiantes con mejor puntaje encontrados',
     type: [Estudiante],
   })
-  async obtenerEstudiantesConMejorPuntaje() {
-    return await this.estudiantesService.obtenerEstudiantesConMejorPuntaje();
+  async obtenerEstudiantesConMejorPuntaje(@Query('id_grado') id_grado: number) {
+    return await this.estudiantesService.obtenerEstudiantesConMejorPuntaje(
+      id_grado,
+    );
   }
 
   @Get('usuario')

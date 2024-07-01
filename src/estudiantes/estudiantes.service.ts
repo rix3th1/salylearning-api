@@ -19,8 +19,19 @@ export class EstudiantesService {
     });
   }
 
-  async obtenerEstudiantesConMejorPuntaje(): Promise<Estudiante[]> {
+  async obtenerEstudiantesConMejorPuntaje(
+    id_grado: number,
+  ): Promise<Estudiante[]> {
     return this.prisma.estudiante.findMany({
+      where: {
+        ...(id_grado && {
+          usuario: {
+            grado_usuario: {
+              id_grado,
+            },
+          },
+        }),
+      },
       orderBy: {
         puntaje_total: 'desc',
       },
