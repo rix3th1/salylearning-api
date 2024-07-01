@@ -52,7 +52,7 @@ export class AvatarController {
     description: 'Lista de avatares',
     type: [Avatar],
   })
-  async obtenerCuestionariosPorRol(@Query('rol') rol: Rol) {
+  async obtenerAvataresPorRol(@Query('rol') rol: Rol) {
     try {
       const rolAvatar = rol.toUpperCase() as Rol;
 
