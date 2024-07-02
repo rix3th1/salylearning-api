@@ -147,6 +147,7 @@ export class LibrosEstudianteService {
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
     terminado: boolean,
     id_estudiante: number,
+    id_grado: number,
   ) {
     /**
      * Quiero obtener el número de libros de estudiantes segun si estan terminados o no
@@ -160,6 +161,15 @@ export class LibrosEstudianteService {
       where: {
         ...(id_estudiante && {
           id_estudiante,
+        }),
+        ...(id_grado && {
+          estudiante: {
+            usuario: {
+              grado_usuario: {
+                id_grado,
+              },
+            },
+          },
         }),
         terminado,
       },

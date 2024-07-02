@@ -161,6 +161,7 @@ export class CuestionarioEstudianteService {
   async obtenerEstadisticasSemanalesPorEstado(
     estado: EstadoCuestionario,
     id_estudiante: number,
+    id_grado: number,
   ) {
     /**
      * Quiero obtener el número de cuestionarios completados
@@ -175,6 +176,15 @@ export class CuestionarioEstudianteService {
         estado: estado,
         ...(id_estudiante && {
           id_estudiante,
+        }),
+        ...(id_grado && {
+          estudiante: {
+            usuario: {
+              grado_usuario: {
+                id_grado,
+              },
+            },
+          },
         }),
       },
       orderBy: {

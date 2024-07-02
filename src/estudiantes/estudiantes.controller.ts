@@ -43,8 +43,8 @@ export class EstudiantesController {
     description: 'Estudiantes encontrados',
     type: [Estudiante],
   })
-  async obtenerEstudiantes() {
-    return await this.estudiantesService.obtenerEstudiantes();
+  async obtenerEstudiantes(@Query('id_grado') id_grado: number) {
+    return await this.estudiantesService.obtenerEstudiantes(id_grado);
   }
 
   @Get('mejor-puntaje')

@@ -130,10 +130,12 @@ export class LibrosEstudianteController {
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
     @Param('terminado') terminado: boolean,
     @Query('id_estudiante') id_estudiante: number,
+    @Query('id_grado') id_grado: number,
   ) {
     return await this.librosEstudianteService.obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
       terminado,
       id_estudiante,
+      id_grado,
     );
   }
 

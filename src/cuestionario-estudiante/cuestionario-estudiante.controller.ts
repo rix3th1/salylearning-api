@@ -131,6 +131,7 @@ export class CuestionarioEstudianteController {
   async obtenerEstadisticasSemanalesPorEstado(
     @Param('estado_cuestionario') estado: EstadoCuestionario,
     @Query('id_estudiante') id_estudiante: number,
+    @Query('id_grado') id_grado: number,
   ) {
     const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
@@ -142,6 +143,7 @@ export class CuestionarioEstudianteController {
       return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPorEstado(
         estadoCuestionario,
         id_estudiante,
+        id_grado,
       );
     } catch (error) {
       console.error(error.message);

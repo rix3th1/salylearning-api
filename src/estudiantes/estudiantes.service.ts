@@ -10,8 +10,17 @@ import { Estudiante } from './entities/estudiante.entity';
 export class EstudiantesService {
   constructor(private prisma: PrismaService) {}
 
-  async obtenerEstudiantes() {
+  async obtenerEstudiantes(id_grado?: number) {
     return this.prisma.estudiante.findMany({
+      where: {
+        ...(id_grado && {
+          usuario: {
+            grado_usuario: {
+              id_grado,
+            },
+          },
+        }),
+      },
       include: {
         usuario: true,
         cuestionario_estudiante: true,
