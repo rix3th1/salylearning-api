@@ -67,9 +67,9 @@ export class GradosController {
     description: 'Grado encontrado',
     type: Grado,
   })
-  async obtenerGrado(@Param('id') id: string) {
+  async obtenerGrado(@Param('id') id: number) {
     try {
-      return await this.gradosService.obtenerGrado(+id);
+      return await this.gradosService.obtenerGrado(id);
     } catch (error) {
       console.error(error.message);
 
@@ -120,11 +120,11 @@ export class GradosController {
     type: Grado,
   })
   async actualizarGrado(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() grado: ActualizarGradoDto,
   ) {
     try {
-      return await this.gradosService.actualizarGrado(+id, grado);
+      return await this.gradosService.actualizarGrado(id, grado);
     } catch (error) {
       console.error(error.message);
 
@@ -150,9 +150,9 @@ export class GradosController {
     description: 'Grado eliminado',
     type: Grado,
   })
-  async eliminarGrado(@Param('id') id: string) {
+  async eliminarGrado(@Param('id') id: number) {
     try {
-      return await this.gradosService.eliminarGrado(+id);
+      return await this.gradosService.eliminarGrado(id);
     } catch (error) {
       console.error(error.message);
 

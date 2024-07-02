@@ -63,9 +63,9 @@ export class PreguntasController {
     description: 'Pregunta encontrada',
     type: Pregunta,
   })
-  async obtenerPregunta(@Param('id') id: string) {
+  async obtenerPregunta(@Param('id') id: number) {
     try {
-      return await this.preguntasService.obtenerPregunta(+id);
+      return await this.preguntasService.obtenerPregunta(id);
     } catch (error) {
       console.error(error.message);
 
@@ -114,11 +114,11 @@ export class PreguntasController {
     type: Pregunta,
   })
   async actualizarPregunta(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() pregunta: ActualizarPreguntaDto,
   ) {
     try {
-      return await this.preguntasService.actualizarPregunta(+id, pregunta);
+      return await this.preguntasService.actualizarPregunta(id, pregunta);
     } catch (error) {
       console.error(error.message);
 
@@ -143,9 +143,9 @@ export class PreguntasController {
     description: 'Pregunta eliminada',
     type: Pregunta,
   })
-  async eliminarPregunta(@Param('id') id: string) {
+  async eliminarPregunta(@Param('id') id: number) {
     try {
-      return await this.preguntasService.eliminarPregunta(+id);
+      return await this.preguntasService.eliminarPregunta(id);
     } catch (error) {
       console.error(error.message);
 

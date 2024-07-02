@@ -258,10 +258,10 @@ export class CuestionarioEstudianteController {
     description: 'Cuestionario de estudiante encontrado',
     type: CuestionarioEstudiante,
   })
-  async obtenerCuestionarioEstudiante(@Param('id') id: string) {
+  async obtenerCuestionarioEstudiante(@Param('id') id: number) {
     try {
       return await this.cuestionarioEstudianteService.obtenerCuestionarioEstudiante(
-        +id,
+        id,
       );
     } catch (error) {
       console.error(error.message);
@@ -374,18 +374,18 @@ export class CuestionarioEstudianteController {
     type: CuestionarioEstudiante,
   })
   async calificarCuestionarioEstudiante(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() cuestionarioEstudiante: ActualizarCuestionarioEstudianteDto,
   ) {
     try {
       this.eventEmitter.emit(
         'enviar-email-de-publicacion-calificacion-cuestionario-estudiante',
-        +id,
+        id,
         cuestionarioEstudiante,
       );
 
       return await this.cuestionarioEstudianteService.calificarCuestionarioEstudiante(
-        +id,
+        id,
         cuestionarioEstudiante,
       );
     } catch (error) {
@@ -411,12 +411,12 @@ export class CuestionarioEstudianteController {
     type: CuestionarioEstudiante,
   })
   async actualizarCuestionarioEstudiante(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() cuestionarioEstudiante: ActualizarCuestionarioEstudianteDto,
   ) {
     try {
       return await this.cuestionarioEstudianteService.actualizarCuestionarioEstudiante(
-        +id,
+        id,
         cuestionarioEstudiante,
       );
     } catch (error) {
@@ -445,10 +445,10 @@ export class CuestionarioEstudianteController {
     description: 'Cuestionario de estudiante eliminado',
     type: CuestionarioEstudiante,
   })
-  async eliminarCuestionarioEstudiante(@Param('id') id: string) {
+  async eliminarCuestionarioEstudiante(@Param('id') id: number) {
     try {
       return await this.cuestionarioEstudianteService.eliminarCuestionarioEstudiante(
-        +id,
+        id,
       );
     } catch (error) {
       console.error(error.message);

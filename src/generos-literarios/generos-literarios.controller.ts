@@ -68,9 +68,9 @@ export class GenerosLiterariosController {
     description: 'Género literario encontrado',
     type: GeneroLiterario,
   })
-  async obtenerGeneroLiterario(@Param('id') id: string) {
+  async obtenerGeneroLiterario(@Param('id') id: number) {
     try {
-      return await this.generosLiterariosService.obtenerGeneroLiterario(+id);
+      return await this.generosLiterariosService.obtenerGeneroLiterario(id);
     } catch (error) {
       console.error(error.message);
 
@@ -123,12 +123,12 @@ export class GenerosLiterariosController {
     type: GeneroLiterario,
   })
   async actualizarGeneroLiterario(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() generoLiterario: ActualizarGeneroLiterarioDto,
   ) {
     try {
       return await this.generosLiterariosService.actualizarGeneroLiterario(
-        +id,
+        id,
         generoLiterario,
       );
     } catch (error) {
@@ -155,9 +155,9 @@ export class GenerosLiterariosController {
     description: 'Género literario eliminado',
     type: GeneroLiterario,
   })
-  async eliminarGeneroLiterario(@Param('id') id: string) {
+  async eliminarGeneroLiterario(@Param('id') id: number) {
     try {
-      return await this.generosLiterariosService.eliminarGeneroLiterario(+id);
+      return await this.generosLiterariosService.eliminarGeneroLiterario(id);
     } catch (error) {
       console.error(error.message);
 

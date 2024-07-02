@@ -65,9 +65,9 @@ export class MisLibrosController {
     description: 'Libro encontrado',
     type: MiLibro,
   })
-  async obtenerMiLibroPorIdLibro(@Param('id') id: string) {
+  async obtenerMiLibroPorIdLibro(@Param('id') id: number) {
     try {
-      const miLibro = await this.misLibrosService.obtenerMiLibroPorIdLibro(+id);
+      const miLibro = await this.misLibrosService.obtenerMiLibroPorIdLibro(id);
       return miLibro || false;
     } catch (error) {
       console.error(error.message);
@@ -89,9 +89,9 @@ export class MisLibrosController {
     description: 'Libro encontrado',
     type: MiLibro,
   })
-  async obtenerMiLibro(@Param('id') id: string) {
+  async obtenerMiLibro(@Param('id') id: number) {
     try {
-      return await this.misLibrosService.obtenerMiLibro(+id);
+      return await this.misLibrosService.obtenerMiLibro(id);
     } catch (error) {
       console.error(error.message);
 
@@ -142,11 +142,11 @@ export class MisLibrosController {
     type: MiLibro,
   })
   async actualizarMiLibro(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() miLibro: ActualizarMiLibroDto,
   ) {
     try {
-      return await this.misLibrosService.actualizarMiLibro(+id, miLibro);
+      return await this.misLibrosService.actualizarMiLibro(id, miLibro);
     } catch (error) {
       console.error(error.message);
 
@@ -173,9 +173,9 @@ export class MisLibrosController {
     description: 'Libro eliminado',
     type: MiLibro,
   })
-  async eliminarMiLibro(@Param('id') id: string) {
+  async eliminarMiLibro(@Param('id') id: number) {
     try {
-      return await this.misLibrosService.eliminarMiLibro(+id);
+      return await this.misLibrosService.eliminarMiLibro(id);
     } catch (error) {
       console.error(error.message);
 

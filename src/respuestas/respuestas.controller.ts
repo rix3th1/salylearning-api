@@ -50,9 +50,9 @@ export class RespuestasController {
     description: 'Respuesta de las preguntas encontrada',
     type: Respuesta,
   })
-  async obtenerRespuesta(@Param('id') id: string) {
+  async obtenerRespuesta(@Param('id') id: number) {
     try {
-      return await this.respuestasService.obtenerRespuesta(+id);
+      return await this.respuestasService.obtenerRespuesta(id);
     } catch (error) {
       console.error(error.message);
 
@@ -138,11 +138,11 @@ export class RespuestasController {
     type: Respuesta,
   })
   async actualizarRespuesta(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() respuesta: ActualizarRespuestaDto,
   ) {
     try {
-      return await this.respuestasService.actualizarRespuesta(+id, respuesta);
+      return await this.respuestasService.actualizarRespuesta(id, respuesta);
     } catch (error) {
       console.error(error.message);
 
@@ -169,9 +169,9 @@ export class RespuestasController {
     description: 'Respuesta de las preguntas eliminada',
     type: Respuesta,
   })
-  async eliminarRespuesta(@Param('id') id: string) {
+  async eliminarRespuesta(@Param('id') id: number) {
     try {
-      return await this.respuestasService.eliminarRespuesta(+id);
+      return await this.respuestasService.eliminarRespuesta(id);
     } catch (error) {
       console.error(error.message);
 

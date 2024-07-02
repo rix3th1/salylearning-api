@@ -57,9 +57,9 @@ export class SoporteController {
     description: 'Soporte encontrado',
     type: Soporte,
   })
-  async obtenerSoporte(@Param('id') id: string) {
+  async obtenerSoporte(@Param('id') id: number) {
     try {
-      return await this.soporteService.obtenerSoporte(+id);
+      return await this.soporteService.obtenerSoporte(id);
     } catch (error) {
       console.error(error);
 
@@ -110,11 +110,11 @@ export class SoporteController {
     type: Soporte,
   })
   async actualizarSoporte(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() soporte: ActualizarSoporteDto,
   ) {
     try {
-      return await this.soporteService.actualizarSoporte(+id, soporte);
+      return await this.soporteService.actualizarSoporte(id, soporte);
     } catch (error) {
       console.error(error);
 
@@ -136,9 +136,9 @@ export class SoporteController {
     description: 'Soporte eliminado',
     type: Soporte,
   })
-  async eliminarSoporte(@Param('id') id: string) {
+  async eliminarSoporte(@Param('id') id: number) {
     try {
-      return await this.soporteService.eliminarSoporte(+id);
+      return await this.soporteService.eliminarSoporte(id);
     } catch (error) {
       console.error(error);
 

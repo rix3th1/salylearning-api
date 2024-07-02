@@ -56,9 +56,9 @@ export class UsuariosController {
     description: 'Usuario encontrado',
     type: UsuarioRespuesta,
   })
-  async obtenerUsuario(@Param('id') id: string) {
+  async obtenerUsuario(@Param('id') id: number) {
     try {
-      const usuario = await this.usuariosService.obtenerUsuario(+id);
+      const usuario = await this.usuariosService.obtenerUsuario(id);
       // Delete the password from the user object
       delete usuario.password;
       return usuario;
@@ -123,7 +123,7 @@ export class UsuariosController {
     type: UsuarioRespuesta,
   })
   async actualizarUsuario(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() usuarioExistente: ActualizarUsuarioDto,
   ) {
     try {
@@ -139,7 +139,7 @@ export class UsuariosController {
       }
 
       const usuario = await this.usuariosService.actualizarUsuario(
-        +id,
+        id,
         usuarioExistente,
       );
       // Delete the password from the user object
@@ -170,9 +170,9 @@ export class UsuariosController {
     description: 'Usuario eliminado',
     type: UsuarioRespuesta,
   })
-  async eliminarUsuario(@Param('id') id: string) {
+  async eliminarUsuario(@Param('id') id: number) {
     try {
-      const usuario = await this.usuariosService.eliminarUsuario(+id);
+      const usuario = await this.usuariosService.eliminarUsuario(id);
       // Delete the password from the user object
       delete usuario.password;
       return usuario;

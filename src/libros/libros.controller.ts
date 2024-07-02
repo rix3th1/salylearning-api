@@ -147,9 +147,9 @@ export class LibrosController {
     description: 'Libro encontrado',
     type: Libro,
   })
-  async obtenerLibro(@Param('id') id: string) {
+  async obtenerLibro(@Param('id') id: number) {
     try {
-      return await this.librosService.obtenerLibro(+id);
+      return await this.librosService.obtenerLibro(id);
     } catch (error) {
       console.error(error.message);
 
@@ -263,7 +263,7 @@ export class LibrosController {
     type: Libro,
   })
   async actualizarLibro(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() libro: ActualizarLibroDto,
     @UploadedFiles({
       transform: (fileRequest: { imagen_portada: Express.Multer.File[] }) => {
@@ -316,7 +316,7 @@ export class LibrosController {
         imagen_portada_public_id = cloudinaryPublicIdImagenPortada;
         libro.imagen_portada = imagen_portada_url;
 
-        const libroAnterior = await this.librosService.obtenerLibro(+id);
+        const libroAnterior = await this.librosService.obtenerLibro(id);
 
         const public_id_anterior = libroAnterior.imagen_portada
           ?.split('/')
@@ -328,7 +328,7 @@ export class LibrosController {
         }
       }
 
-      return await this.librosService.actualizarLibro(+id, libro);
+      return await this.librosService.actualizarLibro(id, libro);
     } catch (error) {
       console.error(error.message);
 
@@ -363,9 +363,9 @@ export class LibrosController {
     description: 'Libro eliminado',
     type: Libro,
   })
-  async eliminarLibro(@Param('id') id: string) {
+  async eliminarLibro(@Param('id') id: number) {
     try {
-      return await this.librosService.eliminarLibro(+id);
+      return await this.librosService.eliminarLibro(id);
     } catch (error) {
       console.error(error.message);
 

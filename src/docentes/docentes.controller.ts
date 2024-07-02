@@ -77,9 +77,9 @@ export class DocentesController {
     description: 'Docente encontrado',
     type: Docente,
   })
-  async obtenerDocente(@Param('id') id: string) {
+  async obtenerDocente(@Param('id') id: number) {
     try {
-      return await this.docentesService.obtenerDocente(+id);
+      return await this.docentesService.obtenerDocente(id);
     } catch (error) {
       console.error(error.message);
 
@@ -134,11 +134,11 @@ export class DocentesController {
     type: Docente,
   })
   async actualizarDocente(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() docente: ActualizarDocenteDto,
   ) {
     try {
-      return await this.docentesService.actualizarDocente(+id, docente);
+      return await this.docentesService.actualizarDocente(id, docente);
     } catch (error) {
       console.error(error.message);
 
@@ -169,9 +169,9 @@ export class DocentesController {
     description: 'Docente eliminado',
     type: Docente,
   })
-  async eliminarDocente(@Param('id') id: string) {
+  async eliminarDocente(@Param('id') id: number) {
     try {
-      return await this.docentesService.eliminarDocente(+id);
+      return await this.docentesService.eliminarDocente(id);
     } catch (error) {
       console.error(error.message);
 

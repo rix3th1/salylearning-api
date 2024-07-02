@@ -65,9 +65,9 @@ export class FotoPerfilController {
     description: 'Foto de perfil encontrada',
     type: FotoPerfil,
   })
-  async obtenerFotoPerfil(@Param('id') id: string) {
+  async obtenerFotoPerfil(@Param('id') id: number) {
     try {
-      return await this.fotoPerfilService.obtenerFotoPerfil(+id);
+      return await this.fotoPerfilService.obtenerFotoPerfil(id);
     } catch (error) {
       console.error(error.message);
 
@@ -151,7 +151,7 @@ export class FotoPerfilController {
     type: FotoPerfil,
   })
   async actualizarFotoPerfil(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() fotoPerfil: ActualizarFotoPerfilDto,
     @UploadedFile(fotoPerfilValidators(false)) foto: Express.Multer.File,
   ) {
@@ -172,7 +172,7 @@ export class FotoPerfilController {
         fotoPerfil.foto = foto_url;
 
         const fotoPerfilAnterior =
-          await this.fotoPerfilService.obtenerFotoPerfil(+id);
+          await this.fotoPerfilService.obtenerFotoPerfil(id);
 
         const public_id_anterior = fotoPerfilAnterior.foto
           ?.split('/')
@@ -189,7 +189,7 @@ export class FotoPerfilController {
         );
       }
 
-      return await this.fotoPerfilService.actualizarFotoPerfil(+id, fotoPerfil);
+      return await this.fotoPerfilService.actualizarFotoPerfil(id, fotoPerfil);
     } catch (error) {
       console.error(error.message);
 
@@ -226,9 +226,9 @@ export class FotoPerfilController {
     description: 'Foto de perfil eliminada',
     type: FotoPerfil,
   })
-  async eliminarFotoPerfil(@Param('id') id: string) {
+  async eliminarFotoPerfil(@Param('id') id: number) {
     try {
-      return await this.fotoPerfilService.eliminarFotoPerfil(+id);
+      return await this.fotoPerfilService.eliminarFotoPerfil(id);
     } catch (error) {
       console.error(error.message);
 

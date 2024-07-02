@@ -66,9 +66,9 @@ export class CuestionariosController {
     description: 'Cuestionario encontrado',
     type: Cuestionario,
   })
-  async obtenerCuestionario(@Param('id') id: string) {
+  async obtenerCuestionario(@Param('id') id: number) {
     try {
-      return await this.cuestionariosService.obtenerCuestionario(+id);
+      return await this.cuestionariosService.obtenerCuestionario(id);
     } catch (error) {
       console.error(error.message);
 
@@ -144,12 +144,12 @@ export class CuestionariosController {
     type: Cuestionario,
   })
   async actualizarCuestionario(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() cuestionario: ActualizarCuestionarioDto,
   ) {
     try {
       return await this.cuestionariosService.actualizarCuestionario(
-        +id,
+        id,
         cuestionario,
       );
     } catch (error) {
@@ -174,9 +174,9 @@ export class CuestionariosController {
     description: 'Cuestionario eliminado',
     type: Cuestionario,
   })
-  async eliminarCuestionario(@Param('id') id: string) {
+  async eliminarCuestionario(@Param('id') id: number) {
     try {
-      return await this.cuestionariosService.eliminarCuestionario(+id);
+      return await this.cuestionariosService.eliminarCuestionario(id);
     } catch (error) {
       console.error(error.message);
 

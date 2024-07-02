@@ -53,9 +53,9 @@ export class GradoUsuarioController {
     description: 'Grado de usuario encontrado',
     type: GradoUsuario,
   })
-  async obtenerGradoUsuario(@Param('id') id: string) {
+  async obtenerGradoUsuario(@Param('id') id: number) {
     try {
-      return await this.gradoUsuarioService.obtenerGradoUsuario(+id);
+      return await this.gradoUsuarioService.obtenerGradoUsuario(id);
     } catch (error) {
       console.error(error.message);
 
@@ -110,12 +110,12 @@ export class GradoUsuarioController {
     type: GradoUsuario,
   })
   async actualizarGradoUsuario(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() gradoUsuario: ActualizarGradoUsuarioDto,
   ) {
     try {
       return await this.gradoUsuarioService.actualizarGradoUsuario(
-        +id,
+        id,
         gradoUsuario,
       );
     } catch (error) {
@@ -146,9 +146,9 @@ export class GradoUsuarioController {
     description: 'Grado de usuario eliminado',
     type: GradoUsuario,
   })
-  async eliminarGradoUsuario(@Param('id') id: string) {
+  async eliminarGradoUsuario(@Param('id') id: number) {
     try {
-      return await this.gradoUsuarioService.eliminarGradoUsuario(+id);
+      return await this.gradoUsuarioService.eliminarGradoUsuario(id);
     } catch (error) {
       console.error(error.message);
 

@@ -56,9 +56,9 @@ export class ContactosController {
     description: 'Contacto encontrado',
     type: Contacto,
   })
-  async obtenerContacto(@Param('id') id: string) {
+  async obtenerContacto(@Param('id') id: number) {
     try {
-      return await this.contactosService.obtenerContacto(+id);
+      return await this.contactosService.obtenerContacto(id);
     } catch (error) {
       console.error(error.message);
 
@@ -113,11 +113,11 @@ export class ContactosController {
     type: Contacto,
   })
   async actualizarContacto(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() contacto: ActualizarContactoDto,
   ) {
     try {
-      return await this.contactosService.actualizarContacto(+id, contacto);
+      return await this.contactosService.actualizarContacto(id, contacto);
     } catch (error) {
       console.error(error.message);
 
@@ -139,9 +139,9 @@ export class ContactosController {
     description: 'Contacto eliminado',
     type: Contacto,
   })
-  async eliminarContacto(@Param('id') id: string) {
+  async eliminarContacto(@Param('id') id: number) {
     try {
-      return await this.contactosService.eliminarContacto(+id);
+      return await this.contactosService.eliminarContacto(id);
     } catch (error) {
       console.error(error.message);
 

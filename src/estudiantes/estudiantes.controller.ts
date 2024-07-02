@@ -98,9 +98,9 @@ export class EstudiantesController {
     description: 'Estudiante encontrado',
     type: Estudiante,
   })
-  async obtenerEstudiante(@Param('id') id: string) {
+  async obtenerEstudiante(@Param('id') id: number) {
     try {
-      return await this.estudiantesService.obtenerEstudiante(+id);
+      return await this.estudiantesService.obtenerEstudiante(id);
     } catch (error) {
       console.error(error.message);
 
@@ -155,14 +155,11 @@ export class EstudiantesController {
     type: Estudiante,
   })
   async actualizarEstudiante(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() estudiante: ActualizarEstudianteDto,
   ) {
     try {
-      return await this.estudiantesService.actualizarEstudiante(
-        +id,
-        estudiante,
-      );
+      return await this.estudiantesService.actualizarEstudiante(id, estudiante);
     } catch (error) {
       console.error(error.message);
 
@@ -193,9 +190,9 @@ export class EstudiantesController {
     description: 'Estudiante eliminado',
     type: Estudiante,
   })
-  async eliminarEstudiante(@Param('id') id: string) {
+  async eliminarEstudiante(@Param('id') id: number) {
     try {
-      return await this.estudiantesService.eliminarEstudiante(+id);
+      return await this.estudiantesService.eliminarEstudiante(id);
     } catch (error) {
       console.error(error.message);
 

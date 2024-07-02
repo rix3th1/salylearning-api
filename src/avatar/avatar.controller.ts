@@ -79,9 +79,9 @@ export class AvatarController {
     description: 'Avatar encontrado',
     type: Avatar,
   })
-  async obtenerAvatar(@Param('id') id: string) {
+  async obtenerAvatar(@Param('id') id: number) {
     try {
-      return await this.avatarService.obtenerAvatar(+id);
+      return await this.avatarService.obtenerAvatar(id);
     } catch (error) {
       console.error(error.message);
 
@@ -131,11 +131,11 @@ export class AvatarController {
     type: Avatar,
   })
   async actualizarAvatar(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() avatar: ActualizarAvatarDto,
   ) {
     try {
-      return await this.avatarService.actualizarAvatar(+id, avatar);
+      return await this.avatarService.actualizarAvatar(id, avatar);
     } catch (error) {
       console.error(error.message);
 
@@ -160,9 +160,9 @@ export class AvatarController {
     description: 'Avatar eliminado',
     type: Avatar,
   })
-  async eliminarAvatar(@Param('id') id: string) {
+  async eliminarAvatar(@Param('id') id: number) {
     try {
-      return await this.avatarService.eliminarAvatar(+id);
+      return await this.avatarService.eliminarAvatar(id);
     } catch (error) {
       console.error(error.message);
 

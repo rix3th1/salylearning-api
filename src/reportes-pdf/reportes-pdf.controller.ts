@@ -32,13 +32,13 @@ export class ReportesPdfController {
     type: Buffer,
   })
   async obtenerCalificacionesEstudiantesPorGrado(
-    @Param('id_grado') id_grado: string,
+    @Param('id_grado') id_grado: number,
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
     try {
       const data =
         await this.reportesPdfService.obtenerCalificacionesEstudiantesPorGrado(
-          +id_grado,
+          id_grado,
         );
 
       const buffer = await this.reportesPdfService.generatePDF(data);

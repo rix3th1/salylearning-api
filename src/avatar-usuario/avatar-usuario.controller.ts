@@ -57,9 +57,9 @@ export class AvatarUsuarioController {
     description: 'Avatar de usuario encontrado',
     type: AvatarUsuario,
   })
-  async obtenerAvatarUsuario(@Param('id') id: string) {
+  async obtenerAvatarUsuario(@Param('id') id: number) {
     try {
-      return await this.avatarUsuarioService.obtenerAvatarUsuario(+id);
+      return await this.avatarUsuarioService.obtenerAvatarUsuario(id);
     } catch (error) {
       console.error(error.message);
 
@@ -116,19 +116,19 @@ export class AvatarUsuarioController {
     type: AvatarUsuario,
   })
   async actualizarAvatarUsuario(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() avatarUsuario: ActualizarAvatarUsuarioDto,
   ) {
     try {
       const avatarUsuarioAnterior =
-        await this.avatarUsuarioService.obtenerAvatarUsuario(+id);
+        await this.avatarUsuarioService.obtenerAvatarUsuario(id);
 
       await this.usuariosService.actualizarUsuario(
         avatarUsuarioAnterior.id_usuario,
         { use_avatar: true },
       );
       return await this.avatarUsuarioService.actualizarAvatarUsuario(
-        +id,
+        id,
         avatarUsuario,
       );
     } catch (error) {
@@ -161,9 +161,9 @@ export class AvatarUsuarioController {
     description: 'Avatar de usuario eliminado',
     type: AvatarUsuario,
   })
-  async eliminarAvatarUsuario(@Param('id') id: string) {
+  async eliminarAvatarUsuario(@Param('id') id: number) {
     try {
-      return await this.avatarUsuarioService.eliminarAvatarUsuario(+id);
+      return await this.avatarUsuarioService.eliminarAvatarUsuario(id);
     } catch (error) {
       console.error(error.message);
 

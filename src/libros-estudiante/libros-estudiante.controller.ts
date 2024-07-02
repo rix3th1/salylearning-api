@@ -112,10 +112,8 @@ export class LibrosEstudianteController {
     description: 'Libros de estudiante encontrados',
     type: [LibroEstudiante],
   })
-  async obtenerLibroPorIdEstudiante(@Param('id') id_libro: string) {
-    return await this.librosEstudianteService.obtenerLibrosPorIdLibro(
-      +id_libro,
-    );
+  async obtenerLibroPorIdEstudiante(@Param('id') id_libro: number) {
+    return await this.librosEstudianteService.obtenerLibrosPorIdLibro(id_libro);
   }
 
   @Get('estadisticas-semanales/:terminado')
@@ -183,9 +181,9 @@ export class LibrosEstudianteController {
     description: 'Libro de estudiante encontrado',
     type: LibroEstudiante,
   })
-  async obtenerLibroEstudiante(@Param('id') id: string) {
+  async obtenerLibroEstudiante(@Param('id') id: number) {
     try {
-      return await this.librosEstudianteService.obtenerLibroEstudiante(+id);
+      return await this.librosEstudianteService.obtenerLibroEstudiante(id);
     } catch (error) {
       console.error(error.message);
 
@@ -240,12 +238,12 @@ export class LibrosEstudianteController {
     type: LibroEstudiante,
   })
   async actualizarLibroEstudiante(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() libroEstudiante: ActualizarLibroEstudianteDto,
   ) {
     try {
       return await this.librosEstudianteService.actualizarLibroEstudiante(
-        +id,
+        id,
         libroEstudiante,
       );
     } catch (error) {
@@ -274,9 +272,9 @@ export class LibrosEstudianteController {
     description: 'Libro de estudiante eliminado',
     type: LibroEstudiante,
   })
-  async eliminarLibroEstudiante(@Param('id') id: string) {
+  async eliminarLibroEstudiante(@Param('id') id: number) {
     try {
-      return await this.librosEstudianteService.eliminarLibroEstudiante(+id);
+      return await this.librosEstudianteService.eliminarLibroEstudiante(id);
     } catch (error) {
       console.error(error.message);
 
