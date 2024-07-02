@@ -118,7 +118,7 @@ export class LibrosEstudianteController {
     );
   }
 
-  @Get('estadisticas-semanales')
+  @Get('estadisticas-semanales/:terminado')
   @ApiOperation({
     summary: 'Obtener estadísticas semanales de libros de estudiantes',
     description: 'Obtiene estadísticas semanales de libros de estudiantes',
@@ -128,10 +128,12 @@ export class LibrosEstudianteController {
     type: [LibroEstudiante],
   })
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
-    @Query('terminado') terminado: boolean,
+    @Param('terminado') terminado: boolean,
+    @Query('id_estudiante') id_estudiante: number,
   ) {
     return await this.librosEstudianteService.obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
       terminado,
+      id_estudiante,
     );
   }
 

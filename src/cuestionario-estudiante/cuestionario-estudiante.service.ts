@@ -158,7 +158,10 @@ export class CuestionarioEstudianteService {
     });
   }
 
-  async obtenerEstadisticasSemanalesPorEstado(estado: EstadoCuestionario) {
+  async obtenerEstadisticasSemanalesPorEstado(
+    estado: EstadoCuestionario,
+    id_estudiante: number,
+  ) {
     /**
      * Quiero obtener el número de cuestionarios completados
      * por semana segun el estado de cuestionario que me manden (COMPLETADO, PENDIENTE) en un array numérico de 7 elementos que
@@ -170,6 +173,9 @@ export class CuestionarioEstudianteService {
     const cuestionarios = await this.prisma.cuestionarioEstudiante.findMany({
       where: {
         estado: estado,
+        ...(id_estudiante && {
+          id_estudiante,
+        }),
       },
       orderBy: {
         cuestionario: {

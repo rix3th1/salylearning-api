@@ -146,6 +146,7 @@ export class LibrosEstudianteService {
 
   async obtenerEstadisticasSemanalesLibrosEstudianteTerminados(
     terminado: boolean,
+    id_estudiante: number,
   ) {
     /**
      * Quiero obtener el número de libros de estudiantes segun si estan terminados o no
@@ -157,6 +158,9 @@ export class LibrosEstudianteService {
      */
     const libros = await this.prisma.libroEstudiante.findMany({
       where: {
+        ...(id_estudiante && {
+          id_estudiante,
+        }),
         terminado,
       },
       orderBy: {

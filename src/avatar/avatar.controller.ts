@@ -53,9 +53,9 @@ export class AvatarController {
     type: [Avatar],
   })
   async obtenerAvataresPorRol(@Query('rol') rol: Rol) {
-    try {
-      const rolAvatar = rol.toUpperCase() as Rol;
+    const rolAvatar = rol.toUpperCase() as Rol;
 
+    try {
       if (!isIn(rolAvatar, Object.values(Rol))) {
         throw new BadRequestException('Rol de avatar inválido');
       }

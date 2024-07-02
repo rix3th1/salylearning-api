@@ -71,9 +71,9 @@ export class CuestionarioEstudianteController {
   async contarCuestionariosEstudiantesPorEstado(
     @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
-    try {
-      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
+    try {
       if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
         throw new BadRequestException('Estado de cuestionario no válido');
       }
@@ -92,7 +92,29 @@ export class CuestionarioEstudianteController {
     }
   }
 
-  @Get('estadisticas-semanales')
+  @Get('estadisticas-semanales/preguntas-correctas')
+  @ApiOperation({
+    summary:
+      'Obtener estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+    description:
+      'Devuelve estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+  })
+  @ApiOkResponse({
+    description:
+      'Lista de estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
+    type: [CuestionarioEstudiante],
+  })
+  async obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
+    @Req() req: Request,
+  ) {
+    const estudiante =
+      await this.estudianteService.obtenerEstudiantePorIdUsuario(req.user.id);
+    return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
+      estudiante.id,
+    );
+  }
+
+  @Get('estadisticas-semanales/:estado_cuestionario')
   @ApiOperation({
     summary: `Obtener estadísticas semanales de cuestionarios de estudiantes por estado: ${Object.values(
       EstadoCuestionario,
@@ -107,17 +129,19 @@ export class CuestionarioEstudianteController {
     type: [CuestionarioEstudiante],
   })
   async obtenerEstadisticasSemanalesPorEstado(
-    @Query('estado_cuestionario') estado: EstadoCuestionario,
+    @Param('estado_cuestionario') estado: EstadoCuestionario,
+    @Query('id_estudiante') id_estudiante: number,
   ) {
-    try {
-      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
+    try {
       if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
         throw new BadRequestException('Estado de cuestionario no válido');
       }
 
       return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPorEstado(
         estadoCuestionario,
+        id_estudiante,
       );
     } catch (error) {
       console.error(error.message);
@@ -147,28 +171,6 @@ export class CuestionarioEstudianteController {
     );
   }
 
-  @Get('estadisticas-semanales/preguntas-correctas')
-  @ApiOperation({
-    summary:
-      'Obtener estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
-    description:
-      'Devuelve estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
-  })
-  @ApiOkResponse({
-    description:
-      'Lista de estadísticas semanales de preguntas correctas de cuestionarios de estudiante',
-    type: [CuestionarioEstudiante],
-  })
-  async obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
-    @Req() req: Request,
-  ) {
-    const estudiante =
-      await this.estudianteService.obtenerEstudiantePorIdUsuario(req.user.id);
-    return await this.cuestionarioEstudianteService.obtenerEstadisticasSemanalesPreguntasCorrectasPorEstudiante(
-      estudiante.id,
-    );
-  }
-
   @Get('estado')
   @ApiOperation({
     summary: `Obtener cuestionarios de estudiantes por estado: ${Object.values(
@@ -185,9 +187,9 @@ export class CuestionarioEstudianteController {
   async obtenerCuestionariosEstudiantesPorEstado(
     @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
-    try {
-      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
+    try {
       if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
         throw new BadRequestException('Estado de cuestionario no válido');
       }
@@ -220,9 +222,9 @@ export class CuestionarioEstudianteController {
     @Req() req: Request,
     @Query('estado_cuestionario') estado: EstadoCuestionario,
   ) {
-    try {
-      const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
+    const estadoCuestionario = estado.toUpperCase() as EstadoCuestionario;
 
+    try {
       if (!isIn(estadoCuestionario, Object.values(EstadoCuestionario))) {
         throw new BadRequestException('Estado de cuestionario no válido');
       }

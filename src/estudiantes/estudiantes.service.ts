@@ -44,7 +44,26 @@ export class EstudiantesService {
   }
 
   async obtenerEstudiante(id: number): Promise<Estudiante> {
-    return this.prisma.estudiante.findUniqueOrThrow({ where: { id } });
+    return this.prisma.estudiante.findUniqueOrThrow({
+      where: { id },
+      include: {
+        usuario: {
+          select: {
+            p_nombre: true,
+            p_apellido: true,
+            grado_usuario: {
+              select: {
+                grados: {
+                  select: {
+                    nom_grado: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   async obtenerEstudiantePorIdUsuario(id_usuario: number): Promise<Estudiante> {
