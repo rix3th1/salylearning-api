@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Libro as TLibro } from '@prisma/client';
 
 export class Libro implements Partial<TLibro> {
@@ -64,15 +64,6 @@ export class Libro implements Partial<TLibro> {
     maxLength: 4294967295,
   })
   id_genero_literario: number;
-
-  @ApiPropertyOptional({
-    title: 'Cantidad de veces leído',
-    description: 'La cantidad de veces que el libro ha sido leído',
-    example: 5,
-    minLength: 0,
-    maxLength: 4294967295,
-  })
-  cant_leido?: number;
 
   @ApiProperty({
     title: 'Imagen de portada',

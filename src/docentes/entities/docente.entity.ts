@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Docente as TDocente } from '@prisma/client';
 
 export class Docente implements Partial<TDocente> {
@@ -20,12 +20,12 @@ export class Docente implements Partial<TDocente> {
   })
   id_usuario: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     title: 'Código docente',
     description: 'Código del docente',
     example: 'DOC0012024',
     minLength: 10,
     maxLength: 10,
   })
-  cod_docente?: string;
+  cod_docente: string;
 }

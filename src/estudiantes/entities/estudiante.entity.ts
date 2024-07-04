@@ -20,14 +20,14 @@ export class Estudiante implements Partial<TEstudiante> {
   })
   id_usuario: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     title: 'Código estudiante',
     description: 'Código del estudiante',
     example: '2019100001',
     minLength: 10,
     maxLength: 10,
   })
-  cod_estudiante?: string;
+  cod_estudiante: string;
 
   @ApiPropertyOptional({
     title: 'Apodo',

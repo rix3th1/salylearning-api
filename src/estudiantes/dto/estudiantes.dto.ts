@@ -23,7 +23,6 @@ export class CrearEstudianteDto extends OmitType(Estudiante, ['id'] as const) {
   @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
-  @IsOptional()
   @IsNotEmpty({ message: 'El código del estudiante no puede estar vacío' })
   @IsString({
     message: 'El código del estudiante debe ser una cadena de texto',
@@ -31,7 +30,7 @@ export class CrearEstudianteDto extends OmitType(Estudiante, ['id'] as const) {
   @Length(10, 10, {
     message: 'El código del estudiante debe tener 10 caracteres',
   })
-  cod_estudiante?: string;
+  cod_estudiante: string;
 
   @IsOptional()
   @IsNotEmpty({ message: 'El apodo del estudiante no puede estar vacío' })
@@ -59,6 +58,10 @@ export class ActualizarEstudianteDto extends PartialType(CrearEstudianteDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_usuario?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  cod_estudiante?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

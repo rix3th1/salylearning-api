@@ -11,7 +11,7 @@ import {
   IsString,
   IsStrongPassword,
 } from 'class-validator';
-import { CrearDocenteDto } from '../../docentes/dto/docentes.dto';
+import { ActualizarDocenteDto } from '../../docentes/dto/docentes.dto';
 import { CrearGradoUsuarioDto } from '../../grado-usuario/dto/grado-usuario.dto';
 import { Match } from '../../match.decorator';
 import { CrearUsuarioDto } from '../../usuarios/dto/usuarios.dto';
@@ -24,7 +24,7 @@ export class RegistrarseDto extends IntersectionType(
     'verificado',
   ] as const),
   Registrarse,
-  PartialType(PickType(CrearDocenteDto, ['cod_docente'] as const)),
+  PickType(ActualizarDocenteDto, ['cod_docente'] as const),
   PartialType(PickType(CrearGradoUsuarioDto, ['id_grado'] as const)),
 ) {
   @IsNotEmpty({ message: 'La confirmación de la contraseña es requerida' })
@@ -50,8 +50,4 @@ export class RegistrarseDto extends IntersectionType(
   @ApiPropertyOptional()
   @IsOptional()
   id_grado?: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  cod_docente?: string;
 }

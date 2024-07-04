@@ -119,8 +119,6 @@ model Libro {
   fecha_pub      DateTime @db.DateTime()
   // Descripción del libro
   descripcion    String   @db.LongText
-  // Número de veces que el libro ha sido leído
-  cant_leido     Int      @default(0) @db.UnsignedInt
   // URL de la imagen de portada del libro
   imagen_portada String   @unique @db.VarChar(255)
   // URL del libro (video mp4)
@@ -337,7 +335,7 @@ model Estudiante {
   // ID del estudiante
   id             Int     @id @default(autoincrement()) @db.UnsignedInt
   // Código del estudiante
-  cod_estudiante String? @unique @db.VarChar(10)
+  cod_estudiante String  @unique @db.VarChar(10)
   // Apodo del estudiante (opcional)
   apodo          String? @db.VarChar(30)
   // Puntaje del estudiante para rankearlo en los reportes
@@ -409,9 +407,9 @@ model Usuario {
 // Tabla que almacena los docentes
 model Docente {
   // ID del docente
-  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
   // Código del docente
-  cod_docente String? @unique @db.VarChar(10)
+  cod_docente String @unique @db.VarChar(10)
 
   // ID del usuario
   id_usuario Int @unique @db.UnsignedInt

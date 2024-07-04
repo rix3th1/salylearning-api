@@ -21,15 +21,18 @@ export class CrearDocenteDto extends OmitType(Docente, ['id'] as const) {
   @Transform(({ value: id_usuario }) => parseInt(id_usuario))
   id_usuario: number;
 
-  @IsOptional()
   @IsNotEmpty({ message: 'El código del docente no puede estar vacío' })
   @IsString({ message: 'El código del docente debe ser una cadena de texto' })
   @Length(10, 10, { message: 'El código del docente debe tener 10 caracteres' })
-  cod_docente?: string;
+  cod_docente: string;
 }
 
 export class ActualizarDocenteDto extends PartialType(CrearDocenteDto) {
   @ApiPropertyOptional()
   @IsOptional()
   id_usuario?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  cod_docente?: string;
 }
